@@ -8,17 +8,17 @@ const Base = require('./Base')
 
 class Game {
     constructor() {
-        this.players = [];
-        this.bases = [];
+        this._players = [];
+        this._bases = [];
     }
 
     generateBases() {
         let base = new Base(-1, {x: 0, y: 0});
-        this.bases.push(base);
+        this._bases.push(base);
     }
 
     addPlayer(player) {
-        this.players.push(player);
+        this._players.push(player);
     }
 }
 

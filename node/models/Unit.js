@@ -6,8 +6,17 @@
 
 class Unit {
     constructor(tech, properties) {
-        this.tech = tech;
-        this.properties = properties;
+        this._tech = tech;
+        this._properties = properties;
+    }
+
+    // Getters
+    get tech() {
+        return this._tech;
+    }
+
+    get properties() {
+        return this._properties;
     }
 }
 

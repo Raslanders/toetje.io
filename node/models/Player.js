@@ -7,8 +7,17 @@
 
 class Player {
     constructor(name, color) {
-        this.name = name;
-        this.color = color;
+        this._name = name;
+        this._color = color;
+    }
+
+    // Getters
+    get name() {
+        return this._name;
+    }
+
+    get color() {
+        return this._color;
     }
 }
 

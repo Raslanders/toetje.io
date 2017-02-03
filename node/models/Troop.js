@@ -6,9 +6,34 @@
 
 class Troop {
     constructor(unit, health, position) {
-        this.unit = unit;
-        this.health = health;
-        this.position = position;
+        this._unit = unit;
+        this._health = health;
+        this._position = position;
+    }
+
+    // Getters and setters
+    get unit() {
+        return this._unit;
+    }
+
+    set health(health) {
+        if (health) {
+            this._health = health;
+        }
+    }
+
+    get health() {
+        return this._health;
+    }
+
+    set position(position) {
+        if (position) {
+            this._position = position;
+        }
+    }
+
+    get position() {
+        return this._position;
     }
 }
 

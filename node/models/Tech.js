@@ -6,8 +6,17 @@
 
 class Tech {
     constructor(name, description) {
-        this.name = name;
-        this.description = description;
+        this._name = name;
+        this._description = description;
+    }
+
+    // Getters
+    get name() {
+        return this._name;
+    }
+
+    get description() {
+        return this._description;
     }
 }
 

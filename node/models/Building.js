@@ -6,8 +6,33 @@
 
 class Building {
     constructor(tech, level) {
-        this.tech = tech;
-        this.level = level;
+        this._tech = tech;
+        this._level = level;
+    }
+
+    increaseLevel() {
+        this.level(this._level + 1);
+    }
+
+    // Getters & Setters
+    set tech(tech) {
+        if (tech) {
+            this._tech = tech;
+        }
+    }
+
+    get tech() {
+        return this._tech;
+    }
+
+    set level(level) {
+        if (level) {
+            this._level = level;
+        }
+    }
+
+    get level() {
+        return this._level;
     }
 }
 
