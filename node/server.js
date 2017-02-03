@@ -1,10 +1,9 @@
-var express = require('express')
-var app = express()
+var server = require('http').createServer();
+var io = require('socket.io')(server);
 
-console.log('hoiii');
+io.on('connection', function(client){
+    client.on('event', function(data){});
+    client.on('disconnect', function(){});
+});
 
-app.get('/', function (req, res) {
-  res.send('Hello World');
-})
-
-app.listen(3000);
+server.listen(3000);
