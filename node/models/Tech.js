@@ -6,7 +6,7 @@
 
 class Tech {
     constructor(name, description) {
-        this.nane = name;
+        this.name = name;
         this.description = description;
     }
 }

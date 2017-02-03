@@ -5,9 +5,10 @@
 
 
 class Base {
-    constructor(owner, buildings) {
+    constructor(owner, position, buildings) {
         this.owner = owner;
-        this.buildings = buildings;
+        this.position = position;
+        this.buildings = buildings || [];
     }
 }
 
