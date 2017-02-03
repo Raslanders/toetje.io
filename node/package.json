@@ -1,0 +1,14 @@
+{
+  "name": "toetje-node",
+  "license": "MIT",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "dependencies": {
+    "express": "4.14.1"
+  },
+  "devDependencies": {
+    "nodemon": "1.11.0"
+  }
+}
