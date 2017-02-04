@@ -11,28 +11,6 @@ class Cell {
         this._building = null;
     }
 
-
-    // Getters & setters
-    get x() {
-        return this._x;
-    }
-
-    set x(x) {
-        if (x) {
-            this._x = +x;
-        }
-    }
-
-    set y(y) {
-        if (y) {
-            this._y = +y;
-        }
-    }
-
-    get y() {
-        return this._y;
-    }
-
     get type() {
         return this._type;
     }
