@@ -64,7 +64,7 @@ class Lobby {
 
     handleMessage(player, message) {
         message.playerId = player.id;
-        console.log('adding', message, 'to queue');
+        console.log('Client action: ', message);
         this.game.queue.push(message);
     }
 }

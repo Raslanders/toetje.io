@@ -3,7 +3,7 @@
  */
 'use strict';
 
-
+const _ = require('lodash');
 const Troop = require('../models/Troop');
 
 class Thread {
@@ -12,6 +12,7 @@ class Thread {
         this.token = 0;
         this.waveCounter = 0;
         this.stopped = false;
+        this.mutation = {};
     }
 
     /**
@@ -19,13 +20,13 @@ class Thread {
      */
     run() {
         // Update
+        this.prepareTick();
         // this.updateCombat();
         this.updateBuildings();
         this.updateTroops();
         this.spawnTroops();
 
-        // Emit result and update the token
-        this.game.emitResult();
+        this.game.emit('tick', this.mutation);
         this.updateToken();
 
         if (!this.stopped) {
@@ -35,6 +36,20 @@ class Thread {
 
     stop() {
         this.stopped = true;
+    }
+
+    prepareTick() {
+        this.mutation = {
+            troop: [],
+            building: [],
+        };
+    }
+
+    prepareTroopForTick(troop) {
+        const exists = _.includes(this.mutation.troop, t => t.id === troop.id);
+
+        if (exists) return;
+        this.mutation.troop.push(troop.view)
     }
 
     updateCombat() {
@@ -71,7 +86,8 @@ class Thread {
                 if (!building.isBuild) {
                     building.buildCounter++;
                     if (building.isBuild) {
-                        // todo: this building is now done
+                        // Make this building ready for emitting to clients
+                        this.mutation.building.push(building.view);
                     }
                 }
             }
@@ -88,7 +104,8 @@ class Thread {
                 let troop = this.troops[player.id][k];
                 if (!troop.collides(this.troops)) {
                     troop.move();
-                    // todo: add current troop position as mutation
+                    // Make the troop ready for emitting to clients
+                    this.prepareTroopForTick(troop);
                 }
             }
         }
@@ -108,7 +125,8 @@ class Thread {
                     let troop = building.attemptSpawn(this.troopId(player), building.base.direction);
                     if (troop) {
                         this.troops[player.id].push(troop);
-                        // todo: add this new troop as mutation
+                        // Make the troop ready for emitting to clients
+                        this.prepareTroopForTick(troop);
                     }
                 }
             }

@@ -97,6 +97,17 @@ class Troop {
         }
     }
 
+    get view() {
+        return {
+            id: this.id,
+            position: this.position,
+            owner: this.owner.id,
+            unit: this.unit.id,
+            name: this.unit.name,
+            direction: this.direction,
+        };
+    }
+
     get unit() {
         return this._unit;
     }

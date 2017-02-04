@@ -20,7 +20,7 @@ class Player {
         return this._client;
     }
 
-    emit(type = 'tick', message = {}) {
+    emit(type, message) {
         this.client.emit(type, message);
     }
 }
