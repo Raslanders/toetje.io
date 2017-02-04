@@ -15,7 +15,7 @@ class Game {
         this.map = new Map('RaslandianDesert');
 
         // Load technology and unit data
-        let data = DataLoader.data();
+        let data = DataLoader();
         this.technologies = data.technologies;
         this.units = data.units;
     }
@@ -116,5 +116,7 @@ class Game {
         this.players.forEach(p => p.emit(type, message));
     }
 }
+
+new Game([]);
 
 module.exports = Game;
