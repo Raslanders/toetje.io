@@ -52,7 +52,6 @@ class Building {
 
     set technology(technology) {
         if (technology) {
-            console.log("New tech!", technology, this);
             this._technology = technology;
         }
     }

@@ -33,6 +33,7 @@ class Troop {
             for (let k in playerTroops) {
                 let troop = playerTroops[k];
                 if (troop.id !== this.id) {
+                    // console.log("Check for collision: ", [this.id, troop.id]);
                     let position = troop.position;
                     if (this.positionInRange(position)) {
                         return true;
@@ -54,28 +55,28 @@ class Troop {
 
         if (this.direction.x > 0) {
             // we are moving to the right
-            if (position.x >= nx && position.x <= nx + this.unit.range) {
+            if (position.x >= nx && position.x <= nx + this.unit.stats.range) {
                 if (position.y === ny || position.y === ny + 1 || position.y === ny - 1) {
                     return true;
                 }
             }
         } else if (this.direction.x < 0) {
             // we are moving to the left
-            if (position.x >= nx - this.unit.range && position.x <= nx) {
+            if (position.x >= nx - this.unit.stats.range && position.x <= nx) {
                 if (position.y === ny || position.y === ny + 1 || position.y === ny - 1) {
                     return true;
                 }
             }
         } else if (this.direction.y > 0) {
             // we are moving to the bottom
-            if (position.y >= ny && position.y <= ny + this.unit.range) {
+            if (position.y >= ny && position.y <= ny + this.unit.stats.range) {
                 if (position.x === nx || position.x === nx + 1 || position.x === nx - 1) {
                     return true;
                 }
             }
         } else if (this.direction.y < 0) {
             // we are moving to the top
-            if (position.y >= ny - this.unit.range && position.y <= ny) {
+            if (position.y >= ny - this.unit.stats.range && position.y <= ny) {
                 if (position.x === nx || position.x === nx + 1 || position.x === nx - 1) {
                     return true;
                 }
