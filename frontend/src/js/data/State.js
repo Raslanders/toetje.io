@@ -1,6 +1,5 @@
 class State {
     constructor() {
-        //this.Connection = new Connection(this);
     }
 
     connect() {
@@ -13,3 +12,5 @@ class State {
 
 
 }
+
+module.exports = State;
