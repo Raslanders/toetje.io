@@ -20,14 +20,12 @@ class Cell {
         return {
             owner: this.owner,
             type: this.readableType,
-            x: this.x,
-            y: this.y,
         }
     }
 
     get readableType() {
         if (this.building) {
-            return 'base';
+            return 'building';
         }
         if (this.type === 'o') {
             return 'lane';
