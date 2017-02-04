@@ -37,8 +37,22 @@ class Thread {
 
     }
 
+    /**
+     * Increases building counters for all buildings which are not yet done building
+     */
     updateBuildings() {
+        // todo: start upgrade progress for new buildings
 
+        // Attempt to increase building counters
+        for (let i = this.token; i < this.players.length; i++) {
+            let player = this.players[i];
+            for (let k in this.buildings[player.id]) {
+                let building = this.buildings[player.id][k];
+                if (!building.isBuild) {
+                    building.buildCounter++;
+                }
+            }
+        }
     }
 
     /**

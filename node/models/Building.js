@@ -10,7 +10,7 @@ class Building {
     constructor(cell, unit) {
         this.cell = cell;
         this.unit = unit;
-        this.counter = 0;
+        this.buildCounter = 0;
     }
 
     /**
@@ -20,11 +20,8 @@ class Building {
      * @returns returns troop if it can, undefined otherwise
      */
     attemptSpawn(id, direction) {
-        if (this.canSpawn) {
-            this.counter = 0;
+        if (this.isBuild) {
             return new Troop(id, this.unit, this.owner, this.cell, direction);
-        } else {
-            this.counter++;
         }
     }
 
@@ -49,18 +46,18 @@ class Building {
         }
     }
 
-    get counter() {
-        return this._counter;
+    get buildCounter() {
+        return this._buildCounter;
     }
 
-    set counter(counter) {
-        if (counter) {
-            this._counter = counter;
+    set buildCounter(buildCounter) {
+        if (buildCounter) {
+            this._buildCounter = buildCounter;
         }
     }
 
-    get canSpawn() {
-        return this.counter >= this.tech.spawnTime;
+    get isBuild() {
+        return this.buildCounter >= this.unit.buildTime;
     }
 }
 
