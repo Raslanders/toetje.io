@@ -16,12 +16,14 @@ class Thread {
      * Starts the game update thread
      */
     run() {
+        // Update
         this.updateCombat();
         this.updateBuildings();
         this.updateTroops();
         this.spawnTroops();
-        this.emitResult();
 
+        // Emit result and update the token
+        this.emitResult();
         this.updateToken();
 
         setTimeout(this.run.bind(this), 1000);
