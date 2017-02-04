@@ -7,45 +7,36 @@
 const Troop = require('./Troop');
 
 class Building {
-    constructor(cell, tech, level) {
+    constructor(cell, unit) {
         this.cell = cell;
-        this.tech = tech;
-        this.level = level;
+        this.unit = unit;
         this.counter = 0;
     }
 
     /**
-     * @description Attempts to create a new unit
-     * @returns returns unit if it can, undefined otherwise
+     * Attempts to create a new unit
+     * @param id The troop id to use
+     * @param direction The direction this troop should walk towards
+     * @returns returns troop if it can, undefined otherwise
      */
-    attemptSpawn() {
+    attemptSpawn(id, direction) {
         if (this.canSpawn) {
             this.counter = 0;
-            return new Troop(this.tech.unit, this.cell);
+            return new Troop(id, this.unit, this.owner, this.cell, direction);
         } else {
             this.counter++;
         }
     }
 
     // Getters & Setters
-    set tech(tech) {
-        if (tech) {
-            this._tech = tech;
+    set unit(unit) {
+        if (unit) {
+            this._unit = unit;
         }
     }
 
-    get tech() {
-        return this._tech;
-    }
-
-    set level(level) {
-        if (level) {
-            this._level = level;
-        }
-    }
-
-    get level() {
-        return this._level;
+    get unit() {
+        return this._unit;
     }
 
     get cell() {

@@ -5,12 +5,26 @@
 
 
 class Troop {
-    constructor(unit, position) {
+    constructor(id, unit, owner, position, direction) {
+        this.id = id;
         this.unit = unit;
+        this.owner = owner;
         this.position = position;
+        this.stats = unit.stats;
+        this.direction = direction;
     }
 
     // Getters and setters
+    get id() {
+        return this._id;
+    }
+
+    set id(id) {
+        if (id) {
+            this._id = id;
+        }
+    }
+
     get unit() {
         return this._unit;
     }
@@ -21,14 +35,18 @@ class Troop {
         }
     }
 
-    set health(health) {
-        if (health) {
-            this._health = health;
+    get owner() {
+        return this._owner;
+    }
+
+    set owner(owner) {
+        if (owner) {
+            this._owner = owner;
         }
     }
 
-    get health() {
-        return this._health;
+    get position() {
+        return this._position;
     }
 
     set position(position) {
@@ -37,8 +55,24 @@ class Troop {
         }
     }
 
-    get position() {
-        return this._position;
+    get stats() {
+        return this._stats;
+    }
+
+    set stats(stats) {
+        if (stats) {
+            this._stats = stats;
+        }
+    }
+
+    get direction() {
+        return this._direction;
+    }
+
+    set direction(direction) {
+        if (direction) {
+            this._direction = direction;
+        }
     }
 }
 
