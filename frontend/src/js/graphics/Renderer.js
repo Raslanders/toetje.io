@@ -2,6 +2,7 @@ const PIXI = require('pixi.js');
 const Stats = require('stats.js');
 const State = require('../data/State');
 const Unit = require('../models/Unit');
+const CanvasState = require('./CanvasState');
 
 class Renderer {
     constructor() {
@@ -120,14 +121,20 @@ class Renderer {
     }
 
     drawState() {
-        this.stage.pivot.x -= this.newOffset.x;
-        this.stage.pivot.y -= this.newOffset.y;
-        this.totalOffset.x += this.newOffset.x;
-        this.totalOffset.y += this.newOffset.y;
-        this.newOffset.x = 0;
-        this.newOffset.y = 0;
+        if(this.newOffset.x) {
+            this.stage.pivot.x -= this.newOffset.x;
+            this.totalOffset.x += this.newOffset.x;
+            this.newOffset.x = 0;
+        }
+        if(this.newOffset.y) {
+            this.stage.pivot.y -= this.newOffset.y;
+            this.totalOffset.y += this.newOffset.y;
+            this.newOffset.y = 0;
+        }
 
-        if(this.highlightGraphics) {
+
+
+        if(this.highlightGraphics && !this.highlightingTile) {
             this.highlightGraphics.destroy();
             this.stage.removeChild(this.highlightGraphics);
         }
@@ -139,7 +146,7 @@ class Renderer {
             this.stage.addChild(this.highlightGraphics);
         }
 
-        if(this.selectedGraphics) {
+        if(this.selectedGraphics && !this.selectedTile) {
             this.selectedGraphics.destroy();
             this.stage.removeChild(this.selectedGraphics);
         }
@@ -149,6 +156,9 @@ class Renderer {
             this.selectedGraphics.lineStyle(4, 0x33FF00, 1);
             this.selectedGraphics.drawRect(this.selectedTile.x*this.gridSize, this.selectedTile.y*this.gridSize, this.gridSize, this.gridSize);
             this.selectedGraphics.endFill();
+            this.selectedGraphics.selectedTile = {};
+            this.selectedGraphics.selectedTile.x = this.selectedTile.x;
+            this.selectedGraphics.selectedTile.y = this.selectedTile.y;
             this.stage.addChild(this.selectedGraphics);
         }
 
