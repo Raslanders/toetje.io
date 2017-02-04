@@ -186,11 +186,6 @@ function play() {
         "use strict";
         item.animate();
     });
-    if(this.testUnit)
-    {
-        this.testUnit.animate();
-    }
-
 }
 
 function getMouseWithoutOffset(mousecoordinates) {
@@ -216,8 +211,8 @@ function createUnit(coordinates) {
     this.testUnit = new Unit(stage, coordinates);
 
     this.entities.push(this.testUnit);
-    let newX = coordinates.x + Math.round(Math.random() * 5);
-    let newY = coordinates.y + Math.round(Math.random() * 5);
-    this.testUnit.move(newX, newY);
+    let newX = coordinates.x + 0.5;
+    let newY = coordinates.y + 0.5;
+    this.testUnit.attack(newX, newY);
 }
 
