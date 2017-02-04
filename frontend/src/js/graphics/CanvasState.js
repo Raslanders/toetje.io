@@ -53,7 +53,6 @@ class CanvasState {
         }
         //determine coordinates based on scaling
         let coordinates = this.getGridCoordinates(mouseData.data.global);
-        console.log(coordinates);
         if(coordinates.x >= 0 && coordinates.y >= 0 && coordinates.x < Globals.gridWidth && coordinates.y < Globals.gridHeight) {
             this.hoverTile = coordinates;
         } else {
