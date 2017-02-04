@@ -4,7 +4,7 @@
 'use strict';
 
 
-class TicketManager {
+class Thread {
     constructor(game) {
         this.game = game;
     }
@@ -36,4 +36,4 @@ class TicketManager {
 }
 
 
-module.exports = TicketManager;
+module.exports = Thread;
