@@ -6,10 +6,10 @@ class Unit extends Entity {
 
         this.gridSize = 50;
         //allows 1 movement in the x direction in 1 movement in the y direction per tick
-        this.movePerTick = 1/60;
+        this.movePerTick = 1 / 60;
 
-        this.newX = 0+coordinates.x;
-        this.newY = 0+coordinates.y;
+        this.newX = 0 + coordinates.x;
+        this.newY = 0 + coordinates.y;
         this.drawSprite(coordinates);
 
     }
@@ -25,6 +25,9 @@ class Unit extends Entity {
         let xDiff = this.newX - this.x;
         let yDiff = this.newY - this.y;
 
+        if (xDiff == 0 && yDiff == 0) {
+            return;
+        }
         //figure out the new coordinates with a manhattat distance of at most 2
         if (xDiff > 0) {
             this.x = this.x + Math.min(xDiff, this.movePerTick);
@@ -39,7 +42,7 @@ class Unit extends Entity {
 
 
         this.removeSprite();
-        this.drawSprite({x:this.x, y:this.y});
+        this.drawSprite({x: this.x, y: this.y});
     }
 
     removeSprite() {
