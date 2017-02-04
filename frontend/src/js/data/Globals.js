@@ -1,3 +1,11 @@
-/**
- * Created by rikschreurs on 04/02/2017.
- */
+class Globals {
+    constructor() {
+        this.cellWidth = 50;
+        this.cellHeight = 50;
+        this.gridWidth = 15;
+        this.gridHeight = 15;
+
+    }
+}
+
+//module.exports (new Globals);
