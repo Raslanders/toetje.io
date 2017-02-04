@@ -17,13 +17,15 @@ class Map {
     load(file) {
         let mapRows = fs.readFileSync(`data/maps/${file}`).toString().split("\n");
 
-        for (let i in mapRows) {
-            let row = mapRows[i];
-            let cellRow = [];
-            for (let j = 0; j < row.length; j++) {
-                cellRow.push(new Cell(i, j, row[j]));
+        for (let y = 0; y < mapRows.length; y++) {
+            let row = mapRows[y];
+
+            for (let x = 0; x < row.length; x++) {
+                if (y == 0) {
+                    this._cells[x] = [];
+                }
+                this._cells[x][y] = new Cell(x, y, row[x]);
             }
-            this._cells.push(cellRow);
         }
     }
 

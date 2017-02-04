@@ -77,7 +77,7 @@ class Building {
     }
 
     get isBuild() {
-        return this.buildCounter >= this.technology.buildTime;
+        return !this.technology || this.buildCounter >= this.technology.buildTime;
     }
 }
 

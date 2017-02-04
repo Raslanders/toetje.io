@@ -12,7 +12,7 @@ class Game {
         this.queue = [];
         this.players = players;
         this.thread = new Thread(this);
-        this.bases = [];
+        this.buildings = [];
         this.map = new Map('RaslandianDesert');
 
         // Load technology and unit data
@@ -24,6 +24,10 @@ class Game {
     start() {
         console.log('Generating bases for players');
         this.bases = this.map.generateBases(this.players);
+        for (let k in this.bases) {
+            let base = this.bases[k];
+            this.buildings.push(base.buildings);
+        }
 
         // Make sure you don't emit too early
         // Socket.io fucks something up
