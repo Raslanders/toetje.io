@@ -7,6 +7,7 @@ var grid;
 var player;
 
 var gridSize = 50;
+var numberOfCells = 15;
 
 var stats;
 
@@ -15,13 +16,20 @@ var self = this;
 
 var dragging = false;
 var previousMousePosition;
+var totalOffset = {};
 var newOffset = {};
+
+var highlightingTile;
+var highlightGraphics;
 
 setup();
 
 function setup() {
     newOffset.x = 0;
     newOffset.y = 0;
+
+    totalOffset.x = 0;
+    totalOffset.y = 0;
     renderer = PIXI.autoDetectRenderer();
     renderer.view.style.position = "absolute";
     renderer.view.style.display = "block";
@@ -33,19 +41,27 @@ function setup() {
     stage = new PIXI.Container(0x66FF99, interactive);
 
     grid = new PIXI.Graphics();
-    grid.lineStyle(1, 0xCCCCCC, 1);
-    for (let i = 0; i < 30; i++) {
-        for (let j = 0; j < 30; j++) {
-            grid.drawRect(i*gridSize, j*gridSize, gridSize, gridSize);
-        }
+    grid.lineStyle(2, 0xCCCCCC, 0.3);
+
+    for(let i = 0; i < numberOfCells + 1; i++) {
+        grid.moveTo(0, i*gridSize);
+        grid.lineTo(numberOfCells*gridSize,i*gridSize);
     }
+
+    for(let j = 0; j < numberOfCells + 1; j++) {
+        grid.moveTo(j*gridSize, 0);
+        grid.lineTo(j*gridSize, numberOfCells*gridSize);
+    }
+
     grid.endFill();
+
+
     stage.addChild(grid);
     previousMousePosition = {};
     rectangle = new PIXI.Graphics();
     rectangle.lineStyle(4, 0xFF3300, 1);
     rectangle.beginFill(0x66CCFF);
-    rectangle.drawRect(0, 0, 64, 64);
+    rectangle.drawRect(0, 0, gridSize, gridSize);
     rectangle.endFill();
     rectangle.x = 170;
     rectangle.y = 170;
@@ -65,8 +81,9 @@ function setup() {
     renderer.plugins.interaction.on('mouseup', function(mousedata) {
         let currentTime = +new Date();
         //console.log(currentTime - self.clickTime);
-        if(currentTime - self.clickTime <= 500) {
-            self.createBuilding(mousedata.data.global);
+        if(currentTime - self.clickTime <= 200) {
+            console.log(getGridCoordinates(mousedata.data.global));
+            //self.createBuilding(getMouseWithoutOffset(mousedata.data.global));
         } else {
 
         }
@@ -81,6 +98,12 @@ function setup() {
             //console.log(newOffset);
             self.previousMousePosition.x = +mousedata.data.global.x;
             self.previousMousePosition.y = +mousedata.data.global.y;
+        }
+        let coordinates = getGridCoordinates(mousedata.data.global);
+        if(coordinates.x >= 0 && coordinates.y >= 0 && coordinates.x < numberOfCells && coordinates.y < numberOfCells) {
+            highlightingTile = coordinates;
+        } else {
+            highlightingTile = {};
         }
     });
     gameLoop();
@@ -101,20 +124,49 @@ function play() {
     //console.log(self.newOffset);
     stage.pivot.x -= self.newOffset.x;
     stage.pivot.y -= self.newOffset.y;
+    totalOffset.x += self.newOffset.x;
+    totalOffset.y += self.newOffset.y;
     self.newOffset.x = 0;
     self.newOffset.y = 0;
-    rectangle.x = (rectangle.x + 10)
+
+    if(highlightGraphics) {
+        highlightGraphics.destroy();
+        stage.removeChild(highlightGraphics);
+    }
+    if(highlightingTile) {
+        highlightGraphics = new PIXI.Graphics();
+        highlightGraphics.lineStyle(4, 0xFF3300, 1);
+        highlightGraphics.drawRect(highlightingTile.x*gridSize, highlightingTile.y*gridSize, gridSize, gridSize);
+        highlightGraphics.endFill();
+        stage.addChild(highlightGraphics);
+    }
+}
+
+function getMouseWithoutOffset(mousecoordinates) {
+    let coordinates = {};
+    coordinates.x = mousecoordinates.x - totalOffset.x;
+    coordinates.y = mousecoordinates.y - totalOffset.y;
+    return coordinates;
+}
+
+function getGridCoordinates(mousecoordinates) {
+    let noOffsetCoordinates = getMouseWithoutOffset(mousecoordinates);
+    let coordinates = {};
+    coordinates.x = Math.floor(noOffsetCoordinates.x / gridSize);
+    coordinates.y = Math.floor(noOffsetCoordinates.y / gridSize);
+    return coordinates;
+
 }
 
 function createBuilding(coordinates) {
     let building = new PIXI.Graphics();
     building.lineStyle(4, 0xFF3300, 1);
     building.beginFill(0x66CCFF);
-    building.drawRect(0, 0, 64, 64);
+    building.drawRect(-0.5*gridSize, -0.5*gridSize, gridSize, gridSize);
     building.endFill();
     building.x = coordinates.x;
     building.y = coordinates.y;
     stage.addChild(building);
-    let bb = new Building(coordinates.x, coordinates.y);
+    let bb = new Building(coordinates.x-.5*gridSize, coordinates.y-.5*gridSize);
     bb.test();
 }
