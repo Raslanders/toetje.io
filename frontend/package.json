@@ -9,8 +9,9 @@
   "author": "Ruud Andriessen",
   "license": "ISC",
   "dependencies": {
+    "browserify": "^13.1.1",
     "pixi.js": "^4.3.4",
-    "browserify": "^13.1.1"
+    "stats.js": "^0.17.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
