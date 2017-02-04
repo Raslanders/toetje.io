@@ -26,7 +26,7 @@ class Thread {
 
         // Emit result and update the token
         // this.game.emitResult();
-        // this.updateToken();
+        this.updateToken();
 
         if (!this.stopped) {
             setTimeout(this.run.bind(this), 1000);
@@ -46,7 +46,6 @@ class Thread {
      */
     updateBuildings() {
         while (this.game.queue.length > 0) {
-            console.log("Remove from queue!");
             let event = this.game.queue.pop();
 
             // Process event
@@ -65,12 +64,11 @@ class Thread {
         }
 
         // Attempt to increase building counters
-        for (let i = this.token; i < this.players.length; i++) {
-            let player = this.players[i];
+        for (let i = this.token; i < this.players.length + this.token; i++) {
+            let player = this.players[i % this.players.length];
             for (let k in this.buildings[player.id]) {
                 let building = this.buildings[player.id][k];
                 if (!building.isBuild) {
-                    console.log("Building for", player.id, building.buildCounter, building.technology.buildTime);
                     building.buildCounter++;
                 }
             }
@@ -81,8 +79,8 @@ class Thread {
      * Attempts to move troops for every player, starting at the player with the token
      */
     updateTroops() {
-        for (let i = this.token; i < this.players.length; i++) {
-            let player = this.players[i];
+        for (let i = this.token; i < this.players.length + this.token; i++) {
+            let player = this.players[i % this.players.length];
             for (let k in this.troops[player.id]) {
                 let troop = this.troops[player.id][k];
                 if (!troop.collides(this.troops)) {
@@ -97,9 +95,9 @@ class Thread {
      */
     spawnTroops() {
         this.waveCounter++;
-        if (this.waveCounter >= 2) {
+        if (this.waveCounter >= 10) {
             // Spawn the wave
-            for (let i = this.token; i < this.players.length; i++) {
+            for (let i = this.token; i < this.players.length + this.token; i++) {
                 let player = this.players[i % this.players.length];
                 for (let k in this.buildings[player.id]) {
                     let building = this.buildings[player.id][k];
@@ -107,7 +105,6 @@ class Thread {
                     if (troop) {
                         // add new troop to game (queue?) and send to players
                         this.troops[player.id].push(troop);
-                        console.log("New unit for player: ", troop.id, "at", [troop.position.x, troop.position.y]);
                     }
                 }
             }
