@@ -9,7 +9,9 @@ var l = new Lobby();
 io.on('connection', function(client){
     var p = new Player(client);
     l.enter(p);
-    client.on('event', l.handleMessage);
+    client.on('build', message => {
+        l.handleMessage(p, message);
+    });
     client.on('disconnect', () => {
         l.leave(p);
     });

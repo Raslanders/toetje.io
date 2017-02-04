@@ -9,6 +9,7 @@ const DataLoader = require('../data/DataLoader');
 
 class Game {
     constructor(players) {
+        this.queue = [];
         this.players = players;
         this.thread = new Thread(this);
         this.bases = [];

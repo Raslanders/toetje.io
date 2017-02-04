@@ -46,11 +46,11 @@ gulp.task('sass', function() {
 gulp.task('html', ['js', 'sass'], function() {
     return gulp.src('src/html/index.html')
         .pipe(nunjucks.compile())
-        .pipe(inject(gulp.src(['www/**/*.js', 'www/**/*.css'], {read: false}), {ignorePath: 'www'}))
+        // .pipe(inject(gulp.src(['www/**/*.js', 'www/**/*.css'], {read: false}), {ignorePath: 'www'}))
         .pipe(gulp.dest('www/'))
 });
 
-gulp.task('build', ['js', 'sass', 'html'], function() {
+gulp.task('build', ['js', 'sass'], function() {
     gutil.log(gutil.colors.green('Done running build'));
 });
 

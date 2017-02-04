@@ -56,8 +56,10 @@ class Lobby {
         }
     }
 
-    handleMessage(message) {
-
+    handleMessage(player, message) {
+        message.playerId = player.id;
+        console.log('adding', message, 'to queue');
+        this.game.queue.push(message);
     }
 }
 
