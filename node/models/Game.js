@@ -4,12 +4,18 @@
 'use strict';
 
 const Base = require('./Base')
-
+const Thread = require('../core/Thread');
 
 class Game {
     constructor(players, map) {
         this._players = players;
+        this._thread = new Thread(this);
         this._bases = [];
+    }
+
+    start() {
+        console.log('game starting');
+        this._thread.run();
     }
 
     generateBases() {
