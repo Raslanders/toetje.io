@@ -1,6 +1,11 @@
 [
   {
     "name": "Basic stuff",
-    "description": "This is the basic technology"
+    "description": "This is the basic technology",
+    "unit": {
+      "name": "Aardappelman",
+      "health": 10,
+      "armor": 5
+    }
   }
 ]
