@@ -5,9 +5,9 @@
 
 
 class Unit {
-    constructor(technology, name, stats) {
+    constructor(technology, stats) {
         this.technology = technology;
-        this.name = name;
+        this.name = stats.name;
         this.stats = stats;
     }
 
@@ -42,8 +42,8 @@ class Unit {
         }
     }
 
-    get spawnTime() {
-        return this.stats.spawnTime || 10;
+    get buildTime() {
+        return this.stats.buildTime || 10;
     }
 }
 

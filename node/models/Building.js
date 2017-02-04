@@ -10,8 +10,17 @@ class Building {
     constructor(cell, unit, player) {
         this.cell = cell;
         this.unit = unit;
-        this.counter = 0;
-        this.owner = player
+        this.owner = player;
+        this.buildCounter = 0;
+    }
+
+    /**
+     * Starts the upgrade from this building to the new unit type given
+     * @param unit The unit type to upgrade to
+     */
+    upgradeTo(unit) {
+        this.buildCounter = 0;
+        this.unit = unit;
     }
 
     /**
@@ -21,25 +30,12 @@ class Building {
      * @returns returns troop if it can, undefined otherwise
      */
     attemptSpawn(id, direction) {
-        if (this.canSpawn) {
-            this.counter = 0;
+        if (this.isBuild) {
             return new Troop(id, this.unit, this.owner, this.cell, direction);
-        } else {
-            this.counter++;
         }
     }
 
     // Getters & Setters
-    set unit(unit) {
-        if (unit) {
-            this._unit = unit;
-        }
-    }
-
-    get unit() {
-        return this._unit;
-    }
-
     get cell() {
         return this._cell;
     }
@@ -50,18 +46,38 @@ class Building {
         }
     }
 
-    get counter() {
-        return this._counter;
+    get unit() {
+        return this._unit;
     }
 
-    set counter(counter) {
-        if (counter) {
-            this._counter = counter;
+    set unit(unit) {
+        if (unit) {
+            this._unit = unit;
         }
     }
 
-    get canSpawn() {
-        return this.counter >= this.tech.spawnTime;
+    get owner() {
+        return this._owner;
+    }
+
+    set owner(owner) {
+        if (owner) {
+            this._owner = owner;
+        }
+    }
+
+    get buildCounter() {
+        return this._buildCounter;
+    }
+
+    set buildCounter(buildCounter) {
+        if (buildCounter) {
+            this._buildCounter = buildCounter;
+        }
+    }
+
+    get isBuild() {
+        return this.buildCounter >= this.unit.buildTime;
     }
 }
 
