@@ -42,8 +42,8 @@ class Unit {
         }
     }
 
-    get spawnTime() {
-        return this.stats.spawnTime || 10;
+    get buildTime() {
+        return this.buildTime || 10;
     }
 }
 
