@@ -2,10 +2,9 @@
   {
     "name": "Basic stuff",
     "description": "This is the basic technology",
-    "unit": {
-      "name": "Aardappelman",
-      "health": 10,
-      "armor": 5
-    }
+    "health": 10,
+    "damage": 1,
+    "apt": 1,
+    "range": 2
   }
 ]
