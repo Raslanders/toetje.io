@@ -6,17 +6,12 @@
 
 
 class Player {
-    constructor(client, id, name) {
+    constructor(client, name) {
         this._client = client;
-        this._id = id;
         this._name = name;
     }
 
     // Getters
-    get id() {
-        return this._id;
-    }
-
     get name() {
         return this._name;
     }

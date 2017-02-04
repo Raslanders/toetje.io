@@ -11,6 +11,7 @@ class Thread {
         this.game = game;
         this.token = 0;
         this.waveCounter = 0;
+        this.stopped = false;
     }
 
     /**
@@ -24,14 +25,16 @@ class Thread {
         this.spawnTroops();
 
         // Emit result and update the token
-        this.emitResult();
+        this.game.emitResult();
         this.updateToken();
 
-        setTimeout(this.run.bind(this), 1000);
+        if (!this.stopped) {
+            setTimeout(this.run.bind(this), 1000);
+        }
     }
 
-    emitResult() {
-        this.game.emitResult();
+    stop() {
+        this.stopped = true;
     }
 
     updateCombat() {

@@ -23,8 +23,18 @@ class Game {
     start() {
         console.log('Generating bases for players');
         this.bases = this.map.generateBases(this.players);
-        this.emit('start', this.map.view);
-        this.thread.run();
+
+        // Make sure you don't emit too early
+        // Socket.io fucks something up
+        setTimeout(() => {
+            this.emit('start', this.map.view);
+            this.thread.run();
+        }, 500);
+    }
+
+    stop() {
+        this.emit('stop');
+        this.thread.stop();
     }
 
     // Getters & setters
@@ -69,7 +79,7 @@ class Game {
     }
 
     emitResult() {
-        this._players.forEach(p => p.emit());
+        this.players.forEach(p => p.emit());
     }
 
     get troops() {
@@ -103,7 +113,7 @@ class Game {
     }
 
     emit(type, message) {
-        this._players.forEach(p => p.emit(type, message));
+        this.players.forEach(p => p.emit(type, message));
     }
 }
 

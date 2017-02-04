@@ -5,22 +5,14 @@ var Lobby = require('./core/Lobby');
 var Player = require('./models/Player');
 
 var l = new Lobby();
-var playerIndex = 1;
 
 io.on('connection', function(client){
-    var p = new Player(client, playerIndex, `henk${playerIndex}`);
-    playerIndex++;
+    var p = new Player(client);
     l.enter(p);
     client.on('event', function(){});
     client.on('disconnect', () => {
         l.leave(p);
     });
 });
-
-// function handleClient() {
-
-// }
-
-// function
 
 server.listen(3000);
