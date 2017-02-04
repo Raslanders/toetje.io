@@ -19,6 +19,8 @@ class Lobby {
         this.playerIndex++;
 
         this.players.push(player);
+        this.emit('join', 'Player has joined');
+
         if (this.players.length === 2) {
             this.start();
         }
@@ -54,6 +56,10 @@ class Lobby {
             this.game.stop();
             this.game = null;
         }
+    }
+
+    emit(type, message) {
+        this.players.forEach(p => p.emit(type, message));
     }
 
     handleMessage(player, message) {

@@ -14,6 +14,10 @@ socket.on('start', (data) => {
 
 socket.on('tick', (data) => {
     console.log('todo render tick', data);
+});
+
+socket.on('join', msg => {
+    console.log(msg);
 })
 
 socket.on('stop', () => {

@@ -8,7 +8,9 @@ var l = new Lobby();
 
 io.on('connection', function(client){
     var p = new Player(client);
+
     l.enter(p);
+
     client.on('build', message => {
         l.handleMessage(p, message);
     });
