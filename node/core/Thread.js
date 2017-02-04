@@ -70,6 +70,9 @@ class Thread {
                 let building = this.buildings[player.id][k];
                 if (!building.isBuild) {
                     building.buildCounter++;
+                    if (building.isBuild) {
+                        // todo: this building is now done
+                    }
                 }
             }
         }
@@ -85,6 +88,7 @@ class Thread {
                 let troop = this.troops[player.id][k];
                 if (!troop.collides(this.troops)) {
                     troop.move();
+                    // todo: add current troop position as mutation
                 }
             }
         }
@@ -103,8 +107,8 @@ class Thread {
                     let building = this.buildings[player.id][k];
                     let troop = building.attemptSpawn(this.troopId(player), building.base.direction);
                     if (troop) {
-                        // add new troop to game (queue?) and send to players
                         this.troops[player.id].push(troop);
+                        // todo: add this new troop as mutation
                     }
                 }
             }
