@@ -3,24 +3,63 @@
  */
 'use strict';
 
-const Base = require('./Base')
 const Thread = require('../core/Thread');
+const Map = require('../core/Map');
 
 class Game {
-    constructor(players, map) {
-        this._players = players;
-        this._thread = new Thread(this);
-        this._bases = [];
+    constructor(players) {
+        this.players = players;
+        this.thread = new Thread(this);
+        this.bases = [];
+        this.map = new Map("RaslandianDesert");
     }
 
     start() {
-        console.log('game starting');
-        this._thread.run();
+        console.log('Generating bases for players');
+        this.bases = this.map.generateBases(this.players);
+        console.log("Starting game");
+        this.thread.run();
     }
 
-    generateBases() {
-        let base = new Base(-1, {x: 0, y: 0});
-        this._bases.push(base);
+    // Getters & setters
+    get players() {
+        return this._players;
+    }
+
+    set players(players) {
+        if (players) {
+            this._players = players;
+        }
+    }
+
+    get map() {
+        return this._map;
+    }
+
+    set map(map) {
+        if (map) {
+            this._map = map;
+        }
+    }
+
+    get thread() {
+        return this._thread;
+    }
+
+    set thread(thread) {
+        if (thread) {
+            this._thread = thread;
+        }
+    }
+
+    get bases() {
+        return this._bases;
+    }
+
+    set bases(bases) {
+        if (bases) {
+            this._bases = bases;
+        }
     }
 }
 

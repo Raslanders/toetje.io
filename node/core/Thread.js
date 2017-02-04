@@ -7,6 +7,8 @@
 class Thread {
     constructor(game) {
         this.game = game;
+        this.players = this.game.players;
+        this.token = 0;
     }
 
     run() {
@@ -15,6 +17,8 @@ class Thread {
         this.updateUnits();
         this.spawnUnits();
         console.log('game tick', this);
+
+        this.updateToken();
 
         setTimeout(this.run.bind(this), 1000);
     }
@@ -32,7 +36,14 @@ class Thread {
     }
 
     spawnUnits() {
+        for (let k in this.game.buildings) {
+            let building = this.game.buildings[k];
+            building.attemptSpawn();
+        }
+    }
 
+    updateToken() {
+        this.token = (this.token + 1) % this.players.length;
     }
 }
 
