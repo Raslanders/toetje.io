@@ -10,7 +10,6 @@ class Game {
     constructor(players) {
         this.players = players;
         this.thread = new Thread(this);
-        this.bases = [];
         this.map = new Map("RaslandianDesert");
     }
 
@@ -59,6 +58,16 @@ class Game {
     set bases(bases) {
         if (bases) {
             this._bases = bases;
+        }
+    }
+
+    get troops() {
+        return this._troops;
+    }
+
+    set troops(troops) {
+        if (troops) {
+            this._troops = troops;
         }
     }
 }

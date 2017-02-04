@@ -5,15 +5,20 @@
 
 
 class Troop {
-    constructor(unit, health, position) {
-        this._unit = unit;
-        this._health = health;
-        this._position = position;
+    constructor(unit, position) {
+        this.unit = unit;
+        this.position = position;
     }
 
     // Getters and setters
     get unit() {
         return this._unit;
+    }
+
+    set unit(unit) {
+        if (unit) {
+            this._unit = unit;
+        }
     }
 
     set health(health) {

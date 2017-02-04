@@ -6,8 +6,8 @@
 
 class Unit {
     constructor(tech, properties) {
-        this._tech = tech;
-        this._properties = properties;
+        this.tech = tech;
+        this.properties = properties;
     }
 
     // Getters
@@ -15,8 +15,24 @@ class Unit {
         return this._tech;
     }
 
+    set tech(tech) {
+        if (tech) {
+            this._tech = tech;
+        }
+    }
+
     get properties() {
         return this._properties;
+    }
+
+    set properties(properties) {
+        if (properties) {
+            this._properties = properties;
+        }
+    }
+
+    get spawnTime() {
+        return this.properties.spawnTime;
     }
 }
 
