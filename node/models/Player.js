@@ -26,7 +26,7 @@ class Player {
     }
 
     emit() {
-        console.log('emit for player', this._id, this._name);
+        this._client.emit('tick', {});
     }
 }
 
