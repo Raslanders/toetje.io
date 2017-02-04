@@ -25,6 +25,8 @@ var selectedTile = {};
 
 var s;
 
+var entities = [];
+
 setup();
 
 function setup() {
@@ -129,13 +131,18 @@ function setup() {
 
 //main game loop
 function gameLoop() {
+    //statistics start measure
     stats.begin();
 
+    //call play function
     state();
 
+    //render the result
     renderer.render(stage);
 
+    //calculate statistics based on time
     stats.end();
+    //recurse in x time
     requestAnimationFrame(gameLoop);
 }
 
@@ -173,6 +180,17 @@ function play() {
         selectedGraphics.endFill();
         stage.addChild(selectedGraphics);
     }
+
+    //animate all entities
+    entities.forEach(function(item,index,array){
+        "use strict";
+        item.animate();
+    });
+    if(this.testUnit)
+    {
+        this.testUnit.animate();
+    }
+
 }
 
 function getMouseWithoutOffset(mousecoordinates) {
@@ -191,8 +209,15 @@ function getGridCoordinates(mousecoordinates) {
 
 }
 
+
+
 function createUnit(coordinates) {
 
-    let testUnit = new Unit(stage,coordinates);
-    testUnit.test();
+    this.testUnit = new Unit(stage, coordinates);
+
+    this.entities.push(this.testUnit);
+    let newX = coordinates.x + Math.round(Math.random() * 5);
+    let newY = coordinates.y + Math.round(Math.random() * 5);
+    this.testUnit.move(newX, newY);
 }
+
