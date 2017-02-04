@@ -4,7 +4,4 @@ class Player {
         this.buildings = new Building
     }
 
-    createBuilding(Building b) {
-    }
-
 }

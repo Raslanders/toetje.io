@@ -1,7 +1,6 @@
 var state = play;
 var renderer;
 var stage;
-var rectangle;
 var grid;
 
 var player;
@@ -24,9 +23,12 @@ var highlightGraphics;
 var selectedGraphics;
 var selectedTile = {};
 
+var s;
+
 setup();
 
 function setup() {
+
     newOffset.x = 0;
     newOffset.y = 0;
 
@@ -60,14 +62,6 @@ function setup() {
 
     stage.addChild(grid);
     previousMousePosition = {};
-    rectangle = new PIXI.Graphics();
-    rectangle.lineStyle(4, 0xFF3300, 1);
-    rectangle.beginFill(0x66CCFF);
-    rectangle.drawRect(0, 0, gridSize, gridSize);
-    rectangle.endFill();
-    rectangle.x = 170;
-    rectangle.y = 170;
-    stage.addChild(rectangle);
 
     stats = new Stats();
     stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
@@ -113,6 +107,9 @@ function setup() {
             highlightingTile = {};
         }
     });
+
+    s = new State();
+
     gameLoop();
 }
 
