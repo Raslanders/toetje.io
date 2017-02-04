@@ -4,6 +4,8 @@
 'use strict';
 
 
+const Troop = require('./Troop');
+
 class Building {
     constructor(cell, tech, level) {
         this.cell = cell;
@@ -12,15 +14,16 @@ class Building {
         this.counter = 0;
     }
 
-    increaseLevel() {
-        this.level++;
-    }
-
+    /**
+     * @description Attempts to create a new unit
+     * @returns returns unit if it can, undefined otherwise
+     */
     attemptSpawn() {
         if (this.canSpawn) {
-            // create troop
+            this.counter = 0;
+            return new Troop(this.tech.unit, this.cell);
         } else {
-            return false;
+            this.counter++;
         }
     }
 
