@@ -19,7 +19,6 @@ class Map {
             let row = mapRows[i];
             let cellRow = [];
             for (let j = 0; j < row.length; j++) {
-                // Normal, empty cell
                 cellRow.push(new Cell(i, j, row[j]));
             }
             this.cells.push(cellRow);
