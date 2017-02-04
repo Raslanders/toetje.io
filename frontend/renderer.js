@@ -21,6 +21,8 @@ var newOffset = {};
 
 var highlightingTile;
 var highlightGraphics;
+var selectedGraphics;
+var selectedTile = {};
 
 setup();
 
@@ -79,9 +81,14 @@ function setup() {
         console.log(self.previousMousePosition)
     });
     renderer.plugins.interaction.on('mouseup', function(mousedata) {
+        selectedTile = {};
         let currentTime = +new Date();
         //console.log(currentTime - self.clickTime);
         if(currentTime - self.clickTime <= 200) {
+            if(highlightingTile) {
+                selectedTile.x = +highlightingTile.x;
+                selectedTile.y = +highlightingTile.y;
+            }
             console.log(getGridCoordinates(mousedata.data.global));
             //self.createBuilding(getMouseWithoutOffset(mousedata.data.global));
         } else {
@@ -139,6 +146,19 @@ function play() {
         highlightGraphics.drawRect(highlightingTile.x*gridSize, highlightingTile.y*gridSize, gridSize, gridSize);
         highlightGraphics.endFill();
         stage.addChild(highlightGraphics);
+    }
+
+    if(selectedGraphics) {
+        selectedGraphics.destroy();
+        stage.removeChild(selectedGraphics);
+    }
+
+    if(selectedTile) {
+        selectedGraphics = new PIXI.Graphics();
+        selectedGraphics.lineStyle(4, 0x33FF00, 1);
+        selectedGraphics.drawRect(selectedTile.x*gridSize, selectedTile.y*gridSize, gridSize, gridSize);
+        selectedGraphics.endFill();
+        stage.addChild(selectedGraphics);
     }
 }
 
