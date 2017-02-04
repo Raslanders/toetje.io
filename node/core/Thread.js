@@ -52,12 +52,13 @@ class Thread {
             let x = event.x;
             let y = event.y;
             let technologyId = event.technologyId;
+            let playerId = event.playerId;
             let building = this.game.map.cells[x][y].building;
 
-            if (building) {
+            if (building && playerId === building.owner.id) {
                 building.upgradeTo(this.technology[technologyId]);
             } else {
-                console.error("Client requested to build a building on a non-building cell: ", x, y);
+                console.error("Client requested to build a building on an invalid cell: ", x, y, playerId);
             }
         }
 
