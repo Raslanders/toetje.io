@@ -7952,7 +7952,7 @@ module.exports = yeast;
 
 },{}],49:[function(require,module,exports){
 console.log('index.js');
-var socket = require('socket.io-client')('grievous:3000');
+var socket = require('socket.io-client')('localhost:3000');
 
 socket.on('connect', function(){
     console.log('connect');
