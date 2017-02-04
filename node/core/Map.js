@@ -3,21 +3,28 @@
  */
 'use strict';
 
+const fs = require('fs');
 const Cell = require('./Cell');
 
-
 class Map {
-    constructor(xSize, ySize) {
+    constructor(filename) {
         this.cells = [];
-        for (let i = 0; i < xSize; i++) {
+        this.load(filename);
+    }
+
+    load(file) {
+        let mapRows = fs.readFileSync(`data/maps/${file}`).toString().split("\n");
+
+        for (let i in mapRows) {
+            let row = mapRows[i];
             let cellRow = [];
-            for (let j = 0; j < ySize; j++) {
-                cellRow.push(new Cell(i, j));
+            for (let j = 0; j < row.length; j++) {
+                // Normal, empty cell
+                cellRow.push(new Cell(i, j, row[j]));
             }
             this.cells.push(cellRow);
         }
     }
 }
-
 
 module.exports = Map;

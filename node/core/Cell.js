@@ -4,9 +4,23 @@
 'use strict';
 
 class Cell {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
+    constructor(x, y, type) {
+        this._x = x;
+        this._y = y;
+        this._type = type;
+    }
+
+    // Getters
+    get x() {
+        return this._x;
+    }
+
+    get y() {
+        return this._y;
+    }
+
+    get type() {
+        return this._type;
     }
 }
 
