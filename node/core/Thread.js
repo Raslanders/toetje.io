@@ -48,13 +48,14 @@ class Thread {
             // Process event
             let x = event.x;
             let y = event.y;
+            let technologyId = event.technologyId;
             let building = this.game.map.cells[x][y].building;
+
             if (building) {
-                building.upgradeTo(unit);
+                building.upgradeTo(units[technologyId]);
             } else {
                 console.error("Client requested to build a building on a non-building cell: ", x, y);
             }
-
         }
 
         // Attempt to increase building counters
@@ -160,6 +161,9 @@ class Thread {
         return this.game.troops;
     }
 
+    get units() {
+        return this.game.units;
+    }
 }
 
 

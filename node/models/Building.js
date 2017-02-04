@@ -14,7 +14,12 @@ class Building {
         this.buildCounter = 0;
     }
 
+    /**
+     * Starts the upgrade from this building to the new unit type given
+     * @param unit The unit type to upgrade to
+     */
     upgradeTo(unit) {
+        this.buildCounter = 0;
         this.unit = unit;
     }
 
