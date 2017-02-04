@@ -30,10 +30,6 @@ class Unit {
             this._stats = stats;
         }
     }
-
-    get buildTime() {
-        return this.stats.buildTime || 10;
-    }
 }
 
 

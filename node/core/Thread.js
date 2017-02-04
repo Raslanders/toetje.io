@@ -20,7 +20,7 @@ class Thread {
     run() {
         // Update
         // this.updateCombat();
-        // this.updateBuildings();
+        this.updateBuildings();
         // this.updateTroops();
         // this.spawnTroops();
 
@@ -45,7 +45,8 @@ class Thread {
      * Increases building counters for all buildings which are not yet done building
      */
     updateBuildings() {
-        while (!this.game.queue.isEmpty()) {
+        while (this.game.queue.length > 0) {
+            console.log("Remove from queue!");
             let event = this.game.queue.pop();
 
             // Process event
@@ -53,10 +54,11 @@ class Thread {
             let y = event.y;
             let technologyId = event.technologyId;
             let playerId = event.playerId;
+
             let building = this.game.map.cells[x][y].building;
 
             if (building && playerId === building.owner.id) {
-                building.upgradeTo(this.technology[technologyId]);
+                building.upgradeTo(this.technologies[technologyId]);
             } else {
                 console.error("Client requested to build a building on an invalid cell: ", x, y, playerId);
             }
@@ -167,8 +169,8 @@ class Thread {
         return this.game.troops;
     }
 
-    get technology() {
-        return this.game.technology;
+    get technologies() {
+        return this.game.technologies;
     }
 }
 

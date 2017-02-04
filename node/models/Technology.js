@@ -73,6 +73,10 @@ class Technology {
             this._unit = unit;
         }
     }
+
+    get buildTime() {
+        return this._buildTime || 10;
+    }
 }
 
 module.exports = Technology;
