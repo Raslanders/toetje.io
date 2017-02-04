@@ -1,0 +1,30 @@
+[
+  {
+	"id":2,
+    "name": "Basic stuff",
+	"price": 1
+    "description": "This is the basic technology",
+	"required" : [1],
+	"stats":{
+		"name": "Basic stuff",
+		"health": 10,
+		"armor":1,
+		"damage": 1,
+		"tpa": 4,
+		"range": 2,
+		"ability": [
+				{
+				"trigger":"onAttack/perTick",
+				"target":"self","enemy","friendly","empty square",
+				"range":0,
+				"amount of targets": 1,2,3,
+				"damage":-2,-1,0,1,2,
+				"aoe range":0,1,2,3,
+				"maxHp increase":-20,0,20,
+				"Attack increase":-20,0.20,
+				"Summoned unit": "Base unit","tier 2 unit"
+				}
+			]
+		}	
+	}
+]
