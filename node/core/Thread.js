@@ -10,6 +10,7 @@ class Thread {
     constructor(game) {
         this.game = game;
         this.token = 0;
+        this.waveCounter = 0;
     }
 
     /**
@@ -41,7 +42,10 @@ class Thread {
      * Increases building counters for all buildings which are not yet done building
      */
     updateBuildings() {
-        // todo: start upgrade progress for new buildings
+        while (!this.game.queue.isEmpty()) {
+            let event = this.game.queue.pop();
+            // process
+        }
 
         // Attempt to increase building counters
         for (let i = this.token; i < this.players.length; i++) {
@@ -72,15 +76,22 @@ class Thread {
      * Spawns troops for each player, starting at the player with the token
      */
     spawnTroops() {
-        for (let i = this.token; i < this.players.length; i++) {
-            let player = this.players[i];
-            for (let k in this.buildings[player.id]) {
-                let building = this.buildings[player.id][k];
-                let troop = building.attemptSpawn(this.troopId(player), building.base.direction);
-                if (troop) {
-                    // add new troop to game (queue?) and send to players
+        this.waveCounter++;
+        if (this.waveCounter >= 100) {
+            // Spawn the wave
+            for (let i = this.token; i < this.players.length; i++) {
+                let player = this.players[i];
+                for (let k in this.buildings[player.id]) {
+                    let building = this.buildings[player.id][k];
+                    let troop = building.attemptSpawn(this.troopId(player), building.base.direction);
+                    if (troop) {
+                        // add new troop to game (queue?) and send to players
+                    }
                 }
             }
+
+            // Reset the counter
+            this.waveCounter = 0;
         }
     }
 
@@ -116,9 +127,15 @@ class Thread {
     }
 
     set token(token) {
-        if (token) {
-            this._token = (token) % this.players.length;
-        }
+        this._token = (token) % this.players.length;
+    }
+
+    get waveCounter() {
+        return this._waveCounter;
+    }
+
+    set waveCounter(waveCounter) {
+        this._waveCounter = waveCounter;
     }
 
     get players() {

@@ -10,7 +10,7 @@ class Building {
     constructor(cell, unit, player) {
         this.cell = cell;
         this.unit = unit;
-        this.owner = player
+        this.owner = player;
         this.buildCounter = 0;
     }
 
@@ -27,16 +27,6 @@ class Building {
     }
 
     // Getters & Setters
-    set unit(unit) {
-        if (unit) {
-            this._unit = unit;
-        }
-    }
-
-    get unit() {
-        return this._unit;
-    }
-
     get cell() {
         return this._cell;
     }
@@ -44,6 +34,26 @@ class Building {
     set cell(cell) {
         if (cell) {
             this._cell = cell;
+        }
+    }
+
+    get unit() {
+        return this._unit;
+    }
+
+    set unit(unit) {
+        if (unit) {
+            this._unit = unit;
+        }
+    }
+
+    get owner() {
+        return this._owner;
+    }
+
+    set owner(owner) {
+        if (owner) {
+            this._owner = owner;
         }
     }
 
