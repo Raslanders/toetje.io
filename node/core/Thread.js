@@ -52,7 +52,7 @@ class Thread {
             let building = this.game.map.cells[x][y].building;
 
             if (building) {
-                building.upgradeTo(units[technologyId]);
+                building.upgradeTo(this.technology[technologyId]);
             } else {
                 console.error("Client requested to build a building on a non-building cell: ", x, y);
             }
@@ -91,7 +91,7 @@ class Thread {
         if (this.waveCounter >= 100) {
             // Spawn the wave
             for (let i = this.token; i < this.players.length; i++) {
-                let player = this.players[i];
+                let player = this.players[i % this.players.length];
                 for (let k in this.buildings[player.id]) {
                     let building = this.buildings[player.id][k];
                     let troop = building.attemptSpawn(this.troopId(player), building.base.direction);
@@ -161,8 +161,8 @@ class Thread {
         return this.game.troops;
     }
 
-    get units() {
-        return this.game.units;
+    get technology() {
+        return this.game.technology;
     }
 }
 

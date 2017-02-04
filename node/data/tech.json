@@ -1,12 +1,12 @@
 [
 	{
 		"id": 1,
-		"name": "Base Class",
+		"name": "Barrack",
 		"price": 1,
-		"description": "Basic unit",
+		"description": "Spawns basic melee troops",
 		"required": null,
 		"stats": {
-			"name": "Base Class",
+			"name": "Melee",
 			"health": 40,
 			"armor": 0,
 			"damage": 4,

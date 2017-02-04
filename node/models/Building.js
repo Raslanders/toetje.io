@@ -7,20 +7,20 @@
 const Troop = require('./Troop');
 
 class Building {
-    constructor(cell, unit, player) {
+    constructor(cell, technology, player) {
         this.cell = cell;
-        this.unit = unit;
+        this.technology = technology;
         this.owner = player;
         this.buildCounter = 0;
     }
 
     /**
      * Starts the upgrade from this building to the new unit type given
-     * @param unit The unit type to upgrade to
+     * @param technology The unit type to upgrade to
      */
-    upgradeTo(unit) {
+    upgradeTo(technology) {
         this.buildCounter = 0;
-        this.unit = unit;
+        this.technology = technology;
     }
 
     /**
@@ -31,7 +31,7 @@ class Building {
      */
     attemptSpawn(id, direction) {
         if (this.isBuild) {
-            return new Troop(id, this.unit, this.owner, this.cell, direction);
+            return new Troop(id, this.technology.unit, this.owner, this.cell, direction);
         }
     }
 
@@ -46,13 +46,13 @@ class Building {
         }
     }
 
-    get unit() {
-        return this._unit;
+    get technology() {
+        return this._technology;
     }
 
-    set unit(unit) {
-        if (unit) {
-            this._unit = unit;
+    set technology(technology) {
+        if (technology) {
+            this._technology = technology;
         }
     }
 
@@ -77,7 +77,7 @@ class Building {
     }
 
     get isBuild() {
-        return this.buildCounter >= this.unit.buildTime;
+        return this.buildCounter >= this.technology.buildTime;
     }
 }
 

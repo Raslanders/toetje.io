@@ -5,23 +5,12 @@
 
 
 class Unit {
-    constructor(technology, stats) {
-        this.technology = technology;
+    constructor(stats) {
         this.name = stats.name;
         this.stats = stats;
     }
 
     // Getters
-    get technology() {
-        return this._technology;
-    }
-
-    set technology(technology) {
-        if (technology) {
-            this._technology = technology;
-        }
-    }
-
     get name() {
         return this._name;
     }

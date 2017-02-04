@@ -17,12 +17,10 @@ class DataLoader {
         let units = {};
         for (let k in tech) {
             let t = tech[k];
-            let technology = new Technology(t.id, t.name, t.description, t.price, t.required);
-            let unit = new Unit(technology, t.stats);
-            techs[t.id] = technology;
+            let unit = new Unit(t.stats);
+            techs[t.id] = new Technology(t.id, t.name, t.description, t.price, t.required, unit);
             units[t.id] = unit;
         }
-        console.log(techs, units);
         return {units: units, technologies: techs};
     }
 }

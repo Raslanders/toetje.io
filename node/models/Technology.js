@@ -4,12 +4,13 @@
 'use strict'
 
 class Technology {
-    constructor(id, name, description, price, prerequisites) {
+    constructor(id, name, description, price, prerequisites, unit) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.prerequisites = prerequisites;
+        this.unit = unit;
     }
 
     // Getters and setters
@@ -60,6 +61,16 @@ class Technology {
     set prerequisites(prerequisites) {
         if (prerequisites) {
             this._prerequisites = prerequisites;
+        }
+    }
+
+    get unit() {
+        return this._unit;
+    }
+
+    set unit(unit) {
+        if (unit) {
+            this._unit = unit;
         }
     }
 }
