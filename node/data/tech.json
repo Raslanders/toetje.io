@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Basic stuff",
+    "description": "This is the basic technology",
+    "health": 10,
+    "damage": 1,
+    "apt": 1,
+    "range": 2,
+    "prereq": []
+  },
+  {
+    "id": 2,
+    "name": "Basic magic",
+    "description": "This is the more then basic technology",
+    "health": 15,
+    "damage": 2,
+    "apt": 2,
+    "range": 1,
+    "prereq": [1]
+  }
+]

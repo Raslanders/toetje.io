@@ -1,10 +1,26 @@
-var express = require('express')
-var app = express()
+var server = require('http').createServer();
+var io = require('socket.io')(server);
 
-console.log('hoiii');
+var Lobby = require('./core/Lobby');
+var Player = require('./models/Player');
 
-app.get('/', function (req, res) {
-  res.send('Hello World');
-})
+var l = new Lobby();
+var playerIndex = 0;
 
-app.listen(3000);
+io.on('connection', function(client){
+    var p = new Player(client, playerIndex, `henk${playerIndex}`);
+    playerIndex++;
+    l.enter(p);
+    client.on('event', function(){});
+    client.on('disconnect', () => {
+        l.leave(p);
+    });
+});
+
+// function handleClient() {
+
+// }
+
+// function
+
+server.listen(3000);
