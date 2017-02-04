@@ -91,10 +91,6 @@ class Game {
         }
     }
 
-    emitResult() {
-        this.players.forEach(p => p.emit());
-    }
-
     get troops() {
         return this._troops;
     }

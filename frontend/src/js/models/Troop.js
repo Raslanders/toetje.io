@@ -1,6 +1,6 @@
-const Entity = require("./Entity");
+const Entity = require('./Entity');
 
-class Unit extends Entity {
+class Troop extends Entity {
 
     //Coordinates are grid coordinates
     constructor(stage, coordinates) {
@@ -148,4 +148,4 @@ class Unit extends Entity {
 
 }
 
-module.exports = Unit;
+module.exports = Troop;

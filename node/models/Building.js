@@ -35,6 +35,20 @@ class Building {
         }
     }
 
+    // Get renderable building instance
+    get view() {
+        return {
+            position: {
+                x: this.cell.x,
+                y: this.cell.y,
+            },
+            owner: this.owner.id,
+            technology: this.technology.id,
+            name: this.technology.name,
+            isBuilding: this.isBuilding,
+        };
+    }
+
     // Getters & Setters
     get cell() {
         return this._cell;
@@ -85,7 +99,12 @@ class Building {
     }
 
     get isBuild() {
-        return !this.technology || this.buildCounter >= this.technology.buildTime;
+        const isEmpty = !this.technology
+        return isEmpty || !this.isBuilding;
+    }
+
+    get isBuilding() {
+        return this.buildCounter < this.technology.buildTime;
     }
 }
 

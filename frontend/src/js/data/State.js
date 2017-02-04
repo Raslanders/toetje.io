@@ -1,20 +1,25 @@
 'use strict';
 
+const Map = require('./Map');
+
 class State {
     constructor() {
         this.gameState = 'lobby';
-        this.map = [];
-        this.troop = [];
-        this.building = [];
+        this.map = new Map();
     }
 
-    parseMap(map) {
-        console.log('Parsing map', map);
-        this.map = map;
-    }
+    // parseMap(map) {
+    //     this.map.
+    //     console.log('Parsing map', map);
+    //     this.tiles = map;
+    // }
 
     parsePlayer(id) {
         console.log('TODO set active player to', id);
+    }
+
+    parseMutation(mutation) {
+
     }
 
     start() {

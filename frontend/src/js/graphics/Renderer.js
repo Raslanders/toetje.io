@@ -3,7 +3,7 @@
 const PIXI = require('pixi.js');
 const Stats = require('stats.js');
 const State = require('../data/State');
-const Unit = require('../models/Unit');
+const Troop = require('../models/Troop');
 const CanvasState = require('./CanvasState');
 const Globals = require('../data/Globals');
 
