@@ -5,6 +5,7 @@
 
 const Thread = require('../core/Thread');
 const Map = require('../core/Map');
+const DataLoader = require('../data/DataLoader');
 
 class Game {
     constructor(players) {
@@ -12,6 +13,11 @@ class Game {
         this.thread = new Thread(this);
         this.bases = [];
         this.map = new Map('RaslandianDesert');
+
+        // Load technology and unit data
+        let data = DataLoader.data();
+        this.technologies = data.technologies;
+        this.units = data.units;
     }
 
     start() {
@@ -76,10 +82,29 @@ class Game {
         }
     }
 
+    get units() {
+        return this._units;
+    }
+
+    set units(units) {
+        if (units) {
+            this._units = units;
+        }
+    }
+
+    get technologies() {
+        return this._technologies;
+    }
+
+    set technologies(technologies) {
+        if (technologies) {
+            this._technologies = technologies;
+        }
+    }
+
     emit(type, message) {
         this._players.forEach(p => p.emit(type, message));
     }
 }
-
 
 module.exports = Game;

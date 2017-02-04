@@ -14,6 +14,10 @@ class Building {
         this.buildCounter = 0;
     }
 
+    upgradeTo(unit) {
+        this.unit = unit;
+    }
+
     /**
      * Attempts to create a new unit
      * @param id The troop id to use

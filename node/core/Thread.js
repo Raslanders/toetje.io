@@ -44,7 +44,17 @@ class Thread {
     updateBuildings() {
         while (!this.game.queue.isEmpty()) {
             let event = this.game.queue.pop();
-            // process
+
+            // Process event
+            let x = event.x;
+            let y = event.y;
+            let building = this.game.map.cells[x][y].building;
+            if (building) {
+                building.upgradeTo(unit);
+            } else {
+                console.error("Client requested to build a building on a non-building cell: ", x, y);
+            }
+
         }
 
         // Attempt to increase building counters
