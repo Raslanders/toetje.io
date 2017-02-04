@@ -5,7 +5,9 @@
 
 const fs = require('fs');
 const Cell = require('./Cell');
-const Building = require('./Building');
+const Building = require('../Models/Building');
+const Base = require('../Models/Base');
+const Player = require('../Models/Player');
 
 class Map {
     constructor(filename) {
@@ -24,7 +26,6 @@ class Map {
             }
             this._cells.push(cellRow);
         }
-        console.log(this._cells);
     }
 
     generateBases(players) {
@@ -42,11 +43,11 @@ class Map {
                    // If the id is the same as this cell
                    if (player.id == cell.type) {
                        // Add this building to this player
-                       if (!buildings[id]) {
-                           buildings[id] = [];
+                       if (!buildings[player.id]) {
+                           buildings[player.id] = [];
                        }
                        // Create an empty building
-                       buildings[id].push(new Building(cell, undefined, 0));
+                       buildings[player.id].push(new Building(cell, undefined, 0));
                    }
                 }
             }
@@ -69,7 +70,5 @@ class Map {
         return this._cells;
     }
 }
-
-new Map("RaslandianDesert");
 
 module.exports = Map;
