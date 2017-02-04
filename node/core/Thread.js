@@ -81,7 +81,9 @@ class Thread {
             let player = this.players[i];
             for (let k in this.troops[player.id]) {
                 let troop = this.troops[player.id][k];
-                // troop.move();
+                if (!troop.collides(this.troops)) {
+                    troop.move();
+                }
             }
         }
     }
