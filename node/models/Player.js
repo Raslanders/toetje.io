@@ -6,12 +6,17 @@
 
 
 class Player {
-    constructor(name, color) {
+    constructor(id, name, color) {
+        this._id = id;
         this._name = name;
         this._color = color;
     }
 
     // Getters
+    get id() {
+        return this._id;
+    }
+
     get name() {
         return this._name;
     }

@@ -19,6 +19,10 @@ class Lobby {
         }
     }
 
+    leave(player) {
+        console.log('player has left', player.id);
+    }
+
     start() {
         this._state = 'ingame';
         // TODO create Game
