@@ -42,6 +42,7 @@ function setup() {
     var interactive = true;
     stage = new PIXI.Container(0x66FF99, interactive);
 
+    //initialize the grid with line segments
     grid = new PIXI.Graphics();
     grid.lineStyle(2, 0xCCCCCC, 0.3);
 
@@ -56,10 +57,13 @@ function setup() {
     }
 
     grid.endFill();
-
+    //grid of linesegments is completed, add it to the stage
 
     stage.addChild(grid);
+
+
     previousMousePosition = {};
+    //draw a rectangle
     rectangle = new PIXI.Graphics();
     rectangle.lineStyle(4, 0xFF3300, 1);
     rectangle.beginFill(0x66CCFF);
@@ -69,10 +73,12 @@ function setup() {
     rectangle.y = 170;
     stage.addChild(rectangle);
 
+    //add a statistics panel
     stats = new Stats();
     stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
     document.body.appendChild( stats.dom );
 
+    //add mousedown function for dragging and clicking
     renderer.plugins.interaction.on('mousedown', function(mousedata){
         self.clickTime = +new Date();
         self.dragging = true;
@@ -80,11 +86,13 @@ function setup() {
         self.previousMousePosition.y = +mousedata.data.global.y;
         console.log(self.previousMousePosition)
     });
+    //add mouseup function for dragging and clicking
     renderer.plugins.interaction.on('mouseup', function(mousedata) {
         selectedTile = {};
         let currentTime = +new Date();
         //console.log(currentTime - self.clickTime);
         if(currentTime - self.clickTime <= 200) {
+            //if it was a short click we are not dragging but instead we wanted to select
             if(highlightingTile) {
                 selectedTile.x = +highlightingTile.x;
                 selectedTile.y = +highlightingTile.y;
@@ -96,8 +104,10 @@ function setup() {
         }
         self.dragging = false;
     });
+
     renderer.plugins.interaction.on('mousemove', function(mousedata) {
         if(self.dragging) {
+            //move the current view
             self.newOffset.x = mousedata.data.global.x - self.previousMousePosition.x;
             self.newOffset.y = mousedata.data.global.y - self.previousMousePosition.y;
             //console.log(mousedata.data.global.x);
@@ -106,6 +116,7 @@ function setup() {
             self.previousMousePosition.x = +mousedata.data.global.x;
             self.previousMousePosition.y = +mousedata.data.global.y;
         }
+        //determine coordinates based on scaling
         let coordinates = getGridCoordinates(mousedata.data.global);
         if(coordinates.x >= 0 && coordinates.y >= 0 && coordinates.x < numberOfCells && coordinates.y < numberOfCells) {
             highlightingTile = coordinates;
@@ -116,6 +127,7 @@ function setup() {
     gameLoop();
 }
 
+//main game loop
 function gameLoop() {
     stats.begin();
 
@@ -129,6 +141,7 @@ function gameLoop() {
 
 function play() {
     //console.log(self.newOffset);
+    //move the stage it it was dragged
     stage.pivot.x -= self.newOffset.x;
     stage.pivot.y -= self.newOffset.y;
     totalOffset.x += self.newOffset.x;
