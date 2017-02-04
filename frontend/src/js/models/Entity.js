@@ -4,4 +4,10 @@ class Entity {
         this.y = 0+coordinates.y;
         this.stage = stage;
     }
+
+    animate(){
+        throw new TypeError("Method animate should have been overridden");
+    }
 }
+
+module.exports = Entity;

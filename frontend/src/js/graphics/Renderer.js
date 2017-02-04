@@ -1,6 +1,7 @@
 const PIXI = require('pixi.js');
 const Stats = require('stats.js');
 const State = require('../data/State');
+const Unit = require('../models/Unit');
 
 class Renderer {
     constructor() {
@@ -24,6 +25,8 @@ class Renderer {
         this.highlightGraphics = null;
         this.selectedTile = {};
         this.selectedGraphics = null;
+
+        this.entities = [];
 
         this.renderer = PIXI.autoDetectRenderer(0,0,{antialias: true});
         this.renderer.view.style.position = "absolute";
@@ -66,7 +69,7 @@ class Renderer {
             this.previousMousePosition.y = +mousedata.data.global.y;
 
             let coordinates = this.getGridCoordinates(mousedata.data.global);
-
+            this.createUnit(coordinates);
         });
         //add mouseup function for dragging and clicking
         this.renderer.plugins.interaction.on('mouseup', mousedata => {
@@ -148,6 +151,12 @@ class Renderer {
             this.selectedGraphics.endFill();
             this.stage.addChild(this.selectedGraphics);
         }
+
+        //animate all entities
+        this.entities.forEach(function(item,index,array){
+            "use strict";
+            item.animate();
+        });
     }
 
     getMouseWithoutOffset(mousecoordinates) {
@@ -163,6 +172,15 @@ class Renderer {
         coordinates.x = Math.floor(noOffsetCoordinates.x / this.gridSize);
         coordinates.y = Math.floor(noOffsetCoordinates.y / this.gridSize);
         return coordinates;
+    }
+
+    createUnit(coordinates) {
+        this.testUnit = new Unit(this.stage, coordinates);
+
+        this.entities.push(this.testUnit);
+        let newX = coordinates.x + 0.5;
+        let newY = coordinates.y + 0.5;
+        this.testUnit.attack(newX, newY);
     }
 }
 
