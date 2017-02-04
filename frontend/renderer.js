@@ -32,7 +32,7 @@ function setup() {
 
     totalOffset.x = 0;
     totalOffset.y = 0;
-    renderer = PIXI.autoDetectRenderer();
+    renderer = PIXI.autoDetectRenderer(0,0,{antialias: true});
     renderer.view.style.position = "absolute";
     renderer.view.style.display = "block";
     renderer.autoResize = true;
@@ -64,14 +64,15 @@ function setup() {
 
     previousMousePosition = {};
     //draw a rectangle
-    rectangle = new PIXI.Graphics();
-    rectangle.lineStyle(4, 0xFF3300, 1);
-    rectangle.beginFill(0x66CCFF);
-    rectangle.drawRect(0, 0, gridSize, gridSize);
-    rectangle.endFill();
-    rectangle.x = 170;
-    rectangle.y = 170;
-    stage.addChild(rectangle);
+    // rectangle = new PIXI.Graphics();
+    // rectangle.lineStyle(4, 0xFF3300, 1);
+    // rectangle.beginFill(0x66CCFF);
+    // rectangle.drawRect(0, 0, gridSize, gridSize);
+    // rectangle.endFill();
+    // rectangle.x = 170;
+    // rectangle.y = 170;
+    // stage.addChild(rectangle);
+
 
     //add a statistics panel
     stats = new Stats();
@@ -84,7 +85,11 @@ function setup() {
         self.dragging = true;
         self.previousMousePosition.x = +mousedata.data.global.x;
         self.previousMousePosition.y = +mousedata.data.global.y;
-        console.log(self.previousMousePosition)
+
+        let coordinates = getGridCoordinates(mousedata.data.global);
+        createUnit(coordinates);
+
+        // console.log(self.previousMousePosition)
     });
     //add mouseup function for dragging and clicking
     renderer.plugins.interaction.on('mouseup', function(mousedata) {
@@ -97,7 +102,7 @@ function setup() {
                 selectedTile.x = +highlightingTile.x;
                 selectedTile.y = +highlightingTile.y;
             }
-            console.log(getGridCoordinates(mousedata.data.global));
+            // console.log(getGridCoordinates(mousedata.data.global));
             //self.createBuilding(getMouseWithoutOffset(mousedata.data.global));
         } else {
 
@@ -191,15 +196,8 @@ function getGridCoordinates(mousecoordinates) {
 
 }
 
-function createBuilding(coordinates) {
-    let building = new PIXI.Graphics();
-    building.lineStyle(4, 0xFF3300, 1);
-    building.beginFill(0x66CCFF);
-    building.drawRect(-0.5*gridSize, -0.5*gridSize, gridSize, gridSize);
-    building.endFill();
-    building.x = coordinates.x;
-    building.y = coordinates.y;
-    stage.addChild(building);
-    let bb = new Building(coordinates.x-.5*gridSize, coordinates.y-.5*gridSize);
-    bb.test();
+function createUnit(coordinates) {
+
+    let testUnit = new Unit(stage,coordinates);
+    testUnit.test();
 }
