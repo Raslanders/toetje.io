@@ -1,6 +1,7 @@
 class Entity {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
+    constructor(stage,coordinates) {
+        this.x = 0+coordinates.x;
+        this.y = 0+coordinates.y;
+        this.stage = stage;
     }
 }
