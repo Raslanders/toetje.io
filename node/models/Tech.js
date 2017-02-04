@@ -5,9 +5,10 @@
 
 
 class Tech {
-    constructor(name, description) {
+    constructor(name, description, unit) {
         this._name = name;
         this._description = description;
+        this._unit = unit;
     }
 
     // Getters
@@ -17,6 +18,10 @@ class Tech {
 
     get description() {
         return this._description;
+    }
+
+    get unit() {
+        return this._unit;
     }
 }
 

@@ -5,7 +5,8 @@
 
 
 class Building {
-    constructor(tech, level) {
+    constructor(cell, tech, level) {
+        this._cell = cell;
         this._tech = tech;
         this._level = level;
     }
@@ -33,6 +34,10 @@ class Building {
 
     get level() {
         return this._level;
+    }
+
+    get cell() {
+        return this._cell;
     }
 }
 

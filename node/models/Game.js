@@ -7,7 +7,7 @@ const Base = require('./Base')
 
 
 class Game {
-    constructor(players) {
+    constructor(players, map) {
         this._players = players;
         this._bases = [];
     }
