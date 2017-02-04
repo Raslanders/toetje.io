@@ -8,10 +8,8 @@ class Unit extends Entity {
         this.gridSize = 50;
 
         let unit = new PIXI.Graphics();
-        // unit.lineStyle(4, 0x000000, 1);
         unit.beginFill(0x66CCFF);
         unit.drawCircle((coordinates.x+0.5)*gridSize, (coordinates.y+0.5)*gridSize,gridSize/3)
-        // unit.drawRect(coordinates.x*gridSize, coordinates.y*gridSize, gridSize, gridSize);
         unit.endFill();
         stage.addChild(unit);
     }

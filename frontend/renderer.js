@@ -34,7 +34,7 @@ function setup() {
 
     totalOffset.x = 0;
     totalOffset.y = 0;
-    renderer = PIXI.autoDetectRenderer(0,0,{antialias: true});
+    renderer = PIXI.autoDetectRenderer(0,0,{antialias: true,"resolution":1});
     renderer.view.style.position = "absolute";
     renderer.view.style.display = "block";
     renderer.autoResize = true;
