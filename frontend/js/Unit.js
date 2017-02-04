@@ -89,9 +89,7 @@ class Unit extends Entity {
         //speed is defined such that in attackAnimationTicks/2 we reach the target
         let xSpeed = xDiff / (this.attackAnimationTicks / 2);
         let ySpeed = yDiff / (this.attackAnimationTicks / 2);
-        console.log(xSpeed);
         this.x = this.x + xSpeed;
-        console.log(this.x);
         this.y = this.y + ySpeed;
 
 
