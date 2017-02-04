@@ -5,7 +5,7 @@ class Tile {
     constructor(position, type) {
         this.position = position;
         this.type = type;
-        this.base = null;
+        this.building = null;
         this.troop = null;
     }
 

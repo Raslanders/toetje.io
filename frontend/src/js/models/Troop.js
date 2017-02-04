@@ -27,19 +27,6 @@ class Troop extends Entity {
 
     }
 
-    //newX,newY is the new (grid) x and y position this unit should move to
-    move(newX, newY) {
-        this.originalPosition = {x: this.x, y: this.y};
-        this.newX = 0 + newX;
-        this.newY = 0 + newY;
-    }
-
-    attack(targetX, targetY) {
-        this.targetPosition = {x: targetX, y: targetY};
-        this.originalPosition = {x: this.x, y: this.y};
-
-    }
-
     //animates the movement of the unit
     animate() {
         if (this.animateMovement()) {
