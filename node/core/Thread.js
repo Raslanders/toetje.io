@@ -25,7 +25,7 @@ class Thread {
         this.spawnTroops();
 
         // Emit result and update the token
-        // this.game.emitResult();
+        this.game.emitResult();
         this.updateToken();
 
         if (!this.stopped) {
