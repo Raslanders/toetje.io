@@ -4,7 +4,7 @@
 'use strict';
 
 
-const Troop = require('./Troop');
+const Troop = require('../Models/Troop');
 
 class Thread {
     constructor(game) {
@@ -13,7 +13,7 @@ class Thread {
     }
 
     /**
-     * @description Starts the game update thread
+     * Starts the game update thread
      */
     run() {
         this.updateCombat();
@@ -36,7 +36,7 @@ class Thread {
     }
 
     /**
-     * @description Attempts to move troops for every player, starting at the player with the token
+     * Attempts to move troops for every player, starting at the player with the token
      */
     updateTroops() {
         for (let i = this.token; i < this.players.length; i++) {
@@ -49,14 +49,14 @@ class Thread {
     }
 
     /**
-     * @description Spawns troops for each player, starting at the player with the token
+     * Spawns troops for each player, starting at the player with the token
      */
     spawnTroops() {
         for (let i = this.token; i < this.players.length; i++) {
             let player = this.players[i];
             for (let k in this.buildings[player.id]) {
                 let building = this.buildings[player.id][k];
-                let troop = building.attemptSpawn();
+                let troop = building.attemptSpawn(this.troopId(player), building.base.direction);
                 if (troop) {
                     // add new troop to game (queue?) and send to players
                 }
@@ -69,6 +69,15 @@ class Thread {
      */
     updateToken() {
         this.token++;
+    }
+
+    /**
+     * Generates the next troop id for a certain player
+     * @param player the player to generate the next id for
+     * @returns {string}
+     */
+    troopId(player) {
+        return player.id + "-" + this.troops[player.id].length;
     }
 
     // Getters and setters
