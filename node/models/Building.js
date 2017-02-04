@@ -31,7 +31,7 @@ class Building {
      */
     attemptSpawn(id, direction) {
         if (this.isBuild) {
-            return new Troop(id, this.technology.unit, this.owner, this.cell, direction);
+            return new Troop(id, this.technology.unit, this.owner, {x: this.cell.x, y: this.cell.y}, direction);
         }
     }
 

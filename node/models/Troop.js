@@ -14,6 +14,11 @@ class Troop {
         this.direction = direction;
     }
 
+    move() {
+        this.position.x += this.direction.x;
+        this.position.y += this.direction.y;
+    }
+
     collides(troops) {
         for (let p in troops) {
             let playerTroops = troops[p];
