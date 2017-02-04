@@ -14,11 +14,19 @@ class Troop {
         this.direction = direction;
     }
 
+    /**
+     * Moves this troop based on it's direction
+     */
     move() {
         this.position.x += this.direction.x;
         this.position.y += this.direction.y;
     }
 
+    /**
+     * Checks if this unit will collide with the given troops if moving
+     * @param troops The troops to check against
+     * @returns {boolean} True if it will collide, false otherwise
+     */
     collides(troops) {
         for (let p in troops) {
             let playerTroops = troops[p];
@@ -35,6 +43,11 @@ class Troop {
         return false;
     }
 
+    /**
+     * Checks if an x and y position is in range if we were to move
+     * @param position
+     * @returns {boolean}
+     */
     positionInRange(position) {
         let nx = this.position.x + this.direction.x;
         let ny = this.position.y + this.direction.y;
