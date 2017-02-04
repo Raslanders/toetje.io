@@ -1,62 +1,45 @@
+'use strict';
+
 const PIXI = require('pixi.js');
 const Stats = require('stats.js');
 const State = require('../data/State');
 const Unit = require('../models/Unit');
 const CanvasState = require('./CanvasState');
+const Globals = require('../data/Globals');
 
 class Renderer {
     constructor() {
-        this.gridSize = 50;
-        this.numberOfCells = 15;
-        this.newOffset = {};
-        this.newOffset.x = 0;
-        this.newOffset.y = 0;
+        this.state = new State();
+        this.canvasState = new CanvasState();
 
-        this.totalOffset = {};
-        this.totalOffset.x = 0;
-        this.totalOffset.y = 0;
-
-        this.previousMousePosition = {};
-
-        this.clickTime = null;
-
-        this.dragging = false;
-
-        this.highlightingTile = {};
-        this.highlightGraphics = null;
-        this.selectedTile = {};
-        this.selectedGraphics = null;
-
-        this.entities = [];
-
-        this.renderer = PIXI.autoDetectRenderer(0,0,{antialias: true});
+        this.renderer = PIXI.autoDetectRenderer(0,0, { antialias: true } );
         this.renderer.view.style.position = "absolute";
         this.renderer.view.style.display = "block";
         this.renderer.autoResize = true;
         this.renderer.resize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.view);
 
-        var interactive = true;
-        this.stage = new PIXI.Container(0x66FF99, interactive);
+        //Create new PIXI container in interactive mode
+        this.stage = new PIXI.Container(0x66FF99, true);
 
         //initialize the grid with line segments
         this.grid = new PIXI.Graphics();
         this.grid.lineStyle(2, 0xCCCCCC, 0.3);
 
-        for(let i = 0; i < this.numberOfCells + 1; i++) {
-            this.grid.moveTo(0, i*this.gridSize);
-            this.grid.lineTo(this.numberOfCells*this.gridSize,i*this.gridSize);
+        for(let i = 0; i < Globals.gridWidth + 1; i++) {
+            this.grid.moveTo(i * Globals.cellWidth, 0);
+            this.grid.lineTo(i * Globals.cellWidth, Globals.cellHeight * Globals.gridHeight);
         }
 
-        for(let j = 0; j < this.numberOfCells + 1; j++) {
-            this.grid.moveTo(j*this.gridSize, 0);
-            this.grid.lineTo(j*this.gridSize, this.numberOfCells * this.gridSize);
+        for(let j = 0; j < Globals.gridHeight + 1; j++) {
+            this.grid.moveTo(0, j * Globals.cellHeight);
+            this.grid.lineTo(Globals.cellWidth * Globals.gridWidth, j * Globals.cellHeight);
         }
-
         this.grid.endFill();
-        //grid of linesegments is completed, add it to the stage
 
+        //grid of linesegments is completed, add it to the stage
         this.stage.addChild(this.grid);
+
         //add a statistics panel
         this.statsPanel = new Stats();
         this.statsPanel.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
@@ -64,47 +47,16 @@ class Renderer {
 
         //add mousedown function for dragging and clicking
         this.renderer.plugins.interaction.on('mousedown', mousedata => {
-            this.clickTime = +new Date();
-            this.dragging = true;
-            this.previousMousePosition.x = +mousedata.data.global.x;
-            this.previousMousePosition.y = +mousedata.data.global.y;
-
-            let coordinates = this.getGridCoordinates(mousedata.data.global);
-            this.createUnit(coordinates);
+            this.canvasState.handleMouseDown(mousedata);
         });
         //add mouseup function for dragging and clicking
         this.renderer.plugins.interaction.on('mouseup', mousedata => {
-            this.selectedTile = {};
-            let currentTime = +new Date();
-            if(currentTime - this.clickTime <= 200) {
-                //if it was a short click we are not dragging but instead we wanted to select
-                if(this.highlightingTile) {
-                    this.selectedTile.x = +this.highlightingTile.x;
-                    this.selectedTile.y = +this.highlightingTile.y;
-                }
-            }
-            this.dragging = false;
+            this.canvasState.handleMouseUp(mousedata);
         });
 
         this.renderer.plugins.interaction.on('mousemove', mousedata => {
-            if(this.dragging) {
-                //move the current view
-                this.newOffset.x = mousedata.data.global.x - this.previousMousePosition.x;
-                this.newOffset.y = mousedata.data.global.y - this.previousMousePosition.y;
-
-                this.previousMousePosition.x = +mousedata.data.global.x;
-                this.previousMousePosition.y = +mousedata.data.global.y;
-            }
-            //determine coordinates based on scaling
-            let coordinates = this.getGridCoordinates(mousedata.data.global);
-            if(coordinates.x >= 0 && coordinates.y >= 0 && coordinates.x < this.numberOfCells && coordinates.y < this.numberOfCells) {
-                this.highlightingTile = coordinates;
-            } else {
-                this.highlightingTile = {};
-            }
+            this.canvasState.handleMouseMove(mousedata);
         });
-
-        this.state = new State();
 
         this.gameLoop();
     }
@@ -121,76 +73,39 @@ class Renderer {
     }
 
     drawState() {
-        if(this.newOffset.x) {
-            this.stage.pivot.x -= this.newOffset.x;
-            this.totalOffset.x += this.newOffset.x;
-            this.newOffset.x = 0;
-        }
-        if(this.newOffset.y) {
-            this.stage.pivot.y -= this.newOffset.y;
-            this.totalOffset.y += this.newOffset.y;
-            this.newOffset.y = 0;
-        }
+        this.canvasState.handleCamera(this.stage);
+        let hoverTile = this.canvasState.getHoverTile();
+        let selectedTile = this.canvasState.getSelectedTile();
 
+        let hoverGraphic = this.canvasState.getHoverGraphic();
+        let selectedGraphic = this.canvasState.getSelectedGraphic();
 
-
-        if(this.highlightGraphics && !this.highlightingTile) {
-            this.highlightGraphics.destroy();
-            this.stage.removeChild(this.highlightGraphics);
+        if(hoverGraphic) {
+            hoverGraphic.destroy();
+            this.stage.removeChild(hoverGraphic);
         }
-        if(this.highlightingTile) {
-            this.highlightGraphics = new PIXI.Graphics();
-            this.highlightGraphics.lineStyle(4, 0xFF3300, 1);
-            this.highlightGraphics.drawRect(this.highlightingTile.x*this.gridSize, this.highlightingTile.y*this.gridSize, this.gridSize, this.gridSize);
-            this.highlightGraphics.endFill();
-            this.stage.addChild(this.highlightGraphics);
+        if(hoverTile) {
+            this.canvasState.hoverGraphic = new PIXI.Graphics();
+            hoverGraphic = this.canvasState.getHoverGraphic();
+            hoverGraphic.lineStyle(4, 0xFF3300, 1);
+            hoverGraphic.drawRect(hoverTile.x * Globals.cellWidth, hoverTile.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight);
+            hoverGraphic.endFill();
+            this.stage.addChild(hoverGraphic);
         }
 
-        if(this.selectedGraphics && !this.selectedTile) {
-            this.selectedGraphics.destroy();
-            this.stage.removeChild(this.selectedGraphics);
+        if(selectedGraphic) {
+            selectedGraphic.destroy();
+            this.stage.removeChild(selectedGraphic);
         }
 
-        if(this.selectedTile) {
-            this.selectedGraphics = new PIXI.Graphics();
-            this.selectedGraphics.lineStyle(4, 0x33FF00, 1);
-            this.selectedGraphics.drawRect(this.selectedTile.x*this.gridSize, this.selectedTile.y*this.gridSize, this.gridSize, this.gridSize);
-            this.selectedGraphics.endFill();
-            this.selectedGraphics.selectedTile = {};
-            this.selectedGraphics.selectedTile.x = this.selectedTile.x;
-            this.selectedGraphics.selectedTile.y = this.selectedTile.y;
-            this.stage.addChild(this.selectedGraphics);
+        if(selectedTile) {
+            this.canvasState.selectedGraphic = new PIXI.Graphics();
+            selectedGraphic = this.canvasState.getSelectedGraphic();
+            selectedGraphic.lineStyle(4, 0x33FF00, 1);
+            selectedGraphic.drawRect(selectedTile.x * Globals.cellWidth, selectedTile.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight);
+            selectedGraphic.endFill();
+            this.stage.addChild(selectedGraphic);
         }
-
-        //animate all entities
-        this.entities.forEach(function(item,index,array){
-            "use strict";
-            item.animate();
-        });
-    }
-
-    getMouseWithoutOffset(mousecoordinates) {
-        let coordinates = {};
-        coordinates.x = mousecoordinates.x - this.totalOffset.x;
-        coordinates.y = mousecoordinates.y - this.totalOffset.y;
-        return coordinates;
-    }
-
-    getGridCoordinates(mousecoordinates) {
-        let noOffsetCoordinates = this.getMouseWithoutOffset(mousecoordinates);
-        let coordinates = {};
-        coordinates.x = Math.floor(noOffsetCoordinates.x / this.gridSize);
-        coordinates.y = Math.floor(noOffsetCoordinates.y / this.gridSize);
-        return coordinates;
-    }
-
-    createUnit(coordinates) {
-        this.testUnit = new Unit(this.stage, coordinates);
-
-        this.entities.push(this.testUnit);
-        let newX = coordinates.x + 0.5;
-        let newY = coordinates.y + 0.5;
-        this.testUnit.attack(newX, newY);
     }
 }
 
