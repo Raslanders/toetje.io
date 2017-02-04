@@ -22,6 +22,10 @@ class Game {
         let base = new Base(-1, {x: 0, y: 0});
         this._bases.push(base);
     }
+
+    emitResult() {
+        this._players.forEach(p => p.emit());
+    }
 }
 
 

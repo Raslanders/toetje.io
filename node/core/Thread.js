@@ -15,8 +15,13 @@ class Thread {
         this.updateUnits();
         this.spawnUnits();
         console.log('game tick', this);
+        this.emitResult();
 
         setTimeout(this.run.bind(this), 1000);
+    }
+
+    emitResult() {
+        this.game.emitResult();
     }
 
     updateCombat() {

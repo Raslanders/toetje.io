@@ -8,7 +8,7 @@ var l = new Lobby();
 var playerIndex = 0;
 
 io.on('connection', function(client){
-    var p = new Player(playerIndex, `henk${playerIndex}`);
+    var p = new Player(client, playerIndex, `henk${playerIndex}`);
     playerIndex++;
     l.enter(p);
     client.on('event', function(){});

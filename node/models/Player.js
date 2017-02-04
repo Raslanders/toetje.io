@@ -24,6 +24,10 @@ class Player {
     get client() {
         return this._client;
     }
+
+    emit() {
+        console.log('emit for player', this._id, this._name);
+    }
 }
 
 
