@@ -4,7 +4,7 @@
 'use strict';
 
 
-const Troop = require('../Models/Troop');
+const Troop = require('../models/Troop');
 
 class Thread {
     constructor(game) {

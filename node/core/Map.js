@@ -5,8 +5,8 @@
 
 const fs = require('fs');
 const Cell = require('./Cell');
-const Building = require('../Models/Building');
-const Base = require('../Models/Base');
+const Building = require('../models/Building');
+const Base = require('../models/Base');
 
 class Map {
     constructor(filename) {
@@ -46,7 +46,9 @@ class Map {
                            buildings[player.id] = [];
                        }
                        // Create an empty building
-                       buildings[player.id].push(new Building(cell, undefined, 0));
+                       let building = new Building(cell, undefined, 0, player);
+                       buildings[player.id].push(building);
+                       cell.building = building;
                    }
                 }
             }
@@ -67,6 +69,14 @@ class Map {
     // Getters & setters
     get cells() {
         return this._cells;
+    }
+
+    get view() {
+      return this._cells.map(col => {
+        return col.map(cell => {
+          return cell.view
+        });
+      });
     }
 }
 

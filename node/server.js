@@ -5,7 +5,7 @@ var Lobby = require('./core/Lobby');
 var Player = require('./models/Player');
 
 var l = new Lobby();
-var playerIndex = 0;
+var playerIndex = 1;
 
 io.on('connection', function(client){
     var p = new Player(client, playerIndex, `henk${playerIndex}`);

@@ -7,10 +7,11 @@
 const Troop = require('./Troop');
 
 class Building {
-    constructor(cell, unit) {
+    constructor(cell, unit, player) {
         this.cell = cell;
         this.unit = unit;
         this.counter = 0;
+        this.owner = player
     }
 
     /**

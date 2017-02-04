@@ -10,13 +10,14 @@ class Game {
     constructor(players) {
         this.players = players;
         this.thread = new Thread(this);
-        this.map = new Map("RaslandianDesert");
+        this.bases = [];
+        this.map = new Map('RaslandianDesert');
     }
 
     start() {
         console.log('Generating bases for players');
         this.bases = this.map.generateBases(this.players);
-        console.log("Starting game");
+        this.emit('start', this.map.view);
         this.thread.run();
     }
 
@@ -73,6 +74,10 @@ class Game {
         if (troops) {
             this._troops = troops;
         }
+    }
+
+    emit(type, message) {
+        this._players.forEach(p => p.emit(type, message));
     }
 }
 
