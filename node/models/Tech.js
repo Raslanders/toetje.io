@@ -23,6 +23,10 @@ class Tech {
     get unit() {
         return this._unit;
     }
+
+    get spawn() {
+
+    }
 }
 
 

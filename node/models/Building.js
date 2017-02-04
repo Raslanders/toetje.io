@@ -6,13 +6,22 @@
 
 class Building {
     constructor(cell, tech, level) {
-        this._cell = cell;
-        this._tech = tech;
-        this._level = level;
+        this.cell = cell;
+        this.tech = tech;
+        this.level = level;
+        this.counter = 0;
     }
 
     increaseLevel() {
-        this.level(this._level + 1);
+        this.level++;
+    }
+
+    attemptSpawn() {
+        if (this.canSpawn) {
+            // create troop
+        } else {
+            return false;
+        }
     }
 
     // Getters & Setters
@@ -38,6 +47,26 @@ class Building {
 
     get cell() {
         return this._cell;
+    }
+
+    set cell(cell) {
+        if (cell) {
+            this._cell = cell;
+        }
+    }
+
+    get counter() {
+        return this._counter;
+    }
+
+    set counter(counter) {
+        if (counter) {
+            this._counter = counter;
+        }
+    }
+
+    get canSpawn() {
+        return this.counter >= this.tech.spawnTime;
     }
 }
 
