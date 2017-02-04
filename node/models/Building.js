@@ -4,35 +4,63 @@
 'use strict';
 
 
+const Troop = require('./Troop');
+
 class Building {
-    constructor(tech, level) {
-        this._tech = tech;
-        this._level = level;
+    constructor(cell, unit) {
+        this.cell = cell;
+        this.unit = unit;
+        this.counter = 0;
     }
 
-    increaseLevel() {
-        this.level(this._level + 1);
+    /**
+     * Attempts to create a new unit
+     * @param id The troop id to use
+     * @param direction The direction this troop should walk towards
+     * @returns returns troop if it can, undefined otherwise
+     */
+    attemptSpawn(id, direction) {
+        if (this.canSpawn) {
+            this.counter = 0;
+            return new Troop(id, this.unit, this.owner, this.cell, direction);
+        } else {
+            this.counter++;
+        }
     }
 
     // Getters & Setters
-    set tech(tech) {
-        if (tech) {
-            this._tech = tech;
+    set unit(unit) {
+        if (unit) {
+            this._unit = unit;
         }
     }
 
-    get tech() {
-        return this._tech;
+    get unit() {
+        return this._unit;
     }
 
-    set level(level) {
-        if (level) {
-            this._level = level;
+    get cell() {
+        return this._cell;
+    }
+
+    set cell(cell) {
+        if (cell) {
+            this._cell = cell;
         }
     }
 
-    get level() {
-        return this._level;
+    get counter() {
+        return this._counter;
+    }
+
+    set counter(counter) {
+        if (counter) {
+            this._counter = counter;
+        }
+    }
+
+    get canSpawn() {
+        return this.counter >= this.tech.spawnTime;
     }
 }
 

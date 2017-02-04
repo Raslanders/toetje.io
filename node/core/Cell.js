@@ -5,14 +5,26 @@
 
 class Cell {
     constructor(x, y, type) {
-        this._x = x;
-        this._y = y;
+        this.x = x;
+        this.y = y;
         this._type = type;
     }
 
-    // Getters
+    // Getters & setters
     get x() {
         return this._x;
+    }
+
+    set x(x) {
+        if (x) {
+            this._x = +x;
+        }
+    }
+
+    set y(y) {
+        if (y) {
+            this._y = +y;
+        }
     }
 
     get y() {

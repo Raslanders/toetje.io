@@ -3,12 +3,12 @@
  */
 'use strict';
 
-const Thread = require('./Thread');
+const Game = require('../models/Game');
 
 class Lobby {
     constructor() {
         this._state = 'lobby';
-        this._thread = null;
+        this._game = null;
         this._players = [];
     }
 
@@ -19,11 +19,16 @@ class Lobby {
         }
     }
 
+    leave(player) {
+        console.log('player has left', player.id);
+    }
+
     start() {
+        console.log('Lobby.start');
         this._state = 'ingame';
         // TODO create Game
-        // Start Thread with Game
-        console.log('game starting');
+        this._game = new Game(this._players);
+        this._game.start();
     }
 }
 

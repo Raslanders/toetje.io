@@ -6,18 +6,27 @@
 
 
 class Player {
-    constructor(name, color) {
+    constructor(client, id, name) {
+        this._client = client;
+        this._id = id;
         this._name = name;
-        this._color = color;
     }
 
     // Getters
+    get id() {
+        return this._id;
+    }
+
     get name() {
         return this._name;
     }
 
-    get color() {
-        return this._color;
+    get client() {
+        return this._client;
+    }
+
+    emit() {
+        this._client.emit('tick', {});
     }
 }
 

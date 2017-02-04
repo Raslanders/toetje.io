@@ -5,10 +5,10 @@
 
 
 class Base {
-    constructor(owner, position, buildings) {
+    constructor(owner, buildings, lanes) {
         this._owner = owner;
-        this._position = position;
         this._buildings = buildings || [];
+        this._lanes = lanes || [];
     }
 
     // Getters & Setters

@@ -5,18 +5,45 @@
 
 
 class Unit {
-    constructor(tech, properties) {
-        this._tech = tech;
-        this._properties = properties;
+    constructor(technology, name, stats) {
+        this.technology = technology;
+        this.name = name;
+        this.stats = stats;
     }
 
     // Getters
-    get tech() {
-        return this._tech;
+    get technology() {
+        return this._technology;
     }
 
-    get properties() {
-        return this._properties;
+    set technology(technology) {
+        if (technology) {
+            this._technology = technology;
+        }
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    set name(name) {
+        if (name) {
+            this._name = name;
+        }
+    }
+
+    get stats() {
+        return this._stats;
+    }
+
+    set stats(stats) {
+        if (stats) {
+            this._stats = stats;
+        }
+    }
+
+    get spawnTime() {
+        return this.stats.spawnTime || 10;
     }
 }
 
