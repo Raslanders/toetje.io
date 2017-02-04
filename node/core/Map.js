@@ -7,7 +7,6 @@ const fs = require('fs');
 const Cell = require('./Cell');
 const Building = require('../Models/Building');
 const Base = require('../Models/Base');
-const Player = require('../Models/Player');
 
 class Map {
     constructor(filename) {
