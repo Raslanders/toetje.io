@@ -21,8 +21,8 @@ class Thread {
         // Update
         // this.updateCombat();
         this.updateBuildings();
-        // this.updateTroops();
-        // this.spawnTroops();
+        this.updateTroops();
+        this.spawnTroops();
 
         // Emit result and update the token
         // this.game.emitResult();
@@ -70,6 +70,7 @@ class Thread {
             for (let k in this.buildings[player.id]) {
                 let building = this.buildings[player.id][k];
                 if (!building.isBuild) {
+                    console.log("Building...", building.buildCounter, building.technology.buildTime)
                     building.buildCounter++;
                 }
             }
@@ -86,6 +87,7 @@ class Thread {
                 let troop = this.troops[player.id][k];
                 if (!troop.collides(this.troops)) {
                     troop.move();
+                    console.log("Moved unit", troop.id, "to", [troop.position.x, troop.position.y]);
                 }
             }
         }
@@ -96,7 +98,7 @@ class Thread {
      */
     spawnTroops() {
         this.waveCounter++;
-        if (this.waveCounter >= 100) {
+        if (this.waveCounter >= 2) {
             // Spawn the wave
             for (let i = this.token; i < this.players.length; i++) {
                 let player = this.players[i % this.players.length];
@@ -105,6 +107,7 @@ class Thread {
                     let troop = building.attemptSpawn(this.troopId(player), building.base.direction);
                     if (troop) {
                         // add new troop to game (queue?) and send to players
+                        console.log("New unit for player: ", player.id, "at", [troop.position.x, troop.position.y]);
                     }
                 }
             }

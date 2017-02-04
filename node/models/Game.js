@@ -12,13 +12,20 @@ class Game {
         this.queue = [];
         this.players = players;
         this.thread = new Thread(this);
-        this.buildings = [];
         this.map = new Map('RaslandianDesert');
 
         // Load technology and unit data
         let data = DataLoader();
         this.technologies = data.technologies;
         this.units = data.units;
+
+        this.buildings = {};
+        this.troops = {};
+        for (let k in this.players) {
+            let player = this.players[k];
+            this.buildings[player.id] = [];
+            this.troops[player.id] = [];
+        }
     }
 
     start() {
@@ -26,7 +33,7 @@ class Game {
         this.bases = this.map.generateBases(this.players);
         for (let k in this.bases) {
             let base = this.bases[k];
-            this.buildings.push(base.buildings);
+            this.buildings[base.owner.id].push(...base.buildings);
         }
 
         // Make sure you don't emit too early
@@ -115,6 +122,16 @@ class Game {
     set technologies(technologies) {
         if (technologies) {
             this._technologies = technologies;
+        }
+    }
+
+    get buildings() {
+        return this._buildings;
+    }
+
+    set buildings(buildings) {
+        if (buildings) {
+            this._buildings = buildings;
         }
     }
 

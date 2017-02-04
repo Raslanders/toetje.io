@@ -30,7 +30,7 @@ class Building {
      * @returns returns troop if it can, undefined otherwise
      */
     attemptSpawn(id, direction) {
-        if (this.isBuild) {
+        if (this.isBuild && this.technology) {
             return new Troop(id, this.technology.unit, this.owner, {x: this.cell.x, y: this.cell.y}, direction);
         }
     }
@@ -52,6 +52,7 @@ class Building {
 
     set technology(technology) {
         if (technology) {
+            console.log("New tech!", technology, this);
             this._technology = technology;
         }
     }
@@ -66,14 +67,22 @@ class Building {
         }
     }
 
+    get base() {
+        return this._base;
+    }
+
+    set base(base) {
+        if (base) {
+            this._base = base;
+        }
+    }
+
     get buildCounter() {
         return this._buildCounter;
     }
 
     set buildCounter(buildCounter) {
-        if (buildCounter) {
-            this._buildCounter = buildCounter;
-        }
+        this._buildCounter = buildCounter;
     }
 
     get isBuild() {
