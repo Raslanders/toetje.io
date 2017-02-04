@@ -46,7 +46,7 @@ class Map {
                            buildings[player.id] = [];
                        }
                        // Create an empty building
-                       let building = new Building(cell, undefined, 0, player);
+                       let building = new Building(cell, undefined, player);
                        buildings[player.id].push(building);
                        cell.building = building;
                    }

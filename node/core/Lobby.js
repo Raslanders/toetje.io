@@ -55,6 +55,10 @@ class Lobby {
             this.game = null;
         }
     }
+
+    handleMessage(message) {
+
+    }
 }
 
 

@@ -9,10 +9,11 @@ var l = new Lobby();
 io.on('connection', function(client){
     var p = new Player(client);
     l.enter(p);
-    client.on('event', function(){});
+    client.on('event', l.handleMessage);
     client.on('disconnect', () => {
         l.leave(p);
     });
 });
+
 
 server.listen(3000);

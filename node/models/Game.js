@@ -27,7 +27,8 @@ class Game {
         // Make sure you don't emit too early
         // Socket.io fucks something up
         setTimeout(() => {
-            this.emit('start', this.map.view);
+            // Send bootstrap data to client
+            this.bootstrap();
             this.thread.run();
         }, 500);
     }
@@ -110,6 +111,15 @@ class Game {
         if (technologies) {
             this._technologies = technologies;
         }
+    }
+
+    bootstrap() {
+        this.players.forEach(p => {
+            p.emit('start', {
+                playerId: p.id,
+                map: this.map.view,
+            });
+        });
     }
 
     emit(type, message) {

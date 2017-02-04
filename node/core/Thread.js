@@ -19,14 +19,14 @@ class Thread {
      */
     run() {
         // Update
-        this.updateCombat();
-        this.updateBuildings();
-        this.updateTroops();
-        this.spawnTroops();
+        // this.updateCombat();
+        // this.updateBuildings();
+        // this.updateTroops();
+        // this.spawnTroops();
 
         // Emit result and update the token
-        this.game.emitResult();
-        this.updateToken();
+        // this.game.emitResult();
+        // this.updateToken();
 
         if (!this.stopped) {
             setTimeout(this.run.bind(this), 1000);

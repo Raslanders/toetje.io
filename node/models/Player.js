@@ -21,7 +21,7 @@ class Player {
     }
 
     emit(type = 'tick', message = {}) {
-        this._client.emit(type, message);
+        this.client.emit(type, message);
     }
 }
 
