@@ -17,6 +17,7 @@ class Building extends Entity {
     constructor() {
         super();
         this.isEmpty = true;
+        this.tile = null;
     }
 
     render(stage, renderer, position) {
