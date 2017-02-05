@@ -2,9 +2,7 @@
 const socket = require('socket.io-client')('localhost:3000');
 const Renderer = require('./graphics/Renderer');
 
-let game = new Renderer();
-
-game = new Renderer(document.getElementsByClassName("pixi-view")[0]);
+let game = new Renderer(document.getElementsByClassName("pixi-view")[0]);
 socket.on('start', (data) => {
     game.state.socket = socket;
 

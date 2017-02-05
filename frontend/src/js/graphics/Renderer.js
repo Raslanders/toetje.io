@@ -26,8 +26,6 @@ class Renderer {
             this.renderer.resize(container.offsetWidth, container.offsetHeight);
         };
 
-
-
         //Create new PIXI container in interactive mode
         this.stage = new PIXI.Container(0x66FF99, true);
 
