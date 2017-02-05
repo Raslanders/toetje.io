@@ -63,7 +63,7 @@ class Troop extends Entity {
         }
 
         //unit is not dead
-        if (this.x != this.newX && this.y != this.newY) {
+        if (this.x != this.newX || this.y != this.newY) {
             //end laser rendering if it was still busy
             this.endLaser();
             //show animation movement
