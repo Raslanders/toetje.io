@@ -156,11 +156,11 @@ class Troop extends Entity {
         }
         // Graphics
         const graphics = new PIXI.Graphics();
-        if (this.owner == 2) {
-            graphics.lineStyle(2, 0xFF4136);
-        }
         if (this.owner == 1) {
             graphics.lineStyle(2, 0x66CCFF);
+        }
+        if (this.owner == 2) {
+            graphics.lineStyle(2, 0xFF4136);
         }
         if (this.owner == 4) {
             graphics.lineStyle(2, 0xFFDC00);
