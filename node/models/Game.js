@@ -35,7 +35,9 @@ class Game {
             let base = this.bases[k];
             this.buildings[base.owner.id].push(...base.buildings);
         }
-
+        for (let player of this.players) {
+            player.resource = 0;
+        }
         console.log('Game start');
         // Send bootstrap data to client
         this.bootstrap();

@@ -21,6 +21,7 @@ class Thread {
     run() {
         // Update
         this.prepareTick();
+        this.updateResources();
         this.updateCombat();
         this.updateBuildings();
         this.updateTroops();
@@ -42,6 +43,7 @@ class Thread {
         this.mutation = {
             troop: [],
             building: [],
+            resources: [],
         };
     }
 
@@ -122,11 +124,22 @@ class Thread {
     }
 
     /**
+     * Increases the player resources;
+     */
+    updateResources() {
+        for (let i = this.token; i < this.players.length + this.token; i++) {
+            let player = this.players[i % this.players.length];
+            player.resource += Math.pow(2, Math.floor(this.waveCounter / 10));
+            this.mutation.resources.push(player.view);
+        }
+    }
+
+    /**
      * Spawns troops for each player, starting at the player with the token
      */
     spawnTroops() {
         this.waveCounter++;
-        if (this.waveCounter >= 10) {
+        if (this.waveCounter % 11 == 10) {
             // Spawn the wave
             for (let i = this.token; i < this.players.length + this.token; i++) {
                 let player = this.players[i % this.players.length];
@@ -140,9 +153,6 @@ class Thread {
                     }
                 }
             }
-
-            // Reset the counter
-            this.waveCounter = 0;
         }
     }
 

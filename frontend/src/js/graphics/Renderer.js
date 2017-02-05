@@ -145,7 +145,7 @@ class Renderer {
     handleInput() {
         let canvasDblClick = this.canvasState.getDblClick();
         if(canvasDblClick) {
-            this.state.createBuilding(canvasDblClick.x, canvasDblClick.y, 1);
+            this.state.createBuilding(canvasDblClick.x, canvasDblClick.y);
         }
     }
 }

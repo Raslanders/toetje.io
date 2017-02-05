@@ -37,47 +37,19 @@ class Building extends Entity {
     }
 
     get displayObject() {
-        if (this._sprite) {
-            return this._sprite;
+        if (this.sprite) {
+            return this.sprite;
         }
 
-        const graphics = new PIXI.Graphics();
-        if (this.owner == 1) {
-            graphics.beginFill(0xFF4136);
-        }
-        if (this.owner == 2) {
-            graphics.beginFill(0x66CCFF);
-        }
-        if (this.owner == 3) {
-            graphics.beginFill(0xFFDC00);
-        }
-        if (this.owner == 4) {
-            graphics.beginFill(0x2ECC40);
+        const sprite = PIXI.Sprite.fromImage('static/building_dps.png');
 
-        }
+        // Hardcode the scaling for now
+        const scale = Globals.cellWidth / Globals.spriteSize
+        sprite.scale.x = scale;
+        sprite.scale.y = scale;
 
-
-        graphics.moveTo(Globals.cellWidth * 0.5, 0);
-        graphics.lineTo(0, 0);
-        graphics.lineTo(0, Globals.cellHeight * 0.5);
-
-        graphics.moveTo(Globals.cellWidth * 0.5, 0);
-        graphics.lineTo(Globals.cellWidth, 0);
-        graphics.lineTo(Globals.cellWidth, Globals.cellHeight * 0.5);
-
-        graphics.moveTo(0, Globals.cellHeight * 0.5);
-        graphics.lineTo(0, Globals.cellHeight);
-        graphics.lineTo(Globals.cellWidth * 0.5, Globals.cellHeight);
-
-        graphics.moveTo(Globals.cellWidth * 0.5, Globals.cellHeight);
-        graphics.lineTo(Globals.cellWidth, Globals.cellHeight);
-        graphics.lineTo(Globals.cellWidth, Globals.cellHeight * 0.5);
-
-        graphics.endFill();
-
-        const texture = this.renderer.generateTexture(graphics);
-        this._sprite = new PIXI.Sprite(texture);
-        return this._sprite;
+        this.sprite = sprite;
+        return sprite;
     }
 
     set displayObject(displayObject) {

@@ -7,6 +7,7 @@ class Globals {
         }
         this.cellWidth = 50;
         this.cellHeight = 50;
+        this.spriteSize = 256;
         this.gridWidth = 15;
         this.gridHeight = 15;
 

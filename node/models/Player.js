@@ -9,10 +9,18 @@ class Player {
         this.client = client;
         this.name = name;
         this.ready = false;
+        this.resource = 0;
     }
 
     emit(type, message) {
         this.client.emit(type, message);
+    }
+
+    get view() {
+        return {
+            id: this.id,
+            resource: this.resource,
+        };
     }
 }
 
