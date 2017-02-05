@@ -118,10 +118,14 @@ class Troop extends Entity {
         if (this._sprite) {
             return this._sprite;
         }
+        // Graphics
         const graphics = new PIXI.Graphics();
 
-        graphics.beginFill(0x66CCFF);
+        graphics.lineStyle(2, 0x66CCFF);
         graphics.drawCircle(0.5 * this.gridSize, 0.5 * this.gridSize, this.gridSize / 3);
+        graphics.lineStyle(.5, 0xFFF);
+        graphics.drawCircle(0.5 * this.gridSize, 0.5 * this.gridSize, this.gridSize / 3 + 1);
+        graphics.drawCircle(0.5 * this.gridSize, 0.5 * this.gridSize, this.gridSize / 3 - 1);
         graphics.endFill();
         graphics.antiAlias = true;
 

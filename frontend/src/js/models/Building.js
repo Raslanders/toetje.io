@@ -44,9 +44,6 @@ class Building extends Entity {
 
         graphics.beginFill(0xfdb462);
 
-        graphics.moveTo(0,0);
-        graphics.moveTo(this.gridSize * 2, 0);
-        graphics.moveTo(0, this.gridSize * 2);
         graphics.moveTo(this.gridSize * 0.5, 0);
         graphics.lineTo(0, 0);
         graphics.lineTo(0, this.gridSize * 0.5);

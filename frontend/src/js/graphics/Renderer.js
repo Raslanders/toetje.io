@@ -61,9 +61,10 @@ class Renderer {
             this.canvasState.handleMouseMove(mousedata);
         });
 
-        this.building = new Building(this.stage, this.renderer, {x: 50, y: 50});
-        this.building2 = new Building(this.stage, this.renderer, {x: 100, y: 250});
-        this.unit = new Unit(this.stage, this.renderer, {x: 50, y: 250});
+        this.building = new Building();
+        this.unit = new Unit();
+        this.building.render(this.stage, this.renderer, {x: 50, y: 50});
+        this.unit.render(this.stage, this.renderer, {x: 50, y: 250});
 
         this.gameLoop();
     }
