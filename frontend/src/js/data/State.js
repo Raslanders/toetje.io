@@ -8,8 +8,9 @@ class State {
     constructor() {
         this.gameState = 'lobby';
         this.map = new Map();
-        this.troops = {};
         this.socket = null;
+        this.techTree = [];
+        this.troops = {};
     }
 
     createBuilding(x, y, technologyId) {
