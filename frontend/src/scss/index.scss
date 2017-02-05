@@ -1,3 +1,89 @@
+@import "variables";
+@import "spinner";
+
+body, html {
+    margin: 0;
+    height: 100%
+}
+
 body {
-    margin: 0px;
+    background-color: #111;
+}
+
+.container--maxheight {
+    height: 100%;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.container--center {
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.lobby {
+    text-align: center;
+    color: $primary-color;
+}
+
+.container {
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.hidden {
+    display: none;
+}
+
+.sidebar {
+    border-left: 1px solid fuchsia;
+    color: $primary-color;
+    padding: 10px;
+}
+
+.initial {
+    -webkit-flex: initial;
+    flex: initial;
+    width: 200px;
+    min-width: 100px;
+}
+.flex1 {
+    -webkit-flex: 1;
+    flex: 1;
+}
+.flex2 {
+    -webkit-flex: 2;
+    flex: 2;
+}
+.flex3 {
+    -webkit-flex: 3;
+    flex: 3;
+}
+
+.building {
+    width: 40%;
+    height: 80px;
+    margin: 1%;
+    padding: 1px;
+    border: 1px solid transparent;
+    &.active {
+        border: 1px solid green;
+    }
+    .image {
+        background: red;
+        height: 60px;
+    }
+    .name {
+        height: 10px;
+        border-top: 1px solid #fff;
+    }
+}
+
+.building:hover {
+    border: 1px solid #fff;
 }

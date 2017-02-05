@@ -9,7 +9,7 @@ const CanvasState = require('./CanvasState');
 const Globals = require('../data/Globals');
 
 class Renderer {
-    constructor() {
+    constructor(container) {
         this.state = new State();
         this.canvasState = new CanvasState();
 
@@ -19,10 +19,12 @@ class Renderer {
         this.renderer.view.style.position = "absolute";
         this.renderer.view.style.display = "block";
         this.renderer.autoResize = true;
-        this.renderer.resize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(this.renderer.view);
+        this.renderer.resize(container.offsetWidth, container.offsetHeight);
+        container.appendChild(this.renderer.view);
 
-
+        window.onresize = event => {
+            this.renderer.resize(container.offsetWidth, container.offsetHeight);
+        };
 
         //Create new PIXI container in interactive mode
         this.stage = new PIXI.Container(0x66FF99, true);
@@ -72,7 +74,6 @@ class Renderer {
 
         this.gameLoop();
     }
-
     gameLoop() {
         this.statsPanel.begin();
 

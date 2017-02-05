@@ -1,11 +1,11 @@
 //var socket = require('socket.io-client')('localhost:3000');
-var socket = require('socket.io-client')('localhost:3000');
-var Renderer = require('./graphics/Renderer');
+const socket = require('socket.io-client')('localhost:3000');
+const Renderer = require('./graphics/Renderer');
 
-var game = new Renderer();
-
+let game = new Renderer(document.getElementsByClassName("pixi-view")[0]);
 socket.on('start', (data) => {
     game.state.socket = socket;
+
     // Parse mapdata
     game.state.map.parse(data.map);
     game.state.techTree = data.techTree;
@@ -20,7 +20,7 @@ socket.on('tick', (data) => {
 
 socket.on('join', msg => {
     console.log(msg);
-})
+});
 
 socket.on('stop', () => {
     game.state.stop();
