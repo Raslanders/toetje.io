@@ -4,15 +4,15 @@ const Laser = require('./Laser');
 const Globals = require('../data/Globals');
 
 
-
 class Troop extends Entity {
     constructor(data) {
         super()
-        this.position = {x:data.position.x,y:data.position.y};
-        this.x = this.position.x*Globals.cellWidth;
-        this.y = this.position.y*Globals.cellHeight;
+        this.position = {x: data.position.x, y: data.position.y};
 
         this.updateFromTick(data);
+
+        this.x = this.position.x * Globals.cellWidth;
+        this.y = this.position.y * Globals.cellHeight;
     }
 
     updateFromTick(data) {
@@ -32,7 +32,7 @@ class Troop extends Entity {
         //update the tile position
         this.position = data.position;
         //owner id of the unit
-        this.owner = data.owner;
+        this.owner = 0+data.owner;
         //direction this unit is moving in
         this.direction = data.direction;
     }
@@ -65,7 +65,7 @@ class Troop extends Entity {
         this.newX = this.position.x * Globals.cellWidth;
         this.newY = this.position.y * Globals.cellHeight;
 
-        this.add({x:this.newX,y:this.newY});
+        this.add({x: this.newX, y: this.newY});
     }
 
     attack(targetX, targetY) {
@@ -157,11 +157,25 @@ class Troop extends Entity {
         // Graphics
         const graphics = new PIXI.Graphics();
 
-        graphics.lineStyle(2, 0x66CCFF);
-        graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3,Globals.cellHeight/3);
+        if (this.owner == 1) {
+            graphics.lineStyle(2, 0x66CCFF);
+            console.log("Blue");
+        }
+        if (this.owner == 2) {
+            graphics.lineStyle(2, 0xFF4136);
+            console.log("red");
+        }
+        if (this.owner == 3) {
+            graphics.lineStyle(2, 0x2ECC40);
+        }
+        if (this.owner == 4) {
+            graphics.lineStyle(2, 0xFFDC00);
+        }
+
+        graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3, Globals.cellHeight / 3);
         graphics.lineStyle(.5, 0xFFF);
-        graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3+1,Globals.cellHeight/3+1);
-        graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3-1,Globals.cellHeight/3-1);
+        graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3 + 1, Globals.cellHeight / 3 + 1);
+        graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3 - 1, Globals.cellHeight / 3 - 1);
         graphics.endFill();
         graphics.antiAlias = true;
 
