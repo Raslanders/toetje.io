@@ -23,7 +23,7 @@ class Building extends Entity {
 
     render(stage, renderer) {
         super.render(stage, renderer);
-        this.add({x:this.position.x*Globals.cellWidth,y:this.position.y*this.cellHeight});
+        // this.add({x:this.tile.x*Globals.cellWidth,y:this.tile.y*Globals.cellHeight});
     }
 
     animate() {
