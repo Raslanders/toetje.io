@@ -22,11 +22,12 @@ class Tile {
     parse(data) {
         this.type = data.type;
         this.owner = data.owner;
-        if (data.type === 'building') {
-            this.building = new Building();
-            this.building.tile = this;
-            this.renderer.addToQueue(this.building, false);
-        }
+    }
+
+    createBuilding() {
+        this.building = new Building();
+        this.building.tile = this;
+        this.renderer.addToQueue(this.building, false);
     }
 }
 

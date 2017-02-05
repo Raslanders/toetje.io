@@ -27,6 +27,11 @@ class Map {
 
     updateBuildingAtPosition(position, building) {
         const tile = this.getTile(position.x, position.y);
+
+        // An unbuilt building is called a base
+        if (tile.type === 'base') {
+            tile.createBuilding();
+        }
         tile.building.updateFromTick(building);
     }
     updateTroopAtPosition(position, troop) {

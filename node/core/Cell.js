@@ -25,7 +25,10 @@ class Cell {
 
     get readableType() {
         if (this.building) {
-            return 'building';
+            if (this.building.technology) {
+                return 'building';
+            }
+            return 'base';
         }
         if (this.type === 'o') {
             return 'lane';
