@@ -34,13 +34,56 @@ class Troop {
                 let troop = playerTroops[k];
                 if (troop.owner.id !== this.owner.id) {
                     let position = troop.position;
-                    if (this.positionInRange(position)) {
+                    if (this.targetInRange(position)) {
                         targets.push(troop);
                     }
                 }
             }
         }
         return targets;
+    }
+
+
+    /**
+     * Checks if an x and y position is in range to shoot
+     * @param position
+     * @returns {boolean}
+     */
+    targetInRange(position) {
+        let nx = this.position.x;
+        let ny = this.position.y;
+
+        if (this.direction.x > 0) {
+            // we are moving to the right
+            if (position.x >= nx && position.x <= nx + this.unit.stats.range) {
+                if (position.y === ny || ((position.y === ny + 1 || position.y === ny - 1))) {
+                    return true;
+                }
+            }
+        } else if (this.direction.x < 0) {
+            // we are moving to the left
+            if (position.x >= nx - this.unit.stats.range && position.x <= nx) {
+                if (position.y === ny || ((position.y === ny + 1 || position.y === ny - 1))) {
+                    return true;
+                }
+            }
+        } else if (this.direction.y > 0) {
+            // we are moving to the bottom
+            if (position.y >= ny && position.y <= ny + this.unit.stats.range) {
+                if (position.x === nx || ((position.x === nx + 1 || position.x === nx - 1))) {
+                    return true;
+                }
+            }
+        } else if (this.direction.y < 0) {
+            // we are moving to the top
+            if (position.y >= ny - this.unit.stats.range && position.y <= ny) {
+                if (position.x === nx || ((position.x === nx + 1 || position.x === nx - 1))) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -73,31 +116,30 @@ class Troop {
     positionInRange(position, sameOwner) {
         let nx = this.position.x + this.direction.x;
         let ny = this.position.y + this.direction.y;
-
         if (this.direction.x > 0) {
             // we are moving to the right
-            if (position.x >= nx && position.x <= nx + this.unit.stats.range) {
+            if (position.x >= nx && position.x <= nx) {
                 if (position.y === ny || (!sameOwner && (position.y === ny + 1 || position.y === ny - 1))) {
                     return true;
                 }
             }
         } else if (this.direction.x < 0) {
             // we are moving to the left
-            if (position.x >= nx - this.unit.stats.range && position.x <= nx) {
+            if (position.x >= nx && position.x <= nx) {
                 if (position.y === ny || (!sameOwner && (position.y === ny + 1 || position.y === ny - 1))) {
                     return true;
                 }
             }
         } else if (this.direction.y > 0) {
             // we are moving to the bottom
-            if (position.y >= ny && position.y <= ny + this.unit.stats.range) {
+            if (position.y >= ny && position.y <= ny) {
                 if (position.x === nx || (!sameOwner && (position.x === nx + 1 || position.x === nx - 1))) {
                     return true;
                 }
             }
         } else if (this.direction.y < 0) {
             // we are moving to the top
-            if (position.y >= ny - this.unit.stats.range && position.y <= ny) {
+            if (position.y >= ny && position.y <= ny) {
                 if (position.x === nx || (!sameOwner && (position.x === nx + 1 || position.x === nx - 1))) {
                     return true;
                 }

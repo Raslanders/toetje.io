@@ -1,0 +1,482 @@
+[
+	{
+		"id": 1,
+		"name": "Barrack",
+		"price": 1,
+		"description": "Spawns basic melee troops",
+		"required": null,
+		"stats": {
+			"name": "Melee",
+			"health": 40,
+			"armor": 0,
+			"damage": 4,
+			"tpa": 4,
+			"range": 0,
+			"ability": []
+		}
+	},
+	{
+		"id": 2,
+		"name": "melee",
+		"price": 10,
+		"description": "basic melee unit",
+		"required": 1,
+		"stats": {
+			"name": "melee",
+			"health": 160,
+			"armor": 0,
+			"damage": 12,
+			"tpa": 4,
+			"range": 0,
+			"ability": []
+		}
+	},
+	{
+		"id": 3,
+		"name": "ranged",
+		"price": 10,
+		"description": "basic ranged unit",
+		"required": 1,
+		"stats": {
+			"name": "ranged",
+			"health": 80,
+			"armor": 0,
+			"damage": 16,
+			"tpa": 4,
+			"range": 2,
+			"ability": []
+		}
+	},
+	{
+		"id": 4,
+		"name": "support",
+		"price": 10,
+		"description": "basic support unit",
+		"required": 1,
+		"stats": {
+			"name": "support",
+			"health": 80,
+			"armor": 0,
+			"damage": 0,
+			"tpa": 4,
+			"range": 2,
+			"ability": []
+		}
+	},
+	{
+		"id": 5,
+		"name": "Tank",
+		"price": 50,
+		"description": "Pure tank unit",
+		"required": 2,
+		"stats": {
+			"name": "Tank",
+			"health": 640,
+			"armor": 3,
+			"damage": 12,
+			"tpa": 4,
+			"range": 0,
+			"ability": []
+		}
+	},
+	{
+		"id": 6,
+		"name": "dps",
+		"price": 50,
+		"description": "Melee dps unit",
+		"required": 2,
+		"stats": {
+			"name": "dps",
+			"health": 240,
+			"armor": 1,
+			"damage": 32,
+			"tpa": 4,
+			"range": 0,
+			"ability": []
+		}
+	},
+	{
+		"id": 7,
+		"name": "bruiser",
+		"price": 50,
+		"description": "tank/dps unit",
+		"required": 2,
+		"stats": {
+			"name": "bruiser",
+			"health": 400,
+			"armor": 2,
+			"damage": 16,
+			"tpa": 4,
+			"range": 0,
+			"ability": []
+		}
+	},
+	{
+		"id": 8,
+		"name": "long ranged",
+		"price": 50,
+		"description": "long range units",
+		"required": 3,
+		"stats": {
+			"name": "long ranged",
+			"health": 80,
+			"armor": 0,
+			"damage": 120,
+			"tpa": 16,
+			"range": 3,
+			"ability": []
+		}
+	},
+	{
+		"id": 9,
+		"name": "rapid fire",
+		"price": 50,
+		"description": "Fast firing ranged units",
+		"required": 3,
+		"stats": {
+			"name": "rapid fire",
+			"health": 160,
+			"armor": 0,
+			"damage": 16,
+			"tpa": 4,
+			"range": 1,
+			"ability": []
+		}
+	},
+	{
+		"id": 10,
+		"name": "multishot",
+		"price": 50,
+		"description": "Aoe-capable ranged units",
+		"required": 3,
+		"stats": {
+			"name": "multishot",
+			"health": 120,
+			"armor": 0,
+			"damage": 12,
+			"tpa": 4,
+			"range": 2,
+			"ability": []
+		}
+	},
+	{
+		"id": 11,
+		"name": "buffer",
+		"price": 50,
+		"description": "Buffs allied troops",
+		"required": 4,
+		"stats": {
+			"name": "buffer",
+			"health": 120,
+			"armor": 0,
+			"damage": 0,
+			"tpa": 0,
+			"range": 2,
+			"ability": []
+		}
+	},
+	{
+		"id": 12,
+		"name": "debuffer",
+		"price": 50,
+		"description": "debuffs enemies",
+		"required": 4,
+		"stats": {
+			"name": "debuffer",
+			"health": 120,
+			"armor": 0,
+			"damage": 0,
+			"tpa": 0,
+			"range": 2,
+			"ability": []
+		}
+	},
+	{
+		"id": 13,
+		"name": "summoner",
+		"price": 50,
+		"description": "Summons friendly units",
+		"required": 4,
+		"stats": {
+			"name": "summoner",
+			"health": 120,
+			"armor": 0,
+			"damage": 0,
+			"tpa": 0,
+			"range": 2,
+			"ability": []
+		}
+	},
+	{
+		"id": 14,
+		"name": "lifestealer",
+		"price": 250,
+		"description": "tank/dps unit with lifesteal",
+		"required": 7,
+		"stats": {
+			"name": "lifestealer",
+			"health": 640,
+			"armor": 6,
+			"damage": 32,
+			"tpa": 4,
+			"range": 0,
+			"ability": []
+		}
+	},
+	{
+		"id": 15,
+		"name": "Beserker",
+		"price": 250,
+		"description": "tank/dps unit which does more damage with less hp",
+		"required": 7,
+		"stats": {
+			"name": "Beserker",
+			"health": 640,
+			"armor": 4,
+			"damage": 32,
+			"tpa": 4,
+			"range": 0,
+			"ability": []
+		}
+	},
+	{
+		"id": 16,
+		"name": "damage return",
+		"price": 250,
+		"description": "Heavy tank with damage return",
+		"required": 5,
+		"stats": {
+			"name": "damage return",
+			"health": 1400,
+			"armor": 6,
+			"damage": 16,
+			"tpa": 4,
+			"range": 0,
+			"ability": []
+		}
+	},
+	{
+		"id": 17,
+		"name": "taunt",
+		"price": 250,
+		"description": "heavy tank with taunt",
+		"required": 5,
+		"stats": {
+			"name": "taunt",
+			"health": 1400,
+			"armor": 10,
+			"damage": 16,
+			"tpa": 4,
+			"range": 0,
+			"ability": []
+		}
+	},
+	{
+		"id": 18,
+		"name": "assasin",
+		"price": 250,
+		"description": "high dps single target melee",
+		"required": 6,
+		"stats": {
+			"name": "assasin",
+			"health": 240,
+			"armor": 2,
+			"damage": 200,
+			"tpa": 8,
+			"range": 0,
+			"ability": []
+		}
+	},
+	{
+		"id": 19,
+		"name": "cleave",
+		"price": 250,
+		"description": "high dps multi target melee",
+		"required": 6,
+		"stats": {
+			"name": "cleave",
+			"health": 400,
+			"armor": 4,
+			"damage": 40,
+			"tpa": 4,
+			"range": 0,
+			"ability": []
+		}
+	},
+	{
+		"id": 20,
+		"name": "mortar",
+		"price": 250,
+		"description": "long ranged splash ranged unit",
+		"required": 8,
+		"stats": {
+			"name": "mortar",
+			"health": 120,
+			"armor": 0,
+			"damage": 120,
+			"tpa": 16,
+			"range": 3,
+			"ability": []
+		}
+	},
+	{
+		"id": 21,
+		"name": "sniper",
+		"price": 250,
+		"description": "long ranged high dps single target ranged unit",
+		"required": 8,
+		"stats": {
+			"name": "sniper",
+			"health": 120,
+			"armor": 0,
+			"damage": 320,
+			"tpa": 16,
+			"range": 4,
+			"ability": []
+		}
+	},
+	{
+		"id": 22,
+		"name": "Shotgun",
+		"price": 250,
+		"description": "ranged units with bouncing attacks",
+		"required": 10,
+		"stats": {
+			"name": "Shotgun",
+			"health": 240,
+			"armor": 2,
+			"damage": 24,
+			"tpa": 4,
+			"range": 2,
+			"ability": []
+		}
+	},
+	{
+		"id": 23,
+		"name": "boomerang",
+		"price": 250,
+		"description": "ranged unit with boomerang attack",
+		"required": 10,
+		"stats": {
+			"name": "boomerang",
+			"health": 160,
+			"armor": 1,
+			"damage": 32,
+			"tpa": 4,
+			"range": 2,
+			"ability": []
+		}
+	},
+	{
+		"id": 24,
+		"name": "machine gunner",
+		"price": 250,
+		"description": "short ranged unit with moderate damage and high rate of fire",
+		"required": 9,
+		"stats": {
+			"name": "machine gunner",
+			"health": 200,
+			"armor": 0,
+			"damage": 16,
+			"tpa": 1,
+			"range": 1,
+			"ability": []
+		}
+	},
+	{
+		"id": 25,
+		"name": "laser",
+		"price": 250,
+		"description": "short ranged unit with low damage and extremelly high fire rate",
+		"required": 9,
+		"stats": {
+			"name": "laser",
+			"health": 200,
+			"armor": 0,
+			"damage": 4,
+			"tpa": 1,
+			"range": 2,
+			"ability": []
+		}
+	},
+	{
+		"id": 26,
+		"name": "healer",
+		"price": 250,
+		"description": "Pure healer unit",
+		"required": 11,
+		"stats": {
+			"name": "healer",
+			"health": 120,
+			"armor": 0,
+			"damage": 0,
+			"tpa": 0,
+			"range": 2,
+			"ability": []
+		}
+	},
+	{
+		"id": 27,
+		"name": "Commander",
+		"price": 250,
+		"description": "Pure buffing unit",
+		"required": 11,
+		"stats": {
+			"name": "Commander",
+			"health": 120,
+			"armor": 3,
+			"damage": 0,
+			"tpa": 0,
+			"range": 2,
+			"ability": []
+		}
+	},
+	{
+		"id": 28,
+		"name": "debuf hp",
+		"price": 250,
+		"description": "Pure hp debuf unit",
+		"required": 12,
+		"stats": {
+			"name": "debuf hp",
+			"health": 120,
+			"armor": 0,
+			"damage": 0,
+			"tpa": 0,
+			"range": 2,
+			"ability": []
+		}
+	},
+	{
+		"id": 29,
+		"name": "defub attack",
+		"price": 250,
+		"description": "Pure attack debuf unit",
+		"required": 12,
+		"stats": {
+			"name": "defub attack",
+			"health": 120,
+			"armor": 0,
+			"damage": 0,
+			"tpa": 0,
+			"range": 2,
+			"ability": []
+		}
+	},
+	{
+		"id": 30,
+		"name": "spirit summoner",
+		"price": 250,
+		"description": "Summons tier 2 units",
+		"required": 13,
+		"stats": {
+			"name": "spirit summoner",
+			"health": 120,
+			"armor": 0,
+			"damage": 0,
+			"tpa": 0,
+			"range": 2,
+			"ability": []
+		}
+	}
+]

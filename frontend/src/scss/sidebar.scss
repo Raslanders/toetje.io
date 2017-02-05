@@ -1,0 +1,49 @@
+.sidebar {
+    width: 201px;
+}
+
+.menu-item {
+    width: 100%;
+    height: 120px;
+    position: relative;
+    background-size: 100px;
+    background-position: 10px;
+    background-repeat: no-repeat;
+    // opacity: 0.5;
+    // transition: opacity 0.3s ease-out;
+
+    &:hover {
+        .name {
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.2),0 0 2px rgba(255,255,255,0.2);
+        }
+        // opacity: 0.8;
+    }
+
+    &.active {
+        // opacity: 1;
+    }
+
+    .name {
+        position: absolute;
+        right: 20px;
+        bottom: 50px;
+        font-family: 'Open Sans';
+        color: white;
+        font-weight: bold;
+        font-size: 0.9em;
+    }
+}
+
+.building- {
+    background-image: url('static/building.png');
+}
+.building-bruiser {
+    background-image: url('static/building_bruiser.png');
+}
+.building-dps {
+    background-image: url('static/building_dps.png');
+}
+.building-tank {
+    background-image: url('static/building_tank.png');
+}
+
