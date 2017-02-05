@@ -130,12 +130,17 @@ class Renderer {
 
     drawTile(tile) {
         let tileGraphics = new PIXI.Graphics();
+        console.log(tile);
         if(tile.type == "lane") {
             tileGraphics.beginFill(0xFF851B, 0.50);
-        } else if(tile.type == "base" && tile.owner == 1) {
+        } else if(tile.type == "building" && tile.owner == 1) {
             tileGraphics.beginFill(0xFF4136, 0.50);
-        } else if(tile.type == "base" && tile.owner == 2) {
+        } else if(tile.type == "building" && tile.owner == 2) {
             tileGraphics.beginFill(0x0074D9, 0.50);
+        } else if(tile.type == "base" && tile.owner == 1) {
+            tileGraphics.beginFill(0xFF4136, 1.0);
+        } else if(tile.type == "base" && tile.owner == 2) {
+            tileGraphics.beginFill(0x0074D9, 1.0);
         } else {
             tileGraphics.destroy();
             let text = new PIXI.Text('?', { fill: "#ffffff" });
