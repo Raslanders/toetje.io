@@ -10,7 +10,7 @@ class Troop {
         this.unit = unit;
         this.owner = owner;
         this.position = position;
-        this.stats = unit.stats;
+        this.health = unit.stats.health;
         this.direction = direction;
     }
 
@@ -24,6 +24,10 @@ class Troop {
 
     attack(target) {
         this.target = target;
+        if (this.target) {
+            this.target.health -= this.stats.damage;
+            console.log(this.target.id, this.target.health);
+        }
     }
 
     inRange(troops) {
@@ -168,6 +172,7 @@ class Troop {
             unit: this.unit.id,
             name: this.unit.name,
             direction: this.direction,
+            health: this.health,
             target: this.target ? this.target.position : null
         };
     }
@@ -203,13 +208,7 @@ class Troop {
     }
 
     get stats() {
-        return this._stats;
-    }
-
-    set stats(stats) {
-        if (stats) {
-            this._stats = stats;
-        }
+        return this.unit.stats;
     }
 
     get direction() {
@@ -220,6 +219,10 @@ class Troop {
         if (direction) {
             this._direction = direction;
         }
+    }
+
+    get isDead() {
+        return this.health <= 0;
     }
 }
 
