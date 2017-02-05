@@ -16,9 +16,7 @@ class CanvasState {
 
         this.dragging = false;
 
-        this.hoverTile = {};
         this.hoverGraphic = null;
-        this.selectedTile = {};
         this.selectedGraphic = null;
     }
 
