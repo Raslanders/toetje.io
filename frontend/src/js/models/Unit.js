@@ -9,7 +9,7 @@ class Unit extends Entity {
 
         this.gridSize = 50;
         //allows 1 movement in the x direction in 1 movement in the y direction per tick
-        this.movePerTick = 1 / 60;
+        this.movePerTick = 5;
         //total amount of ticks for the attack animation
         this.attackAnimationTicks = 60;
         //current tick in the attack animation
@@ -20,6 +20,9 @@ class Unit extends Entity {
         //the positions this unit was on before the attack animation
         this.originalPosition;
 
+        this.newX = position.x;
+        this.newY = position.y;
+
         this.add(position);
     }
 
@@ -28,13 +31,17 @@ class Unit extends Entity {
         this.originalPosition = {x: this.x, y: this.y};
     }
 
-    //animates the movement of the unit
+    moveTo(newX, newY) {
+        this.newX = newX;
+        this.newY = newY;
+    }
+
     animate() {
-        // if (this.animateMovement()) {
-        //     return;
-        //     //the unit has not moved
-        // }
-        // //attack movement
+        if (this.animateMovement()) {
+            return;
+            //the unit has not moved
+        }
+        // attack movement
         // if (this.targetPosition) {
         //     this.animateAttack(this.targetPosition.x, this.targetPosition.y)
         // }
@@ -49,9 +56,6 @@ class Unit extends Entity {
             //reset the animation, reset x,y to handle rounding errors
             this.x = this.originalPosition.x;
             this.y = this.originalPosition.y;
-
-            this.removeSprite();
-            this.drawSprite({x: this.newX, y: this.newY});
             return;
         }
 
@@ -81,15 +85,11 @@ class Unit extends Entity {
         let ySpeed = yDiff / (this.attackAnimationTicks / 2);
         this.x = this.x + xSpeed;
         this.y = this.y + ySpeed;
-
-
-        this.removeSprite();
-        this.drawSprite({x: this.x, y: this.y});
     }
 
     //return true if this unit has moved
     animateMovement() {
-        if (this.originalPosition.x == this.newX && this.originalPosition.y == this.newY) {
+        if (this.x === this.newX && this.y === this.newY) {
             return false;
             //no movement;
         }
@@ -111,9 +111,6 @@ class Unit extends Entity {
             this.y = this.y - Math.min(-yDiff, this.movePerTick);
         }
 
-
-        this.removeSprite();
-        // this.drawSprite({x: this.x, y: this.y});
         return true;
     }
 
@@ -121,14 +118,13 @@ class Unit extends Entity {
         if (this._sprite) {
             return this._sprite;
         }
-
         const graphics = new PIXI.Graphics();
 
         graphics.beginFill(0x66CCFF);
         graphics.drawCircle(0.5 * this.gridSize, 0.5 * this.gridSize, this.gridSize / 3);
         graphics.endFill();
         graphics.antiAlias = true;
-        
+
         this._sprite = graphics;
         return this._sprite;
     }

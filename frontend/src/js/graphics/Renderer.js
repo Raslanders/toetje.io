@@ -108,8 +108,12 @@ class Renderer {
             selectedGraphic.lineStyle(4, 0x33FF00, 1);
             selectedGraphic.drawRect(selectedTile.x * Globals.cellWidth, selectedTile.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight);
             selectedGraphic.endFill();
+            this.unit.moveTo(selectedTile.x * Globals.cellWidth, selectedTile.y * Globals.cellHeight);
             this.stage.addChild(selectedGraphic);
         }
+
+        //animate all entities
+        this.unit.animate();
     }
 }
 
