@@ -33,7 +33,6 @@ class State {
     // Create or update troop
     updateTroop(id, troopData) {
         let troop = this.troops[id];
-        console.log(troopData);
         if (!troop) {
             troop = new Troop(troopData);
             this.troops[id] = troop;
