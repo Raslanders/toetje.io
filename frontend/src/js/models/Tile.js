@@ -23,7 +23,8 @@ class Tile {
         this.type = data.type;
         this.owner = data.owner;
         if (data.type === 'building') {
-            this.building = new Building();
+            //TODO: werkt nog niet
+            //this.building = new Building();
         }
     }
 }
