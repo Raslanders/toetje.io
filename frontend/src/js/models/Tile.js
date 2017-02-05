@@ -39,8 +39,8 @@ class Tile extends Entity {
         gameRenderer.addToQueue(this, true);
     }
 
-    createBuilding(gameRenderer) {
-        this.building = new Building();
+    createBuilding(gameRenderer,buildingData) {
+        this.building = new Building(buildingData);
         this.building.tile = this;
         gameRenderer.addToQueue(this.building, false);
     }

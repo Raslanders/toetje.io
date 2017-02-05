@@ -27,14 +27,15 @@ class Map {
         })
     }
 
-    updateBuildingAtPosition(position, building) {
+    updateBuildingAtPosition(position, buildingData) {
         const tile = this.getTile(position.x, position.y);
 
         // An unbuilt building is called a base
         if (tile.type === 'base') {
-            tile.createBuilding(this.gameRenderer);
+            tile.createBuilding(this.gameRenderer,buildingData);
+            return;
         }
-        tile.building.updateFromTick(building);
+        tile.building.updateFromTick(buildingData);
     }
     updateTroopAtPosition(position, troop) {
         console.log('TODO UPDATE TROOPS');

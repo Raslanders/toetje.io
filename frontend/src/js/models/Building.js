@@ -15,22 +15,20 @@ const Globals = require('../data/Globals');
 
 class Building extends Entity {
     // Instantiate building from bootstrap map data
-    constructor() {
+    constructor(data) {
         super();
-        this.isEmpty = true;
-        this.tile = null;
+        this.updateFromTick(data);
     }
 
     render(stage, renderer) {
         super.render(stage, renderer);
-        // this.add({x:this.tile.x*Globals.cellWidth,y:this.tile.y*Globals.cellHeight});
+        this.add({x:this.tile.x,y:this.tile.y});
     }
 
     animate() {
     }
 
     updateFromTick(data) {
-        this.isEmpty = false;
         this.name = data.name;
         this.owner = data.owner;
         this.technology = data.technology;
