@@ -67,13 +67,6 @@ class Renderer {
             this.canvasState.handleMouseMove(mousedata);
         });
 
-
-        this.building = new Building();
-        // this.unit = new Troop();
-        // this.building.render(this.stage, this.renderer, {x: 50, y: 50});
-        // this.unit.render(this.stage, this.renderer, {x: 50, y: 250});
-        // this.unit.attack(50,300);
-
         this.gameLoop();
     }
 
@@ -175,9 +168,6 @@ class Renderer {
             // this.unit.moveTo(selectedTile.x * Globals.cellWidth, selectedTile.y * Globals.cellHeight);
             this.stage.addChild(selectedGraphic);
         }
-
-        //animate all entities
-        // this.unit.animate();
     }
 
     drawTile(tile) {
