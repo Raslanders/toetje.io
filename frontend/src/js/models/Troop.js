@@ -61,7 +61,7 @@ class Troop extends Entity {
         this.newX = this.position.x * Globals.cellWidth;
         this.newY = this.position.y * Globals.cellHeight;
 
-        this.add(position);
+        this.add(this.position);
     }
 
     attack(targetX, targetY) {
@@ -154,10 +154,10 @@ class Troop extends Entity {
         const graphics = new PIXI.Graphics();
 
         graphics.lineStyle(2, 0x66CCFF);
-        graphics.drawElipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3,Globals.cellHeight/3);
+        graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3,Globals.cellHeight/3);
         graphics.lineStyle(.5, 0xFFF);
-        graphics.drawElipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3+1,Globals.cellHeight/3+1);
-        graphics.drawElipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3-1,Globals.cellHeight/3-1);
+        graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3+1,Globals.cellHeight/3+1);
+        graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3-1,Globals.cellHeight/3-1);
         graphics.endFill();
         graphics.antiAlias = true;
 
