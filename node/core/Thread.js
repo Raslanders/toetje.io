@@ -21,7 +21,7 @@ class Thread {
     run() {
         // Update
         this.prepareTick();
-        // this.updateCombat();
+        this.updateCombat();
         this.updateBuildings();
         this.updateTroops();
         this.spawnTroops();
@@ -53,7 +53,16 @@ class Thread {
     }
 
     updateCombat() {
-
+        for (let i = this.token; i < this.players.length + this.token; i++) {
+            let player = this.players[i % this.players.length];
+            for (let k in this.troops[player.id]) {
+                let troop = this.troops[player.id][k];
+                let targets = troop.inRange(this.troops);
+                troop.attack(targets[0]);
+                // Make the troop ready for emitting to clients
+                this.prepareTroopForTick(troop);
+            }
+        }
     }
 
     /**
