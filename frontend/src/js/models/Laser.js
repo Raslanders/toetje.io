@@ -20,7 +20,7 @@ class Laser extends Entity {
     }
 
     animate() {
-        this.alpha -= 0.1;
+        this.alpha -= Math.random() * 0.05;
         if (this.alpha <= -1) {
             this.alpha = 1;
         }
@@ -43,6 +43,13 @@ class Laser extends Entity {
 
         graphics.moveTo(0, 0);
         graphics.lineTo(this.targetX - this.originX, this.targetY - this.originY);
+
+        graphics.lineStyle(1, 0xFFF);
+
+        graphics.moveTo(1, 0);
+        graphics.lineTo(this.targetX - this.originX + 1, this.targetY - this.originY);
+        graphics.moveTo(-1, 0);
+        graphics.lineTo(this.targetX - this.originX - 1 , this.targetY - this.originY);
         // graphics.antiAlias = true;
 
         this._sprite = graphics;
