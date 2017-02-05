@@ -188,15 +188,24 @@ class Troop extends Entity {
     }
 
     deathAnimation() {
-        //animate this units death
-        if (this.deathAnimationTick > this.deathAnimationTicks) {
+        if(this.deathAnimationTick > this.deathAnimationTicks) {
             this.destroy();
+            this.gameRenderer.stage.removeChild(this.explosion);
             this.dead = true;
             return;
         }
-        //slowly fade the sprite
-        let alpha = 1 - this.deathAnimationTick / this.deathAnimationTicks;
-        this.displayObject.alpha = alpha;
+        if(this.deathAnimationTick == 0) {
+            this.deathAnimationTick++;
+            this.explosion = new PIXI.extras.AnimatedSprite(this.gameRenderer.explosionTextures);
+            this.explosion.x = this.x;
+            this.explosion.y = this.y;
+            this.explosion.anchor.set(0.5);
+
+            this.explosion.rotation = Math.random() * Math.PI;
+            this.explosion.scale.set(0.75 + Math.random() * 0.5);
+            this.explosion.gotoAndPlay(Math.random() * 27);
+            this.gameRenderer.stage.addChild(this.explosion);
+        }
 
         this.deathAnimationTick++;
     }
