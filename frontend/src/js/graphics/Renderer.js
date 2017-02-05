@@ -22,6 +22,8 @@ class Renderer {
         this.renderer.resize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.view);
 
+
+
         //Create new PIXI container in interactive mode
         this.stage = new PIXI.Container(0x66FF99, true);
 
@@ -130,7 +132,6 @@ class Renderer {
 
     drawTile(tile) {
         let tileGraphics = new PIXI.Graphics();
-        console.log(tile);
         if(tile.type == "lane") {
             tileGraphics.beginFill(0xFF851B, 0.50);
         } else if(tile.type == "building" && tile.owner == 1) {
@@ -148,6 +149,7 @@ class Renderer {
         }
         tileGraphics.drawRect(tile.position.x * Globals.cellWidth, tile.position.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight)
         tileGraphics.endFill();
+        tileGraphics.zOrder = -1;
         this.stage.addChild(tileGraphics);
         return tileGraphics;
     }
