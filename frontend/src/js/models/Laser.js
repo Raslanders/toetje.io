@@ -33,7 +33,6 @@ class Laser extends Entity {
         }
 
         const graphics = new PIXI.Graphics();
-        console.log(this.owner);
         if (this.owner == 1) {
             graphics.lineStyle(1, 0xFF4136);
         }
