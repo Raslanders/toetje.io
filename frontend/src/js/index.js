@@ -5,6 +5,7 @@ var Renderer = require('./graphics/Renderer');
 var game = new Renderer();
 
 socket.on('start', (data) => {
+    game.state.socket = socket;
     // Parse mapdata
     game.state.map.parse(data.map);
     // Parse playerID to somehow set active base

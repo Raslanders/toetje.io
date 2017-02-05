@@ -4,8 +4,8 @@ const PIXI = require('pixi.js');
 class Troop extends Entity {
 
     //Coordinates are grid coordinates
-    constructor(stage, renderer, position) {
-        super(stage, renderer);
+    render(stage, renderer, position) {
+        super.render(stage, renderer);
 
         this.gridSize = 50;
         //allows 1 movement in the x direction in 1 movement in the y direction per tick
@@ -118,10 +118,14 @@ class Troop extends Entity {
         if (this._sprite) {
             return this._sprite;
         }
+        // Graphics
         const graphics = new PIXI.Graphics();
 
-        graphics.beginFill(0x66CCFF);
+        graphics.lineStyle(2, 0x66CCFF);
         graphics.drawCircle(0.5 * this.gridSize, 0.5 * this.gridSize, this.gridSize / 3);
+        graphics.lineStyle(.5, 0xFFF);
+        graphics.drawCircle(0.5 * this.gridSize, 0.5 * this.gridSize, this.gridSize / 3 + 1);
+        graphics.drawCircle(0.5 * this.gridSize, 0.5 * this.gridSize, this.gridSize / 3 - 1);
         graphics.endFill();
         graphics.antiAlias = true;
 

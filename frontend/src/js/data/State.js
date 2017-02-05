@@ -7,6 +7,11 @@ class State {
     constructor() {
         this.gameState = 'lobby';
         this.map = new Map();
+        this.socket = null;
+    }
+
+    createBuilding(x, y, technologyId) {
+        this.socket.emit('build', { x, y, technologyId });
     }
 
     // parseMap(map) {
