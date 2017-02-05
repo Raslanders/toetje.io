@@ -1,8 +1,8 @@
 //var socket = require('socket.io-client')('localhost:3000');
-var socket = require('socket.io-client')('localhost:3000');
-var Renderer = require('./graphics/Renderer');
+const socket = require('socket.io-client')('localhost:3000');
+const Renderer = require('./graphics/Renderer');
 
-var game = new Renderer();
+let game = new Renderer();
 
 socket.on('start', (data) => {
     game.state.socket = socket;
@@ -19,7 +19,7 @@ socket.on('tick', (data) => {
 
 socket.on('join', msg => {
     console.log(msg);
-})
+});
 
 socket.on('stop', () => {
     game.state.stop();
