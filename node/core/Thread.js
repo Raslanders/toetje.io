@@ -85,10 +85,8 @@ class Thread {
                 let building = this.buildings[player.id][k];
                 if (!building.isBuilt) {
                     building.buildCounter++;
-                    if (building.isBuilt) {
-                        // Make this building ready for emitting to clients
-                        this.mutation.building.push(building.view);
-                    }
+                    // Make this building ready for emitting to clients
+                    this.mutation.building.push(building.view);
                 }
             }
         }
