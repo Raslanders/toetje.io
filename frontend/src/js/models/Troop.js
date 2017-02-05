@@ -58,7 +58,6 @@ class Troop extends Entity {
             this.endLaser();
             //show deathAnimation
             this.deathAnimation();
-            console.log("animateDead");
             return;
         }
 
@@ -86,10 +85,8 @@ class Troop extends Entity {
         }
 
         if (this.attackAnimationTick == 0) {
-            console.log("begin laser");
             this.beginLaser(targetX, targetY);
         } else if (this.attackAnimationTick == Math.floor(this.attackAnimationTicks / 3)) {
-            console.log("end laser");
             this.endLaser();
         }
 
