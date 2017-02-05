@@ -10,11 +10,6 @@ const Globals = require('../data/Globals');
 
 class Renderer {
     constructor(container) {
-        this.state = new State(this);
-        this.canvasState = new CanvasState();
-
-        this.mapInitialized = false;
-
         this.queue = [];
         this.animated = [];
 
@@ -111,16 +106,6 @@ class Renderer {
 
     drawState() {
         this.canvasState.handleCamera(this.stage);
-        if(!this.mapInitialized) {
-            this.mapInitialized = true;
-            for(let i = 0; i < this.state.map.tiles.length; i++) {
-                for(let j = 0; j < this.state.map.tiles[i].length; j++) {
-                    let tile = this.state.map.tiles[i][j];
-                    tile.setModel(this.drawTile(tile));
-                }
-            }
-        }
-
 
         let hoverTile = this.canvasState.getHoverTile();
         let selectedTile = this.canvasState.getSelectedTile();

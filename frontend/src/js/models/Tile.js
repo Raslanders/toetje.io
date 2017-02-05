@@ -50,7 +50,7 @@ class Tile extends Entity {
             return this._sprite;
         }
         let tileGraphics = new PIXI.Graphics();
-        tileGraphics.lineStyle(2, 0xCCCCCC, 0.3);
+        tileGraphics.lineStyle(2, 0xCCCCCC, 0.1);
         if(this.type == "lane") {
             tileGraphics.beginFill(0xFF851B, 0.50);
         } else if(this.type == "building" && this.owner == 1) {
