@@ -2,6 +2,7 @@
 
 const Map = require('./Map');
 const _ = require('lodash');
+const TechTree = require('../view/TechTree');
 const Troop = require('../models/Troop');
 
 class State {
@@ -11,6 +12,7 @@ class State {
         this.socket = null;
         this.techTree = [];
         this.troops = {};
+        this.techtree = new TechTree(document.getElementsByClassName("buildings")[0]);
     }
 
     createBuilding(x, y, technologyId) {
@@ -42,6 +44,10 @@ class State {
         }
 
         troop.updateFromTick(troopData);
+    }
+
+    updateTechTree(data) {
+        this.techtree.render(data);
     }
 
     start() {
