@@ -9,10 +9,24 @@ class Troop extends Entity {
     }
 
     updateFromTick(data) {
+        //unique id of the unit
         this.id = data.id;
+        //name of the unit
         this.name = data.name;
+
+        //position is in tile coordinates
+        if (this.position) {
+            //we already had a position, check if we moved
+            if (this.position.x != data.position.x || this.position.y != data.position.y) {
+                //we moved, set coordinates for animatino
+                moveTo(data.position.x * this.gridSize, data.position.y * this.gridSize);
+            }
+        }
+        //update the tile position
         this.position = data.position;
+        //owner id of the unit
         this.owner = data.owner;
+        //direction this unit is moving in
         this.direction = data.direction;
     }
 
@@ -34,7 +48,7 @@ class Troop extends Entity {
         this.deathAnimationTick = 0;
         //death animation time
         this.deathAnimationTicks = 60;
-
+        //the laser entity when we are attacking
         this.laser;
 
         //target coordinates of the attack
@@ -50,8 +64,7 @@ class Troop extends Entity {
         this.targetPosition = {x: targetX, y: targetY};
     }
 
-    stopAttack()
-    {
+    stopAttack() {
         this.targetPosition = null;
     }
 
@@ -61,10 +74,6 @@ class Troop extends Entity {
     }
 
     animate() {
-        if (this.isRendered == false) {
-            //can't animate a non rendered troop
-            return;
-        }
         if (this.death == true) {
             //end laser rendering if it was still busy
             this.endLaser();
