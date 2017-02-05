@@ -4,6 +4,7 @@ const Map = require('./Map');
 const _ = require('lodash');
 const TechTree = require('../view/TechTree');
 const Troop = require('../models/Troop');
+const Resource = require('../view/Resource');
 
 class State {
     constructor(renderer) {
@@ -12,8 +13,10 @@ class State {
         this.map = new Map(renderer);
         this.socket = null;
         this.techTree = [];
+        this.playerId = 0;
         this.troops = {};
         this.techtree = new TechTree(document.getElementsByClassName('_tech-tree')[0]);
+        this.resources = new Resource(document.getElementsByClassName('_resources')[0]);
     }
 
     createBuilding(x, y, technologyId) {
@@ -28,6 +31,11 @@ class State {
         _.each(mutation.troop, t => {
             this.updateTroop(t.id, t);
         });
+
+        _.each(mutation.resources, r => {
+            if(r.id == this.playerId)
+                this.updateResource(r.resource)
+        })
     }
 
     // Create or update troop
@@ -45,6 +53,10 @@ class State {
 
     updateTechTree(data) {
         this.techtree.render(data);
+    }
+
+    updateResource(resource) {
+        this.resources.render(resource);
     }
 
     start() {

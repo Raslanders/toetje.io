@@ -82,8 +82,20 @@ class Thread {
 
             let building = this.game.map.cells[x][y].building;
 
+            if(building && building.technology && building.technology.id == technologyId) {
+                console.log('Player ' + playerId + ' tried to build technology ' + technologyId);
+                continue;
+            }
+
             if (building && playerId === building.owner.id) {
-                building.upgradeTo(this.technologies[technologyId]);
+                //console.log(this.technologies[technologyId].price);
+                //console.log(this.game.players[playerId]);
+                if(this.game.players[playerId-1].resource > this.technologies[technologyId].price) {
+                    this.game.players[playerId-1].resource -= this.technologies[technologyId].price;
+                    building.upgradeTo(this.technologies[technologyId]);
+                } else {
+                    console.error("Player " + playerId + " does not have enough resources");
+                }
             } else {
                 console.error("Client requested to build a building on an invalid cell: ", x, y, playerId);
             }

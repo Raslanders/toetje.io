@@ -9,7 +9,7 @@ class Player {
         this.client = client;
         this.name = name;
         this.ready = false;
-        this.resource = 0;
+        this._resource = 0;
     }
 
     emit(type, message) {
@@ -21,6 +21,15 @@ class Player {
             id: this.id,
             resource: this.resource,
         };
+    }
+
+    get resource() {
+        return this._resource;
+    }
+
+    set resource(resource) {
+        console.log((resource - this._resource) + '  set of player '+ this.id);
+        this._resource = resource;
     }
 }
 

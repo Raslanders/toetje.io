@@ -24,6 +24,12 @@ class Renderer {
             this.renderer.resize(container.offsetWidth, container.offsetHeight);
         };
 
+        this.explosionTextures = [];
+
+        PIXI.loader
+            .add('spritesheet', 'static/mc.json')
+            .load(this.setTexture.bind(this));
+
         this.state = new State(this);
         this.canvasState = new CanvasState();
 
@@ -146,6 +152,26 @@ class Renderer {
         let canvasDblClick = this.canvasState.getDblClick();
         if(canvasDblClick) {
             this.state.createBuilding(canvasDblClick.x, canvasDblClick.y, 1);
+        }
+    }
+
+    setTexture() {
+        for(let i = 0; i < 26; i++) {
+            let texture = PIXI.Texture.fromFrame('Explosion_Sequence_A ' + (i + 1) + '.png');
+            this.explosionTextures.push(texture);
+        }
+
+        for (let i = 0; i < 500; i++) {
+            // create an explosion AnimatedSprite
+            var explosion = new PIXI.extras.AnimatedSprite(this.explosionTextures);
+
+            explosion.x = Math.random() * this.renderer.width;
+            explosion.y = Math.random() * this.renderer.height;
+            explosion.anchor.set(0.5);
+            explosion.rotation = Math.random() * Math.PI;
+            explosion.scale.set(0.75 + Math.random() * 0.5);
+            explosion.gotoAndPlay(Math.random() * 27);
+            //this.stage.addChild(explosion);
         }
     }
 }

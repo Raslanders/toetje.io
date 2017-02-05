@@ -75,7 +75,7 @@ class Technology {
     }
 
     get buildTime() {
-        return this._buildTime ? this._buildTime : 10;
+        return this._buildTime ? this._buildTime : 1;
     }
 }
 
