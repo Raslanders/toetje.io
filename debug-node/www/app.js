@@ -7973,6 +7973,10 @@ socket.on('ready', () => {
     socket.emit('ack');
 });
 
+socket.on('start', (data) => {
+    console.log('game start', data);
+})
+
 socket.on('connect', function(){
     console.log('connect');
 });
