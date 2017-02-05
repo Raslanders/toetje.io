@@ -6,6 +6,7 @@ class Tile {
         this.position = position;
         this.type = type;
         this.owner = null;
+        this.building = null;
         this.troop = null;
         this.model = null;
     }

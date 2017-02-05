@@ -25,6 +25,14 @@ class Map {
         })
     }
 
+    updateBuildingAtPosition(position, building) {
+        const tile = this.getTile(position.x, position.y);
+        tile.building.updateFromTick(building);
+    }
+    updateTroopAtPosition(position, troop) {
+        console.log('TODO UPDATE TROOPS');
+    }
+
     getTile(x, y) {
         return this.tiles[x][y];
     }

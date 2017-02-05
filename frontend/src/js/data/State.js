@@ -1,6 +1,7 @@
 'use strict';
 
 const Map = require('./Map');
+const _ = require('lodash');
 
 class State {
     constructor() {
@@ -19,13 +20,17 @@ class State {
     }
 
     parseMutation(mutation) {
-
+        _.each(mutation.building, b => {
+            this.map.updateBuildingAtPosition(b.position, b);
+        })
+        _.each(mutation.troop, t => {
+            this.map.updateTroopAtPosition(t.position, t);
+        });
     }
 
     start() {
         console.log('Game started');
         this.gameState = 'started';
-        console.log('gamestate set');
     }
 
     stop() {

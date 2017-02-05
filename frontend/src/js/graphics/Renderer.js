@@ -3,7 +3,8 @@
 const PIXI = require('pixi.js');
 const Stats = require('stats.js');
 const State = require('../data/State');
-const Troop = require('../models/Troop');
+const Unit = require('../models/Troop');
+const Building = require('../models/Building');
 const CanvasState = require('./CanvasState');
 const Globals = require('../data/Globals');
 
@@ -60,6 +61,10 @@ class Renderer {
             this.canvasState.handleMouseMove(mousedata);
         });
 
+        this.building = new Building(this.stage, this.renderer, {x: 50, y: 50});
+        this.building2 = new Building(this.stage, this.renderer, {x: 100, y: 250});
+        this.unit = new Unit(this.stage, this.renderer, {x: 50, y: 250});
+
         this.gameLoop();
     }
 
@@ -67,7 +72,6 @@ class Renderer {
         this.statsPanel.begin();
 
         this.drawState();
-
         this.renderer.render(this.stage);
 
         this.statsPanel.end();
@@ -77,7 +81,6 @@ class Renderer {
     drawState() {
         this.canvasState.handleCamera(this.stage);
         if(!this.mapInitialized && this.state.gameState == "started") {
-            console.log('render tiles');
             this.mapInitialized = true;
             for(let i = 0; i < this.state.map.tiles.length; i++) {
                 for(let j = 0; j < this.state.map.tiles[i].length; j++) {
@@ -86,14 +89,6 @@ class Renderer {
                 }
             }
         }
-
-
-
-
-
-
-
-
 
         let hoverTile = this.canvasState.getHoverTile();
         let selectedTile = this.canvasState.getSelectedTile();
@@ -125,8 +120,12 @@ class Renderer {
             selectedGraphic.lineStyle(4, 0x33FF00, 1);
             selectedGraphic.drawRect(selectedTile.x * Globals.cellWidth, selectedTile.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight);
             selectedGraphic.endFill();
+            this.unit.moveTo(selectedTile.x * Globals.cellWidth, selectedTile.y * Globals.cellHeight);
             this.stage.addChild(selectedGraphic);
         }
+
+        //animate all entities
+        this.unit.animate();
     }
 
     drawTile(tile) {
