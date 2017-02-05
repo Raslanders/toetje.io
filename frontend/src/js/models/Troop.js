@@ -8,6 +8,10 @@ const Globals = require('../data/Globals');
 class Troop extends Entity {
     constructor(data) {
         super()
+        this.position = {x:data.position.x,y:data.position.y};
+        this.x = this.position.x*Globals.cellWidth;
+        this.y = this.position.y*Globals.cellHeight;
+
         this.updateFromTick(data);
     }
 
@@ -22,7 +26,7 @@ class Troop extends Entity {
             //we already had a position, check if we moved
             if (this.position.x != data.position.x || this.position.y != data.position.y) {
                 //we moved, set coordinates for animation
-                moveTo(data.position.x * Globals.cellWidth, data.position.y * Globals.cellHeight);
+                this.moveTo(data.position.x * Globals.cellWidth, data.position.y * Globals.cellHeight);
             }
         }
         //update the tile position
@@ -61,7 +65,7 @@ class Troop extends Entity {
         this.newX = this.position.x * Globals.cellWidth;
         this.newY = this.position.y * Globals.cellHeight;
 
-        this.add(this.position);
+        this.add({x:this.newX,y:this.newY});
     }
 
     attack(targetX, targetY) {
