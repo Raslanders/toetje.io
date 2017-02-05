@@ -22,6 +22,27 @@ class Troop {
         this.position.y += this.direction.y;
     }
 
+    attack(target) {
+        this.target = target;
+    }
+
+    inRange(troops) {
+        let targets = [];
+        for (let p in troops) {
+            let playerTroops = troops[p];
+            for (let k in playerTroops) {
+                let troop = playerTroops[k];
+                if (troop.owner.id !== this.owner.id) {
+                    let position = troop.position;
+                    if (this.positionInRange(position)) {
+                        targets.push(troop);
+                    }
+                }
+            }
+        }
+        return targets;
+    }
+
     /**
      * Checks if this unit will collide with the given troops if moving
      * @param troops The troops to check against
@@ -105,6 +126,7 @@ class Troop {
             unit: this.unit.id,
             name: this.unit.name,
             direction: this.direction,
+            target: this.target ? this.target.position : null
         };
     }
 

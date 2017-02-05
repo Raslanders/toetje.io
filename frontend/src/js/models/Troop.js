@@ -6,9 +6,8 @@ const Globals = require('../data/Globals');
 
 class Troop extends Entity {
     constructor(data) {
-        super()
-        this.position = {x: data.position.x, y: data.position.y};
-
+        super();
+        this.position = {x:data.position.x,y:data.position.y};
         this.updateFromTick(data);
 
         this.x = this.position.x * Globals.cellWidth;
@@ -35,6 +34,8 @@ class Troop extends Entity {
         this.owner = 0 + data.owner;
         //direction this unit is moving in
         this.direction = data.direction;
+
+        this.targetPosition = data.target ? data.target : null;
     }
 
     //Coordinates are grid coordinates
@@ -55,25 +56,12 @@ class Troop extends Entity {
         this.deathAnimationTick = 0;
         //death animation time
         this.deathAnimationTicks = 60;
-        //the laser entity when we are attacking
-        this.laser;
-
-        //target coordinates of the attack in screen coordinates
-        this.targetPosition;
 
         //Place of the next movement in screen coordinates
         this.newX = this.position.x * Globals.cellWidth;
         this.newY = this.position.y * Globals.cellHeight;
 
         this.add({x: this.newX, y: this.newY});
-    }
-
-    attack(targetX, targetY) {
-        this.targetPosition = {x: targetX, y: targetY};
-    }
-
-    stopAttack() {
-        this.targetPosition = null;
     }
 
     moveTo(newX, newY) {
@@ -99,23 +87,22 @@ class Troop extends Entity {
             this.animateMovement();
             return;
         }
-        //unit has not moved
+
         if (this.targetPosition) {
             //show attack animation
-            this.animateAttack(this.targetPosition.x, this.targetPosition.y)
+            this.animateAttack(this.targetPosition.x, this.targetPosition.y);
         }
     }
 
 
     //TargetCoordinates contains the coordinates of the target unit
     animateAttack(targetX, targetY) {
-
         if (this.attackAnimationTick >= this.attackAnimationTicks) {
             this.attackAnimationTick -= this.attackAnimationTicks;
         }
 
         if (this.attackAnimationTick == 0) {
-            this.beginLaser(targetX, targetY);
+            this.beginLaser(targetX * 50, targetY * 50);
         } else if (this.attackAnimationTick == Math.floor(this.attackAnimationTicks / 3)) {
             this.endLaser();
         }
