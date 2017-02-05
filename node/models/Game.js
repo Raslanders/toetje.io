@@ -5,6 +5,7 @@
 
 const Thread = require('../core/Thread');
 const Map = require('../core/Map');
+const tech = require('../data/tech');
 const DataLoader = require('../data/DataLoader');
 
 class Game {
@@ -42,7 +43,7 @@ class Game {
             // Send bootstrap data to client
             this.bootstrap();
             this.thread.run();
-        }, 500);
+        }, 1000);
     }
 
     stop() {
@@ -136,6 +137,7 @@ class Game {
             p.emit('start', {
                 playerId: p.id,
                 map: this.map.view,
+                techTree: tech,
             });
         });
     }
