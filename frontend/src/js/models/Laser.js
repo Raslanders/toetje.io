@@ -25,7 +25,14 @@ class Laser extends Entity {
         }
 
         const graphics = new PIXI.Graphics();
-        graphics.lineStyle(5, 0xFF0000, 1);
+
+        if (this.owner == 2) {
+            graphics.lineStyle(2, 0xFF4136);
+        }
+        if (this.owner == 1) {
+            graphics.lineStyle(2, 0x66CCFF);
+        }
+
         //draw line from center to center
         //TODO: Draw line from edge of origin to center of target
         graphics.moveTo(0, 0);
