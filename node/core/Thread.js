@@ -83,9 +83,9 @@ class Thread {
             let player = this.players[i % this.players.length];
             for (let k in this.buildings[player.id]) {
                 let building = this.buildings[player.id][k];
-                if (!building.isBuild) {
+                if (!building.isBuilt) {
                     building.buildCounter++;
-                    if (building.isBuild) {
+                    if (building.isBuilt) {
                         // Make this building ready for emitting to clients
                         this.mutation.building.push(building.view);
                     }

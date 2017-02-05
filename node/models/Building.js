@@ -30,7 +30,7 @@ class Building {
      * @returns returns troop if it can, undefined otherwise
      */
     attemptSpawn(id, direction) {
-        if (this.isBuild && this.technology) {
+        if (this.isBuilt && this.technology) {
             return new Troop(id, this.technology.unit, this.owner, {x: this.cell.x, y: this.cell.y}, direction);
         }
     }
@@ -98,7 +98,7 @@ class Building {
         this._buildCounter = buildCounter;
     }
 
-    get isBuild() {
+    get isBuilt() {
         const isEmpty = !this.technology
         return isEmpty || !this.isBuilding;
     }
