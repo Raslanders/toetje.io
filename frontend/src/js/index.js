@@ -4,8 +4,10 @@ const Renderer = require('./graphics/Renderer');
 
 let game = new Renderer();
 
+game = new Renderer(document.getElementsByClassName("pixi-view")[0]);
 socket.on('start', (data) => {
     game.state.socket = socket;
+
     // Parse mapdata
     game.state.map.parse(data.map);
     // Parse playerID to somehow set active base
