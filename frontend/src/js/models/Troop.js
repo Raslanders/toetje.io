@@ -3,6 +3,18 @@ const PIXI = require('pixi.js');
 const Laser = require('./Laser');
 
 class Troop extends Entity {
+    constructor(data) {
+        super()
+        this.updateFromTick(data);
+    }
+
+    updateFromTick(data) {
+        this.id = data.id;
+        this.name = data.name;
+        this.position = data.position;
+        this.owner = data.owner;
+        this.direction = data.direction;
+    }
 
     //Coordinates are grid coordinates
     render(stage, renderer, position) {

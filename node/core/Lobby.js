@@ -14,12 +14,11 @@ class Lobby {
     }
 
     enter(player) {
-        console.log(`Player ${this.playerIndex} has joined`);
         player.id = this.playerIndex;
         this.playerIndex++;
 
         this.players.push(player);
-        this.emit('join', 'Player has joined');
+        this.emit('join', `Player ${player.id} has joined`);
 
         if (this.players.length === 2) {
             this.start();

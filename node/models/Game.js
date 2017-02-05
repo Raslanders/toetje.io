@@ -42,7 +42,7 @@ class Game {
             // Send bootstrap data to client
             this.bootstrap();
             this.thread.run();
-        }, 500);
+        }, 1000);
     }
 
     stop() {
