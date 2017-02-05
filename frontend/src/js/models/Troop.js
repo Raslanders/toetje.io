@@ -39,7 +39,10 @@ class Troop extends Entity {
         //direction this unit is moving in
         this.direction = data.direction;
 
-        this.targetPosition = data.target ? data.target : null;
+        if (this.targetPosition != data.target) {
+            this.endLaser();
+            this.targetPosition = data.target ? data.target : null;
+        }
     }
 
     //Coordinates are grid coordinates
@@ -62,6 +65,7 @@ class Troop extends Entity {
     }
 
     moveTo(newX, newY) {
+        console.log(this.id, this.newX, this.newY, this.x, this.y);
         //positions are in screen coordinates
         this.newX = newX;
         this.newY = newY;
@@ -75,16 +79,14 @@ class Troop extends Entity {
             return;
         }
 
+        this.animateAttack(this.targetPosition);
+
         // move
         if (this.x !== this.newX || this.y !== this.newY) {
             //show animation movement
             // console.log(this.id, "lopen maar, dus ook geen pfew pfew");
             this.animateMovement();
-            this.endLaser();
-            return;
         }
-
-        this.animateAttack(this.targetPosition);
     }
 
 
@@ -103,15 +105,19 @@ class Troop extends Entity {
     animateMovement() {
         if (this.x === this.newX && this.y === this.newY) {
             return false;
-            //no movement;
         }
         let xDiff = this.newX - this.x;
         let yDiff = this.newY - this.y;
+        console.log(this.id, this.newX, this.newY, this.x, this.y);
 
         if (xDiff == 0 && yDiff == 0) {
             return false;
         }
         //figure out the new coordinates with a manhattan distance of at most movePerTick
+        this.x = this.newX;
+        this.y = this.newY;
+        return true;
+
         if (xDiff > 0) {
             this.x = this.x + Math.min(xDiff, this.movePerTick);
         } else {
@@ -170,7 +176,6 @@ class Troop extends Entity {
                 targetY + 0.5 * Globals.cellHeight,
                 this.owner
             );
-
             this.gameRenderer.addToQueue(this.laser, true);
         }
     }
@@ -183,6 +188,9 @@ class Troop extends Entity {
     }
 
     deathAnimation() {
+        this.destroy();
+        this.dead = true;
+        return;
         //animate this units death
         if (this.deathAnimationTick > this.deathAnimationTicks) {
             this.destroy();

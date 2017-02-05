@@ -99,7 +99,7 @@ class Troop {
             let playerTroops = troops[p];
             for (let k in playerTroops) {
                 let troop = playerTroops[k];
-                if (troop.id !== this.id) {
+                if (troop.id !== this.id && !troop.isDead) {
                     // console.log("Check for collision: ", [this.id, troop.id]);
                     let position = troop.position;
                     if (this.positionInRange(position, troop.owner.id === this.owner.id)) {
@@ -172,7 +172,7 @@ class Troop {
             name: this.unit.name,
             direction: this.direction,
             health: this.health,
-            target: this.target && !this.isDead ? this.target.position : null
+            target: this.target && !this.isDead && !this.target.isDead ? this.target.position : null
         };
     }
 
