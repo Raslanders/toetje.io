@@ -14,6 +14,8 @@ class Renderer {
         this.canvasState = new CanvasState();
 
         this.mapInitialized = false;
+        this.queue = [];
+        this.animated = [];
 
         this.renderer = PIXI.autoDetectRenderer(0,0, { autoResize: true, antialias: true } );
         this.renderer.view.style.position = "absolute";
@@ -74,16 +76,58 @@ class Renderer {
 
         this.gameLoop();
     }
+
     gameLoop() {
         this.statsPanel.begin();
 
         this.drawState();
+        this.drawQueue();
+        this.updateAnimations();
 
         this.handleInput();
         this.renderer.render(this.stage);
 
         this.statsPanel.end();
         requestAnimationFrame(this.gameLoop.bind(this));
+    }
+
+    /**
+     * Adds an entity to the stage queue
+     * @param entity The entity to render and add to the stage
+     * @param animate Whether to animate this entity every frame
+     */
+    addToQueue(entity, animate) {
+        this.queue.push(entity);
+        if (animate) {
+            this.addAnimateEntity(entity);
+        }
+    }
+
+    /**
+     * Adds an entity to animation buffer
+     * @param entity The entity to add to the animation buffer
+     */
+    addAnimateEntity(entity) {
+        this.animated.push(entity);
+    }
+
+    /**
+     * Calls the animation function of each entity which requested to be animated
+     */
+    updateAnimations() {
+        for (let i = 0; i < this.animated.length; i++) {
+            this.animated[i].animate();
+        }
+    }
+
+    /**
+     * Draws new objects to the scene
+     */
+    drawQueue() {
+        while (this.queue.length > 0) {
+            let entity =this.queue.pop();
+            entity.render(this.stage, this.renderer)
+        }
     }
 
     drawState() {

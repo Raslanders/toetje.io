@@ -6,9 +6,10 @@ const TechTree = require('../view/TechTree');
 const Troop = require('../models/Troop');
 
 class State {
-    constructor() {
+    constructor(renderer) {
+        this.renderer = renderer;
         this.gameState = 'lobby';
-        this.map = new Map();
+        this.map = new Map(renderer);
         this.socket = null;
         this.techTree = [];
         this.troops = {};
@@ -40,6 +41,7 @@ class State {
         if (!troop) {
             troop = new Troop(troopData);
             this.troops[id] = troop;
+            this.renderer.addToQueue(troop, true);
             return;
         }
 

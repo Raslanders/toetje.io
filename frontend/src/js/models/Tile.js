@@ -25,6 +25,7 @@ class Tile {
         if (data.type === 'building') {
             this.building = new Building();
             this.building.tile = this;
+            this.renderer.addToQueue(this.building, false);
         }
     }
 }

@@ -3,7 +3,8 @@ const Globals = require('./Globals');
 const _ = require('lodash');
 
 class Map {
-    constructor() {
+    constructor(renderer) {
+        this.renderer = renderer;
         //Initalize tiles empty
         this.tiles = [];
         for(let x = 0; x < Globals.gridWidth; x++) {
@@ -19,7 +20,7 @@ class Map {
     parse(data) {
         _.each(this.tiles, (row, x) => {
             _.each(row, (tile, y) => {
-                tile.parse(data[x][y]);
+                tile.parse(data[x][y], this.renderer);
             });
         })
     }
