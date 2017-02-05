@@ -29,6 +29,7 @@ class Laser extends Entity {
             this.alpha = 1;
         }
         this.displayObject.alpha = this.alpha;
+        return true;
     }
 
     get displayObject() {

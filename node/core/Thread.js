@@ -57,6 +57,7 @@ class Thread {
      * Updates all combat taking place
      */
     updateCombat() {
+        let deadTroops = [];
         for (let i = this.token; i < this.players.length + this.token; i++) {
             let player = this.players[i % this.players.length];
             for (let k in this.troops[player.id]) {
@@ -65,11 +66,18 @@ class Thread {
 
                 troop.attack(targets[0]);
                 if (targets[0] && targets[0].isDead) {
+                    deadTroops.push(troop.id);
                     troop.target = null;
-                    _.remove(this.troops[player.id], p => p.id === troop.id);
                 }
                 // Make the troop ready for emitting to clients
                 this.prepareTroopForTick(troop);
+            }
+        }
+        // Remove all dead troops
+        for (let troop of deadTroops) {
+            for (let i = this.token; i < this.players.length + this.token; i++) {
+                let player = this.players[i % this.players.length];
+                _.remove(this.troops[player.id], p => p.id === troop.id);
             }
         }
     }

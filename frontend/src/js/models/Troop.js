@@ -25,7 +25,7 @@ class Troop extends Entity {
         //position is in tile coordinates
         if (this.position) {
             //we already had a position, check if we moved
-            if (this.position.x != data.position.x || this.position.y != data.position.y) {
+            if (this.x !== data.position.x || this.y !== data.position.y) {
                 //we moved, set coordinates for animation
                 this.moveTo(data.position.x * Globals.cellWidth, data.position.y * Globals.cellHeight);
             }
@@ -35,7 +35,7 @@ class Troop extends Entity {
         //update the tile position
         this.position = data.position;
         //owner id of the unit
-        this.owner = +data.owner;
+        this.owner = data.owner;
         //direction this unit is moving in
         this.direction = data.direction;
 
@@ -65,7 +65,6 @@ class Troop extends Entity {
     }
 
     moveTo(newX, newY) {
-        console.log(this.id, this.newX, this.newY, this.x, this.y);
         //positions are in screen coordinates
         this.newX = newX;
         this.newY = newY;
@@ -76,7 +75,11 @@ class Troop extends Entity {
             //We have to start the dead animation and have to stop firing
             this.endLaser();
             this.deathAnimation();
-            return;
+            return true;
+        }
+        if (this.health <= 0) {
+            // Return false, we no longer want to keep animating
+            return false;
         }
 
         this.animateAttack(this.targetPosition);
@@ -84,19 +87,17 @@ class Troop extends Entity {
         // move
         if (this.x !== this.newX || this.y !== this.newY) {
             //show animation movement
-            // console.log(this.id, "lopen maar, dus ook geen pfew pfew");
             this.animateMovement();
         }
+        return true;
     }
 
 
     //TargetCoordinates contains the coordinates of the target unit
     animateAttack(position) {
         if (!this.laser && position) {
-            console.log(this.id, "pfew pfew pfew");
             this.beginLaser(position.x * 50, position.y * 50);
         } else if (this.laser && !position) {
-            console.log(this.id, "geen pfew pfew meer, niet dood");
             this.endLaser();
         }
     }
@@ -108,16 +109,11 @@ class Troop extends Entity {
         }
         let xDiff = this.newX - this.x;
         let yDiff = this.newY - this.y;
-        console.log(this.id, this.newX, this.newY, this.x, this.y);
 
         if (xDiff == 0 && yDiff == 0) {
             return false;
         }
         //figure out the new coordinates with a manhattan distance of at most movePerTick
-        this.x = this.newX;
-        this.y = this.newY;
-        return true;
-
         if (xDiff > 0) {
             this.x = this.x + Math.min(xDiff, this.movePerTick);
         } else {
@@ -131,6 +127,11 @@ class Troop extends Entity {
 
         return true;
     }
+
+    destroy() {
+        super.destroy();
+    }
+
 
     get displayObject() {
         if (this._sprite) {
@@ -151,9 +152,8 @@ class Troop extends Entity {
             graphics.lineStyle(2, 0x2ECC40);
         }
 
-
         graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3, Globals.cellHeight / 3);
-        graphics.lineStyle(.5, 0xFFF);
+        graphics.lineStyle(0.5, 0xFFF);
         graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3 + 1, Globals.cellHeight / 3 + 1);
         graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3 - 1, Globals.cellHeight / 3 - 1);
         graphics.endFill();
@@ -188,14 +188,10 @@ class Troop extends Entity {
     }
 
     deathAnimation() {
-        this.destroy();
-        this.dead = true;
-        return;
         //animate this units death
         if (this.deathAnimationTick > this.deathAnimationTicks) {
             this.destroy();
             this.dead = true;
-            console.log("DOOD HELEMAAL DOOD doei");
             return;
         }
         //slowly fade the sprite
