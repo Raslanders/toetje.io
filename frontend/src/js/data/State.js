@@ -11,6 +11,7 @@ class State {
     }
 
     createBuilding(x, y, technologyId) {
+        console.log(x + "-" + y);
         this.socket.emit('build', { x, y, technologyId });
     }
 

@@ -75,7 +75,11 @@ class Renderer {
         this.statsPanel.begin();
 
         this.drawState();
+
+        this.handleInput();
         this.renderer.render(this.stage);
+
+
 
         this.statsPanel.end();
         requestAnimationFrame(this.gameLoop.bind(this));
@@ -153,6 +157,13 @@ class Renderer {
         tileGraphics.zOrder = -1;
         this.stage.addChild(tileGraphics);
         return tileGraphics;
+    }
+
+    handleInput() {
+        let canvasDblClick = this.canvasState.getDblClick();
+        if(canvasDblClick) {
+            this.state.createBuilding(canvasDblClick.x, canvasDblClick.y, 1);
+        }
     }
 }
 
