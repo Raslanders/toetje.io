@@ -18,6 +18,8 @@ class CanvasState {
 
         this.hoverGraphic = null;
         this.selectedGraphic = null;
+
+        this.dblClick = null;
     }
 
     handleMouseDown(mouseData) {
@@ -28,11 +30,20 @@ class CanvasState {
     }
 
     handleMouseUp(mouseData) {
-        this.selectedTile = {};
         let currentTime = +new Date();
         if(currentTime - this.clickTime <= 200) {
+            if(this.selectedTile && this.hoverTile.x == this.selectedTile.x && this.hoverTile.y == this.selectedTile.y) {
+                this.dblClick = {};
+                this.dblClick.x = this.selectedTile.x;
+                this.dblClick.y = this.selectedTile.y;
+            }
+            else {
+                this.dblClick = null;
+            }
             //if it was a short click we are not dragging but instead we wanted to select
             if(this.hoverTile) {
+                if(!this.selectedTile)
+                    this.selectedTile = {};
                 this.selectedTile.x = +this.hoverTile.x;
                 this.selectedTile.y = +this.hoverTile.y;
             }
@@ -100,6 +111,18 @@ class CanvasState {
 
     getHoverGraphic() {
         return this.hoverGraphic;
+    }
+
+    getDblClick() {
+        let tempDblClick = null;
+        if(this.dblClick) {
+            tempDblClick = {};
+            tempDblClick.x = this.dblClick.x;
+            tempDblClick.y = this.dblClick.y;
+        }
+        this.dblClick = null;
+
+        return tempDblClick;
     }
 }
 
