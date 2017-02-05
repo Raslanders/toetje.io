@@ -10,6 +10,7 @@ class Troop extends Entity {
         this.position = {x:data.position.x,y:data.position.y};
         this.updateFromTick(data);
         this.gameRenderer = gameRenderer;
+        this.dead = false;
 
         this.x = this.position.x * Globals.cellWidth;
         this.y = this.position.y * Globals.cellHeight;
@@ -24,19 +25,24 @@ class Troop extends Entity {
         //position is in tile coordinates
         if (this.position) {
             //we already had a position, check if we moved
-            if (this.position.x != data.position.x || this.position.y != data.position.y) {
+            if (this.x !== data.position.x || this.y !== data.position.y) {
                 //we moved, set coordinates for animation
                 this.moveTo(data.position.x * Globals.cellWidth, data.position.y * Globals.cellHeight);
             }
         }
+        this.health = data.health;
+
         //update the tile position
         this.position = data.position;
         //owner id of the unit
-        this.owner = +data.owner;
+        this.owner = data.owner;
         //direction this unit is moving in
         this.direction = data.direction;
 
-        this.targetPosition = data.target ? data.target : null;
+        if (this.targetPosition != data.target) {
+            this.endLaser();
+            this.targetPosition = data.target ? data.target : null;
+        }
     }
 
     //Coordinates are grid coordinates
@@ -45,13 +51,7 @@ class Troop extends Entity {
 
         //allows 1 movement in the x direction in 1 movement in the y direction per tick
         this.movePerTick = 5;
-        //total amount of ticks for the attack animation
-        this.attackAnimationTicks = 60;
-        //current tick in the attack animation
-        this.attackAnimationTick = 0;
 
-        //whether this unit is dead
-        this.death = false;
         //current deathAnimation tick
         this.deathAnimationTick = 0;
         //death animation time
@@ -71,40 +71,41 @@ class Troop extends Entity {
     }
 
     animate() {
-        if (this.death == true) {
-            //end laser rendering if it was still busy
+        if (this.health <= 0 && !this.dead) {
+            //We have to start the dead animation and have to stop firing
             this.endLaser();
-            //show deathAnimation
             this.deathAnimation();
-            return;
+            return true;
+        }
+        if (this.health <= 0) {
+            // Return false, we no longer want to keep animating
+            return false;
         }
 
-        //unit is not dead
-        if (this.x != this.newX || this.y != this.newY) {
-            //end laser rendering if it was still busy
-            this.endLaser();
+        this.animateAttack(this.targetPosition);
+
+        // move
+        if (this.x !== this.newX || this.y !== this.newY) {
             //show animation movement
             this.animateMovement();
-            return;
         }
-
-        if (this.targetPosition) {
-            //show attack animation
-            this.animateAttack(this.targetPosition);
-        }
+        return true;
     }
 
 
     //TargetCoordinates contains the coordinates of the target unit
     animateAttack(position) {
-        this.beginLaser(position.x * 50, position.y * 50);
+        if (!this.laser && position) {
+            this.beginLaser(position.x * 50, position.y * 50);
+        } else if (this.laser && !position) {
+            this.endLaser();
+        }
     }
 
     //return true if this unit has moved
     animateMovement() {
         if (this.x === this.newX && this.y === this.newY) {
             return false;
-            //no movement;
         }
         let xDiff = this.newX - this.x;
         let yDiff = this.newY - this.y;
@@ -127,6 +128,11 @@ class Troop extends Entity {
         return true;
     }
 
+    destroy() {
+        super.destroy();
+    }
+
+
     get displayObject() {
         if (this._sprite) {
             return this._sprite;
@@ -146,9 +152,8 @@ class Troop extends Entity {
             graphics.lineStyle(2, 0x2ECC40);
         }
 
-
         graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3, Globals.cellHeight / 3);
-        graphics.lineStyle(.5, 0xFFF);
+        graphics.lineStyle(0.5, 0xFFF);
         graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3 + 1, Globals.cellHeight / 3 + 1);
         graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3 - 1, Globals.cellHeight / 3 - 1);
         graphics.endFill();
@@ -171,7 +176,6 @@ class Troop extends Entity {
                 targetY + 0.5 * Globals.cellHeight,
                 this.owner
             );
-
             this.gameRenderer.addToQueue(this.laser, true);
         }
     }
@@ -183,15 +187,11 @@ class Troop extends Entity {
         }
     }
 
-    destroyUnit() {
-        //mark this unit for destruction
-        this.death = true;
-    }
-
     deathAnimation() {
         //animate this units death
         if (this.deathAnimationTick > this.deathAnimationTicks) {
-            //TODO: call remove function
+            this.destroy();
+            this.dead = true;
             return;
         }
         //slowly fade the sprite

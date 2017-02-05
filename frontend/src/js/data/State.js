@@ -19,14 +19,14 @@ class State {
         this.resources = new Resource(document.getElementsByClassName('_resources')[0]);
     }
 
-    createBuilding(x, y, technologyId) {
-        console.log(x + "-" + y);
+    createBuilding(x, y) {
+        const technologyId = this.techtree.activeTech;
         this.socket.emit('build', { x, y, technologyId });
     }
 
     parseMutation(mutation) {
         _.each(mutation.building, b => {
-            this.map.updateBuildingAtPosition(b.position, b);
+            this.map.updateBuildingAtPosition(b.position, b, this.techtree);
         })
         _.each(mutation.troop, t => {
             this.updateTroop(t.id, t);

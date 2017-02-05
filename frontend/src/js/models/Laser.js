@@ -1,4 +1,5 @@
 const Entity = require("./Entity");
+const Globals = require('../data/Globals');
 const PIXI = require('pixi.js');
 
 class Laser extends Entity {
@@ -13,10 +14,14 @@ class Laser extends Entity {
         this.alpha = 1;
     }
 
-    render (stage, renderer){
+    render(stage, renderer){
         super.render(stage, renderer);
 
         this.add({x: this.originX, y: this.originY});
+    }
+
+    destroy() {
+        super.destroy();
     }
 
     animate() {
@@ -25,6 +30,7 @@ class Laser extends Entity {
             this.alpha = 1;
         }
         this.displayObject.alpha = this.alpha;
+        return true;
     }
 
     get displayObject() {
@@ -34,22 +40,32 @@ class Laser extends Entity {
 
         const graphics = new PIXI.Graphics();
         if (this.owner == 1) {
-            graphics.lineStyle(1, 0xFF4136);
+            graphics.lineStyle(2, 0xFF4136);
         }
         if (this.owner == 2) {
-            graphics.lineStyle(1, 0x66CCFF);
+            graphics.lineStyle(2, 0x4169E1);
+
         }
 
+        let angle = Math.atan2(this.targetY - this.originY,this.targetX - this.originX);
 
-        graphics.moveTo(0, 0);
+        let exitX =  Math.cos(angle)*Globals.gridWidth;
+        let exitY =  Math.sin(angle)*Globals.gridHeight;
+
+        graphics.moveTo(exitX, exitY);
         graphics.lineTo(this.targetX - this.originX, this.targetY - this.originY);
 
-        graphics.lineStyle(1, 0xFFF);
+        if (this.owner == 1) {
+            graphics.lineStyle(1, 0xFF4500);
+        }
+        if (this.owner == 2) {
+            graphics.lineStyle(1, 0x7Fdbff);
+        }
 
-        graphics.moveTo(1, 0);
-        graphics.lineTo(this.targetX - this.originX + 1, this.targetY - this.originY);
-        graphics.moveTo(-1, 0);
-        graphics.lineTo(this.targetX - this.originX - 1 , this.targetY - this.originY);
+        graphics.moveTo(3+exitX, exitY);
+        graphics.lineTo(this.targetX - this.originX, this.targetY - this.originY);
+        graphics.moveTo(-3+exitX, exitY);
+        graphics.lineTo(this.targetX - this.originX , this.targetY - this.originY);
         // graphics.antiAlias = true;
 
         this._sprite = graphics;

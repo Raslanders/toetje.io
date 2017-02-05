@@ -15,9 +15,9 @@ const Globals = require('../data/Globals');
 
 class Building extends Entity {
     // Instantiate building from bootstrap map data
-    constructor(data) {
+    constructor(data, techTree) {
         super();
-        this.updateFromTick(data);
+        this.updateFromTick(data, techTree);
     }
 
     render(stage, renderer) {
@@ -28,56 +28,33 @@ class Building extends Entity {
     animate() {
     }
 
-    updateFromTick(data) {
+    updateFromTick(data, techTree) {
         this.name = data.name;
         this.owner = data.owner;
         this.technology = data.technology;
+
+        // Only upon the initial construction a techTree is given
+        if (techTree) {
+            this.spriteUrl = techTree.getSpriteUrlForTechId(data.technology);
+        }
         //position is in tile coordinates
         this.position = {x: data.position.x, y: data.position.y};
     }
 
     get displayObject() {
-        if (this._sprite) {
-            return this._sprite;
+        if (this.sprite) {
+            return this.sprite;
         }
 
-        const graphics = new PIXI.Graphics();
-        if (this.owner == 1) {
-            graphics.beginFill(0xFF4136);
-        }
-        if (this.owner == 2) {
-            graphics.beginFill(0x66CCFF);
-        }
-        if (this.owner == 3) {
-            graphics.beginFill(0xFFDC00);
-        }
-        if (this.owner == 4) {
-            graphics.beginFill(0x2ECC40);
+        const sprite = PIXI.Sprite.fromImage(this.spriteUrl);
 
-        }
+        // Hardcode the scaling for now
+        const scale = Globals.cellWidth / Globals.spriteSize
+        sprite.scale.x = scale;
+        sprite.scale.y = scale;
 
-
-        graphics.moveTo(Globals.cellWidth * 0.5, 0);
-        graphics.lineTo(0, 0);
-        graphics.lineTo(0, Globals.cellHeight * 0.5);
-
-        graphics.moveTo(Globals.cellWidth * 0.5, 0);
-        graphics.lineTo(Globals.cellWidth, 0);
-        graphics.lineTo(Globals.cellWidth, Globals.cellHeight * 0.5);
-
-        graphics.moveTo(0, Globals.cellHeight * 0.5);
-        graphics.lineTo(0, Globals.cellHeight);
-        graphics.lineTo(Globals.cellWidth * 0.5, Globals.cellHeight);
-
-        graphics.moveTo(Globals.cellWidth * 0.5, Globals.cellHeight);
-        graphics.lineTo(Globals.cellWidth, Globals.cellHeight);
-        graphics.lineTo(Globals.cellWidth, Globals.cellHeight * 0.5);
-
-        graphics.endFill();
-
-        const texture = this.renderer.generateTexture(graphics);
-        this._sprite = new PIXI.Sprite(texture);
-        return this._sprite;
+        this.sprite = sprite;
+        return sprite;
     }
 
     set displayObject(displayObject) {

@@ -31,6 +31,7 @@ class Tile extends Entity {
             }
             this.timeout = 0;
         }
+        return true;
     }
 
     parse(data, gameRenderer) {
@@ -39,8 +40,8 @@ class Tile extends Entity {
         gameRenderer.addToQueue(this, true);
     }
 
-    createBuilding(gameRenderer,buildingData) {
-        this.building = new Building(buildingData);
+    createBuilding(gameRenderer, buildingData, techTree) {
+        this.building = new Building(buildingData, techTree);
         this.building.tile = this;
         gameRenderer.addToQueue(this.building, false);
     }

@@ -13,6 +13,7 @@ class Thread {
         this.waveCounter = 0;
         this.stopped = false;
         this.mutation = {};
+        this.ids = {};
     }
 
     /**
@@ -54,15 +55,31 @@ class Thread {
         this.mutation.troop.push(troop.view)
     }
 
+    /**
+     * Updates all combat taking place
+     */
     updateCombat() {
+        let deadTroops = [];
         for (let i = this.token; i < this.players.length + this.token; i++) {
             let player = this.players[i % this.players.length];
             for (let k in this.troops[player.id]) {
                 let troop = this.troops[player.id][k];
                 let targets = troop.inRange(this.troops);
+
                 troop.attack(targets[0]);
+                if (targets[0] && targets[0].isDead) {
+                    deadTroops.push(troop.id);
+                    troop.target = null;
+                }
                 // Make the troop ready for emitting to clients
                 this.prepareTroopForTick(troop);
+            }
+        }
+        // Remove all dead troops
+        for (let troop of deadTroops) {
+            for (let i = this.token; i < this.players.length + this.token; i++) {
+                let player = this.players[i % this.players.length];
+                _.remove(this.troops[player.id], p => p.id === troop.id);
             }
         }
     }
@@ -123,13 +140,10 @@ class Thread {
             let player = this.players[i % this.players.length];
             for (let k in this.troops[player.id]) {
                 let troop = this.troops[player.id][k];
-                if (!troop.target) {
-                    //Only move if you have not attacked
-                    if (!troop.collides(this.troops)) {
-                        troop.move();
-                        // Make the troop ready for emitting to clients
-                        this.prepareTroopForTick(troop);
-                    }
+                if (!troop.collides(this.troops)) {
+                    troop.move();
+                    // Make the troop ready for emitting to clients
+                    this.prepareTroopForTick(troop);
                 }
             }
         }
@@ -160,6 +174,7 @@ class Thread {
                     let troop = building.attemptSpawn(this.troopId(player), building.base.direction);
                     if (troop) {
                         this.troops[player.id].push(troop);
+                        this.ids[player.id]++;
                         // Make the troop ready for emitting to clients
                         this.prepareTroopForTick(troop);
                     }
@@ -181,7 +196,10 @@ class Thread {
      * @returns {string}
      */
     troopId(player) {
-        return player.id + "-" + this.troops[player.id].length;
+        if (this.ids[player.id] === undefined) {
+            this.ids[player.id] = 1;
+        }
+        return player.id + "-" + this.ids[player.id];
     }
 
     // Getters and setters
