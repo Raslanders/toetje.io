@@ -21,10 +21,6 @@ class State {
         this.socket.emit('build', { x, y, technologyId });
     }
 
-    parsePlayer(id) {
-        console.log('Playing as Player', id);
-    }
-
     parseMutation(mutation) {
         _.each(mutation.building, b => {
             this.map.updateBuildingAtPosition(b.position, b);

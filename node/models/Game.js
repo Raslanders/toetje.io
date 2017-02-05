@@ -30,106 +30,20 @@ class Game {
     }
 
     start() {
-        console.log('Generating bases for players');
         this.bases = this.map.generateBases(this.players);
         for (let k in this.bases) {
             let base = this.bases[k];
             this.buildings[base.owner.id].push(...base.buildings);
         }
 
-        // Make sure you don't emit too early
-        // Socket.io fucks something up
-        setTimeout(() => {
-            // Send bootstrap data to client
-            this.bootstrap();
-            this.thread.run();
-        }, 1000);
+        console.log('Game start');
+        // Send bootstrap data to client
+        this.bootstrap();
+        this.thread.run();
     }
 
     stop() {
-        this.emit('stop');
         this.thread.stop();
-    }
-
-    // Getters & setters
-    get players() {
-        return this._players;
-    }
-
-    set players(players) {
-        if (players) {
-            this._players = players;
-        }
-    }
-
-    get map() {
-        return this._map;
-    }
-
-    set map(map) {
-        if (map) {
-            this._map = map;
-        }
-    }
-
-    get thread() {
-        return this._thread;
-    }
-
-    set thread(thread) {
-        if (thread) {
-            this._thread = thread;
-        }
-    }
-
-    get bases() {
-        return this._bases;
-    }
-
-    set bases(bases) {
-        if (bases) {
-            this._bases = bases;
-        }
-    }
-
-    get troops() {
-        return this._troops;
-    }
-
-    set troops(troops) {
-        if (troops) {
-            this._troops = troops;
-        }
-    }
-
-    get units() {
-        return this._units;
-    }
-
-    set units(units) {
-        if (units) {
-            this._units = units;
-        }
-    }
-
-    get technologies() {
-        return this._technologies;
-    }
-
-    set technologies(technologies) {
-        if (technologies) {
-            this._technologies = technologies;
-        }
-    }
-
-    get buildings() {
-        return this._buildings;
-    }
-
-    set buildings(buildings) {
-        if (buildings) {
-            this._buildings = buildings;
-        }
     }
 
     bootstrap() {

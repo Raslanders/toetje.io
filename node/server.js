@@ -1,6 +1,5 @@
 var server = require('http').createServer();
 var io = require('socket.io')(server);
-
 var Lobby = require('./core/Lobby');
 var Player = require('./models/Player');
 
@@ -13,6 +12,11 @@ io.on('connection', function(client){
 
     client.on('build', message => {
         l.handleMessage(p, message);
+    });
+
+    client.on('ack', () => {
+        p.ready = true;
+        l.maybeStart();
     });
     client.on('disconnect', () => {
         l.leave(p);
