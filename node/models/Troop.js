@@ -32,7 +32,7 @@ class Troop {
             let playerTroops = troops[p];
             for (let k in playerTroops) {
                 let troop = playerTroops[k];
-                if (troop.id !== this.id) {
+                if (troop.owner.id !== this.owner.id) {
                     // console.log("Check for collision: ", [this.id, troop.id]);
                     let position = troop.position;
                     if (this.positionInRange(position)) {
