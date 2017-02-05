@@ -2,20 +2,30 @@ const Entity = require("./Entity");
 const PIXI = require('pixi.js');
 
 class Laser extends Entity {
-
-
-    constructor(stage, renderer, originX, originY, targetX, targetY) {
+    constructor(originX, originY, targetX, targetY, owner) {
         super();
-        super.render(stage, renderer);
 
         this.originX = originX;
         this.originY = originY;
         this.targetX = targetX;
         this.targetY = targetY;
-
-        this.add({x: originX, y: originY});
+        this.owner = owner;
+        this.alpha = 1;
     }
 
+    render (stage, renderer){
+        super.render(stage, renderer);
+
+        this.add({x: this.originX, y: this.originY});
+    }
+
+    animate() {
+        this.alpha -= 0.1;
+        if (this.alpha <= -1) {
+            this.alpha = 1;
+        }
+        this.displayObject.alpha = this.alpha;
+    }
 
     get displayObject() {
         if (this._sprite) {
@@ -23,11 +33,11 @@ class Laser extends Entity {
         }
 
         const graphics = new PIXI.Graphics();
-        if (this.owner == 2) {
-            graphics.lineStyle(1, 0xFF4136, 0.3);
-        }
         if (this.owner == 1) {
-            graphics.lineStyle(1, 0x66CCFF, 0.3);
+            graphics.lineStyle(1, 0xFF4136);
+        }
+        if (this.owner == 2) {
+            graphics.lineStyle(1, 0x66CCFF);
         }
 
 
