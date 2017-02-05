@@ -11,13 +11,13 @@ class State {
         this.gameState = 'lobby';
         this.map = new Map(renderer);
         this.socket = null;
-        this.techTree = [];
         this.troops = {};
         this.techtree = new TechTree(document.getElementsByClassName('_tech-tree')[0]);
     }
 
-    createBuilding(x, y, technologyId) {
-        console.log(x + "-" + y);
+    createBuilding(x, y) {
+        const adsf = this;
+        const technologyId = this.techtree.activeTech;
         this.socket.emit('build', { x, y, technologyId });
     }
 
