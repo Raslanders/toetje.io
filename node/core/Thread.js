@@ -65,6 +65,7 @@ class Thread {
 
                 troop.attack(targets[0]);
                 if (targets[0] && targets[0].isDead) {
+                    troop.target = null;
                     _.remove(this.troops[player.id], p => p.id === troop.id);
                 }
                 // Make the troop ready for emitting to clients
@@ -117,9 +118,6 @@ class Thread {
             let player = this.players[i % this.players.length];
             for (let k in this.troops[player.id]) {
                 let troop = this.troops[player.id][k];
-                if (troop.isDead) {
-                    continue;
-                }
                 if (!troop.collides(this.troops)) {
                     troop.move();
                     // Make the troop ready for emitting to clients
@@ -169,7 +167,7 @@ class Thread {
      */
     troopId(player) {
         if (this.ids[player.id] === undefined) {
-            this.ids[player.id] = 0;
+            this.ids[player.id] = 1;
         }
         return player.id + "-" + this.ids[player.id];
     }
