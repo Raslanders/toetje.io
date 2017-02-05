@@ -7,6 +7,11 @@ class State {
     constructor() {
         this.gameState = 'lobby';
         this.map = new Map();
+        this.socket = null;
+    }
+
+    createBuilding(x, y, technologyId) {
+        this.socket.emit('build', { x, y, technologyId });
     }
 
     // parseMap(map) {
@@ -30,7 +35,7 @@ class State {
 
     start() {
         console.log('Game started');
-        this.gameState = 'stared';
+        this.gameState = 'started';
     }
 
     stop() {

@@ -13,12 +13,16 @@ class Renderer {
         this.state = new State();
         this.canvasState = new CanvasState();
 
-        this.renderer = PIXI.autoDetectRenderer(0,0, { antialias: true });
+        this.mapInitialized = false;
+
+        this.renderer = PIXI.autoDetectRenderer(0,0, { antialias: true } );
         this.renderer.view.style.position = "absolute";
         this.renderer.view.style.display = "block";
         this.renderer.autoResize = true;
         this.renderer.resize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.view);
+
+
 
         //Create new PIXI container in interactive mode
         this.stage = new PIXI.Container(0x66FF99, true);
@@ -59,11 +63,12 @@ class Renderer {
             this.canvasState.handleMouseMove(mousedata);
         });
 
-        this.building = new Building(this.stage, this.renderer, {x: 50, y: 50});
-        this.building2 = new Building(this.stage, this.renderer, {x: 100, y: 250});
-        this.unit = new Troop(this.stage, this.renderer, {x: 50, y: 250});
-        this.unit.attack(50,300);
 
+        this.building = new Building();
+        this.unit = new Troop();
+        this.building.render(this.stage, this.renderer, {x: 50, y: 50});
+        this.unit.render(this.stage, this.renderer, {x: 50, y: 250});
+        this.unit.attack(50,300);
 
         this.gameLoop();
     }
@@ -80,6 +85,15 @@ class Renderer {
 
     drawState() {
         this.canvasState.handleCamera(this.stage);
+        if(!this.mapInitialized && this.state.gameState == "started") {
+            this.mapInitialized = true;
+            for(let i = 0; i < this.state.map.tiles.length; i++) {
+                for(let j = 0; j < this.state.map.tiles[i].length; j++) {
+                    let tile = this.state.map.tiles[i][j];
+                    tile.setModel(this.drawTile(tile));
+                }
+            }
+        }
 
         let hoverTile = this.canvasState.getHoverTile();
         let selectedTile = this.canvasState.getSelectedTile();
@@ -123,27 +137,24 @@ class Renderer {
         let tileGraphics = new PIXI.Graphics();
         if(tile.type == "lane") {
             tileGraphics.beginFill(0xFF851B, 0.50);
-        } else if(tile.type == "base" && tile.owner == 1) {
+        } else if(tile.type == "building" && tile.owner == 1) {
             tileGraphics.beginFill(0xFF4136, 0.50);
-        } else if(tile.type == "base" && tile.owner == 2) {
+        } else if(tile.type == "building" && tile.owner == 2) {
             tileGraphics.beginFill(0x0074D9, 0.50);
+        } else if(tile.type == "base" && tile.owner == 1) {
+            tileGraphics.beginFill(0xFF4136, 1.0);
+        } else if(tile.type == "base" && tile.owner == 2) {
+            tileGraphics.beginFill(0x0074D9, 1.0);
         } else {
             tileGraphics.destroy();
             let text = new PIXI.Text('?', { fill: "#ffffff" });
             return text;
         }
-        tileGraphics.drawRect(tile.x * Globals.cellWidth, tile.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight)
+        tileGraphics.drawRect(tile.position.x * Globals.cellWidth, tile.position.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight)
         tileGraphics.endFill();
+        tileGraphics.zOrder = -1;
         this.stage.addChild(tileGraphics);
         return tileGraphics;
-    }
-
-    renderMap() {
-        for(let i = 0; i < this.state.map.length; i++) {
-            for(let j = 0; j < this.state.map[i].length; j++) {
-                this.drawTile(this.state.map[i][j]);
-            }
-        }
     }
 }
 
