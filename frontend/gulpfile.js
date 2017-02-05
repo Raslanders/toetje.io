@@ -40,6 +40,12 @@ gulp.task('sass', function() {
         .pipe(gulp.dest('www/'))
 });
 
+// Compile sass
+gulp.task('static', function() {
+    return gulp.src('src/static/*.*')
+        .pipe(gulp.dest('www/static/'));
+});
+
 // Render html
 gulp.task('html', ['js', 'sass'], function() {
     return gulp.src('src/html/index.html')
@@ -48,7 +54,7 @@ gulp.task('html', ['js', 'sass'], function() {
         .pipe(gulp.dest('www/'))
 });
 
-gulp.task('build', ['js', 'sass', 'html'], function() {
+gulp.task('build', ['js', 'sass', 'static', 'html'], function() {
     gutil.log(gutil.colors.green('Done running build'));
 });
 

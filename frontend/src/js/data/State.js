@@ -13,7 +13,7 @@ class State {
         this.socket = null;
         this.techTree = [];
         this.troops = {};
-        this.techtree = new TechTree(document.getElementsByClassName("buildings")[0]);
+        this.techtree = new TechTree(document.getElementsByClassName('_tech-tree')[0]);
     }
 
     createBuilding(x, y, technologyId) {
