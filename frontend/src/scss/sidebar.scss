@@ -6,6 +6,7 @@
     width: 100%;
     height: 120px;
     position: relative;
+    border-left: 2px solid transparent;
     background-size: 100px;
     background-position: 10px;
     background-repeat: no-repeat;
@@ -13,6 +14,7 @@
     // transition: opacity 0.3s ease-out;
 
     &:hover {
+        border-left: 2px solid rgba(255,255,255,0.5);
         .name {
             text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.2),0 0 2px rgba(255,255,255,0.2);
         }
@@ -20,6 +22,7 @@
     }
 
     &.active {
+        border-left: 2px solid white;
         // opacity: 1;
     }
 
