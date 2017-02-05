@@ -24,7 +24,8 @@ class State {
 
     start() {
         console.log('Game started');
-        this.gameState = 'stared';
+        this.gameState = 'started';
+        console.log('gamestate set');
     }
 
     stop() {

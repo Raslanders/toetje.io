@@ -19,6 +19,7 @@ class Map {
     parse(data) {
         _.each(this.tiles, (row, x) => {
             _.each(row, (tile, y) => {
+                console.log('tile loaded');
                 tile.parse(data[x][y]);
             });
         })

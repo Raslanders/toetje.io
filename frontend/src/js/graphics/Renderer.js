@@ -12,6 +12,8 @@ class Renderer {
         this.state = new State();
         this.canvasState = new CanvasState();
 
+        this.mapInitialized = false;
+
         this.renderer = PIXI.autoDetectRenderer(0,0, { antialias: true } );
         this.renderer.view.style.position = "absolute";
         this.renderer.view.style.display = "block";
@@ -74,7 +76,16 @@ class Renderer {
 
     drawState() {
         this.canvasState.handleCamera(this.stage);
-
+        if(!this.mapInitialized && this.state.gameState == "started") {
+            console.log('render tiles');
+            this.mapInitialized = true;
+            for(let i = 0; i < this.state.map.tiles.length; i++) {
+                for(let j = 0; j < this.state.map.tiles[i].length; j++) {
+                    let tile = this.state.map.tiles[i][j];
+                    tile.setModel(this.drawTile(tile));
+                }
+            }
+        }
 
 
 
@@ -131,18 +142,10 @@ class Renderer {
             let text = new PIXI.Text('?', { fill: "#ffffff" });
             return text;
         }
-        tileGraphics.drawRect(tile.x * Globals.cellWidth, tile.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight)
+        tileGraphics.drawRect(tile.position.x * Globals.cellWidth, tile.position.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight)
         tileGraphics.endFill();
         this.stage.addChild(tileGraphics);
         return tileGraphics;
-    }
-
-    renderMap() {
-        for(let i = 0; i < this.state.map.length; i++) {
-            for(let j = 0; j < this.state.map[i].length; j++) {
-                this.drawTile(this.state.map[i][j]);
-            }
-        }
     }
 }
 
