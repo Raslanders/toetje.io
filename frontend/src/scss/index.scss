@@ -1,23 +1,25 @@
-@import "variables";
-@import "spinner";
+@import 'variables';
 
 body, html {
     margin: 0;
     height: 100%
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     background-color: #111;
 }
 
-.container--maxheight {
+.app {
     height: 100%;
     display: -webkit-flex;
     display: flex;
-    flex-wrap: wrap;
 }
 
-.container--center {
+.flex-center {
     justify-content: center;
     flex-direction: column;
     text-align: center;
@@ -28,23 +30,15 @@ body {
     color: $primary-color;
 }
 
-.container {
+.flex-wrap {
     display: -webkit-flex;
     display: flex;
     flex-wrap: wrap;
-    -webkit-flex-flow: row wrap;
     justify-content: space-around;
 }
 
 .hidden {
     display: none;
-}
-
-.sidebar {
-    border-left: 1px solid fuchsia;
-    color: $primary-color;
-    padding: 10px;
-    overflow: scroll;
 }
 
 .initial {
@@ -53,38 +47,19 @@ body {
     width: 200px;
     min-width: 100px;
 }
-.flex1 {
+
+.flex-1 {
     -webkit-flex: 1;
     flex: 1;
 }
-.flex2 {
+.flex-2 {
     -webkit-flex: 2;
     flex: 2;
 }
-.flex3 {
+.flex-3 {
     -webkit-flex: 3;
     flex: 3;
 }
 
-.building {
-    width: 40%;
-    height: 80px;
-    margin: 1%;
-    padding: 1px;
-    border: 1px solid transparent;
-    &.active {
-        border: 1px solid green;
-    }
-    .image {
-        background: red;
-        height: 60px;
-    }
-    .name {
-        height: 10px;
-        border-top: 1px solid #fff;
-    }
-}
-
-.building:hover {
-    border: 1px solid #fff;
-}
+@import 'spinner';
+@import 'sidebar';

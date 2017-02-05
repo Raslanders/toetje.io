@@ -10,15 +10,11 @@ class TechTree {
         // append buildings
         for (let k in techtree) {
             let tech = techtree[k];
-            let div = document.createElement("div");
-            div.setAttribute("class", "building");
+            let div = document.createElement('div');
+            div.setAttribute('class', `menu-item building-${tech.slug}`);
 
-            let image = document.createElement("div");
-            image.setAttribute("class", "image");
-            div.appendChild(image);
-
-            let nameDiv = document.createElement("div");
-            nameDiv.setAttribute("class", "name");
+            let nameDiv = document.createElement('div');
+            nameDiv.setAttribute('class', 'name');
             nameDiv.innerHTML = tech.name;
             div.appendChild(nameDiv);
 
