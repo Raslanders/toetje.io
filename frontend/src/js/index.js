@@ -1,10 +1,11 @@
 //var socket = require('socket.io-client')('localhost:3000');
-var socket = require('socket.io-client')('localhost:3000');
-var Renderer = require('./graphics/Renderer');
+const socket = require('socket.io-client')('localhost:3000');
+const Renderer = require('./graphics/Renderer');
 
-var game = new Renderer();
+let game;
 
 socket.on('start', (data) => {
+    game = new Renderer();
     // Parse mapdata
     game.state.map.parse(data.map);
     // Parse playerID to somehow set active base
@@ -18,7 +19,7 @@ socket.on('tick', (data) => {
 
 socket.on('join', msg => {
     console.log(msg);
-})
+});
 
 socket.on('stop', () => {
     game.state.stop();

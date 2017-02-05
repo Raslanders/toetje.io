@@ -1,3 +1,60 @@
+@import "variables";
+@import "spinner";
+
+body, html {
+    margin: 0;
+    height: 100%
+}
+
 body {
-    margin: 0px;
+    background-color: #111;
+}
+
+.container--maxheight {
+    height: 100%;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.container--center {
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.lobby {
+    text-align: center;
+    color: $primary-color;
+}
+
+.container {
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap
+}
+
+.hidden {
+    display: none;
+}
+
+.sidebar {
+    border-left: 1px solid fuchsia;
+    color: $primary-color;
+    padding: 10px;
+}
+
+.initial {
+    -webkit-flex: initial;
+    flex: initial;
+    width: 200px;
+    min-width: 100px;
+}
+.flex1 {
+    -webkit-flex: 1;
+    flex: 1;
+}
+.flex2 {
+    -webkit-flex: 2;
+    flex: 2;
 }
