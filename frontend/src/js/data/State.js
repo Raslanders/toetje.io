@@ -16,7 +16,6 @@ class State {
     }
 
     createBuilding(x, y) {
-        const adsf = this;
         const technologyId = this.techtree.activeTech;
         this.socket.emit('build', { x, y, technologyId });
     }

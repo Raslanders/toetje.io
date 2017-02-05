@@ -10,7 +10,7 @@ class Troop {
         this.unit = unit;
         this.owner = owner;
         this.position = position;
-        this.stats = unit.stats;
+        this.health = unit.stats.health;
         this.direction = direction;
     }
 
@@ -24,6 +24,9 @@ class Troop {
 
     attack(target) {
         this.target = target;
+        if (this.target) {
+            this.target.health -= this.stats.damage;
+        }
     }
 
     inRange(troops) {
@@ -32,7 +35,7 @@ class Troop {
             let playerTroops = troops[p];
             for (let k in playerTroops) {
                 let troop = playerTroops[k];
-                if (troop.owner.id !== this.owner.id) {
+                if (troop.owner.id !== this.owner.id && !troop.isDead) {
                     let position = troop.position;
                     if (this.targetInRange(position)) {
                         targets.push(troop);
@@ -96,7 +99,7 @@ class Troop {
             let playerTroops = troops[p];
             for (let k in playerTroops) {
                 let troop = playerTroops[k];
-                if (troop.id !== this.id) {
+                if (troop.id !== this.id && !troop.isDead) {
                     // console.log("Check for collision: ", [this.id, troop.id]);
                     let position = troop.position;
                     if (this.positionInRange(position, troop.owner.id === this.owner.id)) {
@@ -168,7 +171,8 @@ class Troop {
             unit: this.unit.id,
             name: this.unit.name,
             direction: this.direction,
-            target: this.target ? this.target.position : null
+            health: this.health,
+            target: this.target && !this.isDead && !this.target.isDead ? this.target.position : null
         };
     }
 
@@ -203,13 +207,7 @@ class Troop {
     }
 
     get stats() {
-        return this._stats;
-    }
-
-    set stats(stats) {
-        if (stats) {
-            this._stats = stats;
-        }
+        return this.unit.stats;
     }
 
     get direction() {
@@ -220,6 +218,10 @@ class Troop {
         if (direction) {
             this._direction = direction;
         }
+    }
+
+    get isDead() {
+        return this.health <= 0;
     }
 }
 

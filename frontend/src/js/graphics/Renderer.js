@@ -90,7 +90,10 @@ class Renderer {
      */
     updateAnimations() {
         for (let i = 0; i < this.animated.length; i++) {
-            this.animated[i].animate();
+            let ok = this.animated[i].animate();
+            if (!ok) {
+                this.animated.splice( i, 1 );
+            }
         }
     }
 

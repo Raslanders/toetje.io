@@ -14,10 +14,14 @@ class Laser extends Entity {
         this.alpha = 1;
     }
 
-    render (stage, renderer){
+    render(stage, renderer){
         super.render(stage, renderer);
 
         this.add({x: this.originX, y: this.originY});
+    }
+
+    destroy() {
+        super.destroy();
     }
 
     animate() {
@@ -26,6 +30,7 @@ class Laser extends Entity {
             this.alpha = 1;
         }
         this.displayObject.alpha = this.alpha;
+        return true;
     }
 
     get displayObject() {

@@ -8,7 +8,7 @@
 		"required": null,
 		"stats": {
 			"name": "Melee",
-			"health": 160,
+			"health": 50,
 			"armor": 0,
 			"damage": 12,
 			"tpa": 4,
