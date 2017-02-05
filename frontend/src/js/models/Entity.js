@@ -3,9 +3,14 @@
 const PIXI = require('pixi.js');
 
 class Entity {
-    constructor(stage, renderer) {
+    constructor() {
+        this.isRendered = false;
+    }
+
+    render(stage, renderer) {
         this.stage = stage;
         this.renderer = renderer;
+        this.isRendered = true;
     }
 
     animate(){

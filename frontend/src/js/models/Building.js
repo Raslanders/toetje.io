@@ -13,13 +13,26 @@ const Entity = require('./Entity');
  */
 
 class Building extends Entity {
-    constructor(stage, renderer, position) {
-        super(stage, renderer);
+    // Instantiate building from bootstrap map data
+    constructor() {
+        super();
+        this.isEmpty = true;
+    }
+
+    render(stage, renderer, position) {
+        super.render(stage, renderer);
         this.gridSize = 50;
         this.add(position);
     }
 
     animate() {
+    }
+
+    updateFromTick(data) {
+        this.isEmpty = false;
+        this.name = data.name;
+        this.owner = data.owner;
+        this.technology = data.technology;
     }
 
     get displayObject() {

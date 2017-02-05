@@ -4,8 +4,8 @@ const PIXI = require('pixi.js');
 class Troop extends Entity {
 
     //Coordinates are grid coordinates
-    constructor(stage, renderer, position) {
-        super(stage, renderer);
+    render(stage, renderer, position) {
+        super.render(stage, renderer);
 
         this.gridSize = 50;
         //allows 1 movement in the x direction in 1 movement in the y direction per tick
