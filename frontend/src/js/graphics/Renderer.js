@@ -35,24 +35,6 @@ class Renderer {
         //Create new PIXI container in interactive mode
         this.stage = new PIXI.Container(0x66FF99, true);
 
-        //initialize the grid with line segments
-        this.grid = new PIXI.Graphics();
-        this.grid.lineStyle(2, 0xCCCCCC, 0.3);
-
-        for(let i = 0; i < Globals.gridWidth + 1; i++) {
-            this.grid.moveTo(i * Globals.cellWidth, 0);
-            this.grid.lineTo(i * Globals.cellWidth, Globals.cellHeight * Globals.gridHeight);
-        }
-
-        for(let j = 0; j < Globals.gridHeight + 1; j++) {
-            this.grid.moveTo(0, j * Globals.cellHeight);
-            this.grid.lineTo(Globals.cellWidth * Globals.gridWidth, j * Globals.cellHeight);
-        }
-        this.grid.endFill();
-
-        //grid of linesegments is completed, add it to the stage
-        this.stage.addChild(this.grid);
-
         //add a statistics panel
         this.statsPanel = new Stats();
         this.statsPanel.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
