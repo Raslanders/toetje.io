@@ -34,7 +34,7 @@ class State {
     updateTroop(id, troopData) {
         let troop = this.troops[id];
         if (!troop) {
-            troop = new Troop(troopData);
+            troop = new Troop(troopData, this.renderer);
             this.troops[id] = troop;
             this.renderer.addToQueue(troop, true);
             return;

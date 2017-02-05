@@ -5,10 +5,11 @@ const Globals = require('../data/Globals');
 
 
 class Troop extends Entity {
-    constructor(data) {
+    constructor(data, gameRenderer) {
         super();
         this.position = {x:data.position.x,y:data.position.y};
         this.updateFromTick(data);
+        this.gameRenderer = gameRenderer;
 
         this.x = this.position.x * Globals.cellWidth;
         this.y = this.position.y * Globals.cellHeight;
@@ -31,7 +32,7 @@ class Troop extends Entity {
         //update the tile position
         this.position = data.position;
         //owner id of the unit
-        this.owner = 0 + data.owner;
+        this.owner = +data.owner;
         //direction this unit is moving in
         this.direction = data.direction;
 
@@ -42,7 +43,6 @@ class Troop extends Entity {
     render(stage, renderer) {
         super.render(stage, renderer);
 
-        this.gridSize = 50;
         //allows 1 movement in the x direction in 1 movement in the y direction per tick
         this.movePerTick = 5;
         //total amount of ticks for the attack animation
@@ -90,24 +90,14 @@ class Troop extends Entity {
 
         if (this.targetPosition) {
             //show attack animation
-            this.animateAttack(this.targetPosition.x, this.targetPosition.y);
+            this.animateAttack(this.targetPosition);
         }
     }
 
 
     //TargetCoordinates contains the coordinates of the target unit
-    animateAttack(targetX, targetY) {
-        if (this.attackAnimationTick >= this.attackAnimationTicks) {
-            this.attackAnimationTick -= this.attackAnimationTicks;
-        }
-
-        if (this.attackAnimationTick == 0) {
-            this.beginLaser(targetX * 50, targetY * 50);
-        } else if (this.attackAnimationTick == Math.floor(this.attackAnimationTicks / 3)) {
-            this.endLaser();
-        }
-
-        this.attackAnimationTick++;
+    animateAttack(position) {
+        this.beginLaser(position.x * 50, position.y * 50);
     }
 
     //return true if this unit has moved
@@ -144,10 +134,10 @@ class Troop extends Entity {
         // Graphics
         const graphics = new PIXI.Graphics();
         if (this.owner == 1) {
-            graphics.lineStyle(2, 0x66CCFF);
+            graphics.lineStyle(2, 0xFF4136);
         }
         if (this.owner == 2) {
-            graphics.lineStyle(2, 0xFF4136);
+            graphics.lineStyle(2, 0x66CCFF);
         }
         if (this.owner == 4) {
             graphics.lineStyle(2, 0xFFDC00);
@@ -174,7 +164,15 @@ class Troop extends Entity {
 
     beginLaser(targetX, targetY) {
         if (!this.laser) {
-            this.laser = new Laser(this.stage, this.renderer, this.x + 0.5 * Globals.cellWidth, this.y + 0.5 * Globals.cellHeight, targetX + 0.5 * Globals.cellWidth, targetY + 0.5 * Globals.cellHeight);
+            this.laser = new Laser(
+                this.x + 0.5 * Globals.cellWidth,
+                this.y + 0.5 * Globals.cellHeight,
+                targetX + 0.5 * Globals.cellWidth,
+                targetY + 0.5 * Globals.cellHeight,
+                this.owner
+            );
+
+            this.gameRenderer.addToQueue(this.laser, true);
         }
     }
 
