@@ -3,7 +3,7 @@
 const PIXI = require('pixi.js');
 const Stats = require('stats.js');
 const State = require('../data/State');
-const Unit = require('../models/Troop');
+const Troop = require('../models/Troop');
 const Building = require('../models/Building');
 const CanvasState = require('./CanvasState');
 const Globals = require('../data/Globals');
@@ -63,9 +63,12 @@ class Renderer {
             this.canvasState.handleMouseMove(mousedata);
         });
 
+
         this.building = new Building();
-        this.building.render(this.stage, this.renderer, {x: 50, y: 50});
+        // this.unit = new Troop();
+        // this.building.render(this.stage, this.renderer, {x: 50, y: 50});
         // this.unit.render(this.stage, this.renderer, {x: 50, y: 250});
+        // this.unit.attack(50,300);
 
         this.gameLoop();
     }

@@ -1,5 +1,6 @@
 const Entity = require("./Entity");
 const PIXI = require('pixi.js');
+const Laser = require('./Laser');
 
 class Troop extends Entity {
     constructor(data) {
@@ -27,10 +28,17 @@ class Troop extends Entity {
         //current tick in the attack animation
         this.attackAnimationTick = 0;
 
+        //whether this unit is dead
+        this.death = false;
+        //current deathAnimation tick
+        this.deathAnimationTick = 0;
+        //death animation time
+        this.deathAnimationTicks = 60;
+
+        this.laser;
+
         //target coordinates of the attack
         this.targetPosition;
-        //the positions this unit was on before the attack animation
-        this.originalPosition;
 
         this.newX = position.x;
         this.newY = position.y;
@@ -40,7 +48,11 @@ class Troop extends Entity {
 
     attack(targetX, targetY) {
         this.targetPosition = {x: targetX, y: targetY};
-        this.originalPosition = {x: this.x, y: this.y};
+    }
+
+    stopAttack()
+    {
+        this.targetPosition = null;
     }
 
     moveTo(newX, newY) {
@@ -49,54 +61,51 @@ class Troop extends Entity {
     }
 
     animate() {
-        if (this.animateMovement()) {
+        if (this.isRendered == false) {
+            //can't animate a non rendered troop
             return;
-            //the unit has not moved
         }
-        // attack movement
-        // if (this.targetPosition) {
-        //     this.animateAttack(this.targetPosition.x, this.targetPosition.y)
-        // }
+        if (this.death == true) {
+            //end laser rendering if it was still busy
+            this.endLaser();
+            //show deathAnimation
+            this.deathAnimation();
+            console.log("animateDead");
+            return;
+        }
+
+        //unit is not dead
+        if (this.x != this.newX || this.y != this.newY) {
+            //end laser rendering if it was still busy
+            this.endLaser();
+            //show animation movement
+            this.animateMovement();
+            return;
+        }
+        //unit has not moved
+        if (this.targetPosition) {
+            //show attack animation
+            this.animateAttack(this.targetPosition.x, this.targetPosition.y)
+        }
     }
 
 
     //TargetCoordinates contains the coordinates of the target unit
     animateAttack(targetX, targetY) {
-        this.attackAnimationTick++;
-        if (this.attackAnimationTick > this.attackAnimationTicks) {
+
+        if (this.attackAnimationTick >= this.attackAnimationTicks) {
             this.attackAnimationTick -= this.attackAnimationTicks;
-            //reset the animation, reset x,y to handle rounding errors
-            this.x = this.originalPosition.x;
-            this.y = this.originalPosition.y;
-            return;
         }
 
-        let xDiff, yDiff;
-        if (this.attackAnimationTick < this.attackAnimationTicks / 3) {
-            //go towards the targetX
-            xDiff = targetX - this.x;
-            yDiff = targetY - this.y;
-        } else if (this.attackAnimationTick < 2 * this.attackAnimationTicks / 3) {
-            //go back to the original positions
-            //newX and newY contain the original positions of x and y
-            xDiff = this.x - targetX;
-            yDiff = this.y - targetY;
-        } else {
-            //stay still for a moment
-            return;
+        if (this.attackAnimationTick == 0) {
+            console.log("begin laser");
+            this.beginLaser(targetX, targetY);
+        } else if (this.attackAnimationTick == Math.floor(this.attackAnimationTicks / 3)) {
+            console.log("end laser");
+            this.endLaser();
         }
 
-        if (xDiff == 0 && yDiff == 0) {
-            //no movement required
-            return false;
-        }
-        //xDiff and yDiff contain the total distance to the target.
-
-        //speed is defined such that in attackAnimationTicks/2 we reach the target
-        let xSpeed = xDiff / (this.attackAnimationTicks / 2);
-        let ySpeed = yDiff / (this.attackAnimationTicks / 2);
-        this.x = this.x + xSpeed;
-        this.y = this.y + ySpeed;
+        this.attackAnimationTick++;
     }
 
     //return true if this unit has moved
@@ -111,7 +120,7 @@ class Troop extends Entity {
         if (xDiff == 0 && yDiff == 0) {
             return false;
         }
-        //figure out the new coordinates with a manhattat distance of at most 2
+        //figure out the new coordinates with a manhattan distance of at most movePerTick
         if (xDiff > 0) {
             this.x = this.x + Math.min(xDiff, this.movePerTick);
         } else {
@@ -143,6 +152,38 @@ class Troop extends Entity {
 
         this._sprite = graphics;
         return this._sprite;
+    }
+
+
+    beginLaser(targetX, targetY) {
+        if (!this.laser) {
+            this.laser = new Laser(this.stage, this.renderer, this.x + 0.5 * this.gridSize, this.y + 0.5 * this.gridSize, targetX + 0.5 * this.gridSize, targetY + 0.5 * this.gridSize);
+        }
+    }
+
+    endLaser() {
+        if (this.laser) {
+            this.laser.destroy();
+            this.laser = null;
+        }
+    }
+
+    destroyUnit() {
+        //mark this unit for destruction
+        this.death = true;
+    }
+
+    deathAnimation() {
+        //animate this units death
+        if (this.deathAnimationTick > this.deathAnimationTicks) {
+            //TODO: call remove function
+            return;
+        }
+        //slowly fade the sprite
+        let alpha = 1 - this.deathAnimationTick / this.deathAnimationTicks;
+        this.displayObject.alpha = alpha;
+
+        this.deathAnimationTick++;
     }
 
 }
