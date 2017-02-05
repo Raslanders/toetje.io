@@ -165,6 +165,9 @@ class Troop extends Entity {
         return this._sprite;
     }
 
+    set displayObject(displayObject) {
+        this._sprite = displayObject;
+    }
 
     beginLaser(targetX, targetY) {
         if (!this.laser) {
