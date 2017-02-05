@@ -16,6 +16,10 @@ button.onclick = e => {
     socket.emit('build', message)
 }
 
+socket.on('ready', () => {
+    socket.emit('ack');
+});
+
 socket.on('connect', function(){
     console.log('connect');
 });

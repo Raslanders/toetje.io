@@ -118,8 +118,8 @@ class Renderer {
      */
     drawQueue() {
         while (this.queue.length > 0) {
-            let entity =this.queue.pop();
-            entity.render(this.stage, this.renderer)
+            let entity = this.queue.pop();
+            entity.render(this.stage, this.renderer);
         }
     }
 

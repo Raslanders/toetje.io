@@ -3,6 +3,7 @@
  */
 'use strict';
 
+const _ = require('lodash');
 const Game = require('../models/Game');
 
 class Lobby {
@@ -21,7 +22,7 @@ class Lobby {
         this.emit('join', `Player ${player.id} has joined`);
 
         if (this.players.length === 2) {
-            this.start();
+            this.ready();
         }
     }
 
@@ -43,9 +44,26 @@ class Lobby {
         this.playerIndex = this.players.length + 1;
     }
 
+    // Lobby filled,
+    // Wait till every clients is listening to the socket
+    // then start the game
+    ready() {
+        console.log('Lobby ready, waiting for player ack');
+        this.state = 'ready';
+        this.game = new Game(this.players);
+
+        this.emit('ready');
+    }
+
+    // If all players are ready start the game
+    maybeStart() {
+        if (this.players.every(p => p.ready)) {
+            this.start();
+        }
+    }
+
     start() {
         this.state = 'ingame';
-        this.game = new Game(this.players);
         this.game.start();
     }
 
@@ -53,6 +71,9 @@ class Lobby {
         if (this.game) {
             this.state = 'lobby';
             this.game.stop();
+            // Unready every player
+            _.each(this.players, p => p.ready = false);
+            this.emit('stop');
             this.game = null;
         }
     }

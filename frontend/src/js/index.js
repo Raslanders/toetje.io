@@ -3,7 +3,13 @@ const socket = require('socket.io-client')('localhost:3000');
 const Renderer = require('./graphics/Renderer');
 
 let game = new Renderer(document.getElementsByClassName("pixi-view")[0]);
+
+socket.on('ready', () => {
+    socket.emit('ack');
+});
+
 socket.on('start', (data) => {
+    // Lobby complete
     game.state.socket = socket;
 
     // Parse mapdata
@@ -12,7 +18,7 @@ socket.on('start', (data) => {
     game.state.updateTechTree(data.techTree);
 
     // Parse playerID to somehow set active base
-    game.state.parsePlayer(data.playerId);
+    game.state.playerId = data.playerId;
     game.state.start();
 });
 
