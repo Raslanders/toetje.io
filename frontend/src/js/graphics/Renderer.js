@@ -3,7 +3,7 @@
 const PIXI = require('pixi.js');
 const Stats = require('stats.js');
 const State = require('../data/State');
-const Unit = require('../models/Unit');
+const Unit = require('../models/Troop');
 const Building = require('../models/Building');
 const CanvasState = require('./CanvasState');
 const Globals = require('../data/Globals');
@@ -78,6 +78,7 @@ class Renderer {
 
     drawState() {
         this.canvasState.handleCamera(this.stage);
+
         let hoverTile = this.canvasState.getHoverTile();
         let selectedTile = this.canvasState.getSelectedTile();
 
@@ -114,6 +115,33 @@ class Renderer {
 
         //animate all entities
         this.unit.animate();
+    }
+
+    drawTile(tile) {
+        let tileGraphics = new PIXI.Graphics();
+        if(tile.type == "lane") {
+            tileGraphics.beginFill(0xFF851B, 0.50);
+        } else if(tile.type == "base" && tile.owner == 1) {
+            tileGraphics.beginFill(0xFF4136, 0.50);
+        } else if(tile.type == "base" && tile.owner == 2) {
+            tileGraphics.beginFill(0x0074D9, 0.50);
+        } else {
+            tileGraphics.destroy();
+            let text = new PIXI.Text('?', { fill: "#ffffff" });
+            return text;
+        }
+        tileGraphics.drawRect(tile.x * Globals.cellWidth, tile.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight)
+        tileGraphics.endFill();
+        this.stage.addChild(tileGraphics);
+        return tileGraphics;
+    }
+
+    renderMap() {
+        for(let i = 0; i < this.state.map.length; i++) {
+            for(let j = 0; j < this.state.map[i].length; j++) {
+                this.drawTile(this.state.map[i][j]);
+            }
+        }
     }
 }
 

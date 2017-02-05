@@ -1,7 +1,7 @@
 const Entity = require("./Entity");
 const PIXI = require('pixi.js');
 
-class Unit extends Entity {
+class Troop extends Entity {
 
     //Coordinates are grid coordinates
     constructor(stage, renderer, position) {
@@ -131,4 +131,4 @@ class Unit extends Entity {
 
 }
 
-module.exports = Unit;
+module.exports = Troop;
