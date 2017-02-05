@@ -62,8 +62,8 @@ class Thread {
             for (let k in this.troops[player.id]) {
                 let troop = this.troops[player.id][k];
                 let targets = troop.inRange(this.troops);
-                troop.attack(targets[0]);
 
+                troop.attack(targets[0]);
                 if (targets[0] && targets[0].isDead) {
                     _.remove(this.troops[player.id], p => p.id === troop.id);
                 }

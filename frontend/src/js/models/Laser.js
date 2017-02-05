@@ -19,6 +19,10 @@ class Laser extends Entity {
         this.add({x: this.originX, y: this.originY});
     }
 
+    destroy() {
+        super.destroy();
+    }
+
     animate() {
         this.alpha -= Math.random() * 0.05;
         if (this.alpha <= -1) {

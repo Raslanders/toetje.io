@@ -26,7 +26,6 @@ class Troop {
         this.target = target;
         if (this.target) {
             this.target.health -= this.stats.damage;
-            console.log(this.target.id, this.target.health);
         }
     }
 
@@ -36,7 +35,7 @@ class Troop {
             let playerTroops = troops[p];
             for (let k in playerTroops) {
                 let troop = playerTroops[k];
-                if (troop.owner.id !== this.owner.id) {
+                if (troop.owner.id !== this.owner.id && !troop.isDead) {
                     let position = troop.position;
                     if (this.positionInRange(position)) {
                         targets.push(troop);
@@ -131,7 +130,7 @@ class Troop {
             name: this.unit.name,
             direction: this.direction,
             health: this.health,
-            target: this.target ? this.target.position : null
+            target: this.target && !this.isDead ? this.target.position : null
         };
     }
 

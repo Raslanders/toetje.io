@@ -68,33 +68,33 @@ class Troop extends Entity {
     }
 
     animate() {
-        // unit died
         if (this.health <= 0 && !this.dead) {
-            //end laser rendering if it was still busy
-            console.log("pfew pfew dood");
+            //We have to start the dead animation and have to stop firing
             this.endLaser();
-            //show deathAnimation
             this.deathAnimation();
-            this.dead = true;
             return;
         }
-
-        this.animateAttack(this.targetPosition);
 
         // move
         if (this.x !== this.newX || this.y !== this.newY) {
             //show animation movement
+            // console.log(this.id, "lopen maar, dus ook geen pfew pfew");
             this.animateMovement();
+            this.endLaser();
+            return;
         }
+
+        this.animateAttack(this.targetPosition);
     }
 
 
     //TargetCoordinates contains the coordinates of the target unit
     animateAttack(position) {
         if (!this.laser && position) {
+            console.log(this.id, "pfew pfew pfew");
             this.beginLaser(position.x * 50, position.y * 50);
         } else if (this.laser && !position) {
-            console.log("pfew pfew maar ik ben niet dood");
+            console.log(this.id, "geen pfew pfew meer, niet dood");
             this.endLaser();
         }
     }
@@ -186,6 +186,8 @@ class Troop extends Entity {
         //animate this units death
         if (this.deathAnimationTick > this.deathAnimationTicks) {
             this.destroy();
+            this.dead = true;
+            console.log("DOOD HELEMAAL DOOD doei");
             return;
         }
         //slowly fade the sprite
