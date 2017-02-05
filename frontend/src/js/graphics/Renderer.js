@@ -10,10 +10,6 @@ const Globals = require('../data/Globals');
 
 class Renderer {
     constructor(container) {
-        this.state = new State();
-        this.canvasState = new CanvasState();
-
-        this.mapInitialized = false;
         this.queue = [];
         this.animated = [];
 
@@ -27,6 +23,9 @@ class Renderer {
         window.onresize = event => {
             this.renderer.resize(container.offsetWidth, container.offsetHeight);
         };
+
+        this.state = new State(this);
+        this.canvasState = new CanvasState();
 
         //Create new PIXI container in interactive mode
         this.stage = new PIXI.Container(0x66FF99, true);
@@ -125,15 +124,6 @@ class Renderer {
 
     drawState() {
         this.canvasState.handleCamera(this.stage);
-        if(!this.mapInitialized && this.state.gameState == "started") {
-            this.mapInitialized = true;
-            for(let i = 0; i < this.state.map.tiles.length; i++) {
-                for(let j = 0; j < this.state.map.tiles[i].length; j++) {
-                    let tile = this.state.map.tiles[i][j];
-                    tile.setModel(this.drawTile(tile));
-                }
-            }
-        }
 
         let hoverTile = this.canvasState.getHoverTile();
         let selectedTile = this.canvasState.getSelectedTile();
@@ -168,30 +158,6 @@ class Renderer {
             // this.unit.moveTo(selectedTile.x * Globals.cellWidth, selectedTile.y * Globals.cellHeight);
             this.stage.addChild(selectedGraphic);
         }
-    }
-
-    drawTile(tile) {
-        let tileGraphics = new PIXI.Graphics();
-        if(tile.type == "lane") {
-            tileGraphics.beginFill(0xFF851B, 0.50);
-        } else if(tile.type == "building" && tile.owner == 1) {
-            tileGraphics.beginFill(0xFF4136, 0.50);
-        } else if(tile.type == "building" && tile.owner == 2) {
-            tileGraphics.beginFill(0x0074D9, 0.50);
-        } else if(tile.type == "base" && tile.owner == 1) {
-            tileGraphics.beginFill(0xFF4136, 1.0);
-        } else if(tile.type == "base" && tile.owner == 2) {
-            tileGraphics.beginFill(0x0074D9, 1.0);
-        } else {
-            tileGraphics.destroy();
-            let text = new PIXI.Text('?', { fill: "#ffffff" });
-            return text;
-        }
-        tileGraphics.drawRect(tile.position.x * Globals.cellWidth, tile.position.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight)
-        tileGraphics.endFill();
-        tileGraphics.zOrder = -1;
-        this.stage.addChild(tileGraphics);
-        return tileGraphics;
     }
 
     handleInput() {

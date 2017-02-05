@@ -23,8 +23,6 @@ class Building extends Entity {
 
     render(stage, renderer) {
         super.render(stage, renderer);
-        this.gridSize = 50;
-        //render position is in screen coordinates
         this.add({x:this.position.x*Globals.cellWidth,y:this.position.y*this.cellHeight});
     }
 
@@ -70,6 +68,10 @@ class Building extends Entity {
         const texture = this.renderer.generateTexture(graphics);
         this._sprite = new PIXI.Sprite(texture);
         return this._sprite;
+    }
+    
+    set displayObject(displayObject) {
+        this._sprite = displayObject;
     }
 }
 

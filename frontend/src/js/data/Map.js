@@ -3,14 +3,16 @@ const Globals = require('./Globals');
 const _ = require('lodash');
 
 class Map {
-    constructor(renderer) {
-        this.renderer = renderer;
+    constructor(gameRenderer) {
+        this.gameRenderer = gameRenderer
         //Initalize tiles empty
         this.tiles = [];
         for(let x = 0; x < Globals.gridWidth; x++) {
             let row = [];
             for(let y = 0; y < Globals.gridHeight; y++) {
-                row.push(new Tile({x, y}, null));
+                let tile = new Tile({x, y}, null);
+                row.push(tile);
+                this.gameRenderer.addToQueue(tile, false)
             }
             this.tiles.push(row);
         }
@@ -20,7 +22,7 @@ class Map {
     parse(data) {
         _.each(this.tiles, (row, x) => {
             _.each(row, (tile, y) => {
-                tile.parse(data[x][y], this.renderer);
+                tile.parse(data[x][y], this.gameRenderer);
             });
         })
     }
@@ -30,7 +32,7 @@ class Map {
 
         // An unbuilt building is called a base
         if (tile.type === 'base') {
-            tile.createBuilding();
+            tile.createBuilding(this.gameRenderer);
         }
         tile.building.updateFromTick(building);
     }

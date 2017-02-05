@@ -8,6 +8,9 @@ class Entity {
     }
 
     render(stage, renderer) {
+        if (this.isRendered) {
+            this.destroy();
+        }
         this.stage = stage;
         this.renderer = renderer;
         this.isRendered = true;
@@ -19,8 +22,10 @@ class Entity {
 
     destroy() {
         if (this.displayObject) {
-            this.displayObject.destroy();
+            this.isRendered = false;
             this.stage.removeChild(this.displayObject);
+            this.displayObject.destroy();
+            this.displayObject = undefined;
         }
     }
 
@@ -39,20 +44,28 @@ class Entity {
         throw new TypeError("Method displayObject should have been overridden");
     }
 
+    set displayObject(displayObject) {
+        this._sprite = displayObject;
+    }
+
     get x() {
-        return this.displayObject.x;
+        if (this.displayObject) {
+            return this.displayObject.x;
+        }
     }
 
     set x(x) {
-        this.displayObject.position.x = x;
+        this.displayObject.x = x;
     }
 
     get y() {
-        return this.displayObject.y;
+        if (this.displayObject) {
+            return this.displayObject.y;
+        }
     }
 
     set y(y) {
-        this.displayObject.position.y = y;
+        this.displayObject.y = y;
     }
 }
 
