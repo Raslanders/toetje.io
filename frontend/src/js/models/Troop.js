@@ -36,7 +36,11 @@ class Troop extends Entity {
 
     attack(targetX, targetY) {
         this.targetPosition = {x: targetX, y: targetY};
-        console.log("target for attack aquired");
+    }
+
+    stopAttack()
+    {
+        this.targetPosition = null;
     }
 
     moveTo(newX, newY) {
@@ -45,7 +49,14 @@ class Troop extends Entity {
     }
 
     animate() {
+        if (this.isRendered == false) {
+            //can't animate a non rendered troop
+            return;
+        }
         if (this.death == true) {
+            //end laser rendering if it was still busy
+            this.endLaser();
+            //show deathAnimation
             this.deathAnimation();
             console.log("animateDead");
             return;
@@ -53,13 +64,15 @@ class Troop extends Entity {
 
         //unit is not dead
         if (this.x != this.newX && this.y != this.newY) {
+            //end laser rendering if it was still busy
+            this.endLaser();
+            //show animation movement
             this.animateMovement();
-            console.log("animateMovement");
             return;
         }
         //unit has not moved
         if (this.targetPosition) {
-            console.log("animateAttack");
+            //show attack animation
             this.animateAttack(this.targetPosition.x, this.targetPosition.y)
         }
     }
@@ -67,13 +80,16 @@ class Troop extends Entity {
 
     //TargetCoordinates contains the coordinates of the target unit
     animateAttack(targetX, targetY) {
+
         if (this.attackAnimationTick >= this.attackAnimationTicks) {
             this.attackAnimationTick -= this.attackAnimationTicks;
         }
 
-        if (this.attackAnimationTick == Math.floor(this.attackAnimationTicks / 3)) {
+        if (this.attackAnimationTick == 0) {
+            console.log("begin laser");
             this.beginLaser(targetX, targetY);
-        } else if (this.attackAnimationTick == Math.floor(this.attackAnimationTicks * 2 / 3)) {
+        } else if (this.attackAnimationTick == Math.floor(this.attackAnimationTicks / 3)) {
+            console.log("end laser");
             this.endLaser();
         }
 
@@ -129,7 +145,7 @@ class Troop extends Entity {
 
     beginLaser(targetX, targetY) {
         if (!this.laser) {
-            this.laser = new Laser(this.stage,this.renderer,this.x+0.5*this.gridSize, this.y+0.5*this.gridSize, targetX+0.5*this.gridSize, targetY+0.5*this.gridSize);
+            this.laser = new Laser(this.stage, this.renderer, this.x + 0.5 * this.gridSize, this.y + 0.5 * this.gridSize, targetX + 0.5 * this.gridSize, targetY + 0.5 * this.gridSize);
         }
     }
 
