@@ -32,7 +32,7 @@ class Troop extends Entity {
         //update the tile position
         this.position = data.position;
         //owner id of the unit
-        this.owner = 0+data.owner;
+        this.owner = 0 + data.owner;
         //direction this unit is moving in
         this.direction = data.direction;
     }
@@ -156,21 +156,21 @@ class Troop extends Entity {
         }
         // Graphics
         const graphics = new PIXI.Graphics();
-
-        if (this.owner == 1) {
-            graphics.lineStyle(2, 0x66CCFF);
-            console.log("Blue");
-        }
         if (this.owner == 2) {
             graphics.lineStyle(2, 0xFF4136);
             console.log("red");
         }
-        if (this.owner == 3) {
-            graphics.lineStyle(2, 0x2ECC40);
+        if (this.owner == 1) {
+            graphics.lineStyle(2, 0x66CCFF);
+            console.log("Blue");
         }
         if (this.owner == 4) {
             graphics.lineStyle(2, 0xFFDC00);
         }
+        if (this.owner == 3) {
+            graphics.lineStyle(2, 0x2ECC40);
+        }
+
 
         graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3, Globals.cellHeight / 3);
         graphics.lineStyle(.5, 0xFFF);
