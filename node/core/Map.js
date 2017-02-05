@@ -36,7 +36,6 @@ class Map {
         for (let i = 0; i < this.cells.length; i++) {
             for (let j = 0; j < this.cells[0].length; j++) {
                 let cell = this.cells[i][j];
-                console.log(cell);
                 // Check if this tile is for a player
                 for (let k in players) {
                    let player = players[k];
