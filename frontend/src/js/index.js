@@ -8,7 +8,9 @@ socket.on('start', (data) => {
 
     // Parse mapdata
     game.state.map.parse(data.map);
-    game.state.techTree = data.techTree;
+
+    game.state.updateTechTree(data.techTree);
+
     // Parse playerID to somehow set active base
     game.state.parsePlayer(data.playerId);
     game.state.start();

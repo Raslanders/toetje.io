@@ -82,8 +82,6 @@ class Renderer {
         this.handleInput();
         this.renderer.render(this.stage);
 
-
-
         this.statsPanel.end();
         requestAnimationFrame(this.gameLoop.bind(this));
     }
