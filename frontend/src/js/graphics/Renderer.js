@@ -15,7 +15,7 @@ class Renderer {
 
         this.mapInitialized = false;
 
-        this.renderer = PIXI.autoDetectRenderer(0,0, { antialias: true } );
+        this.renderer = PIXI.autoDetectRenderer(0,0, { autoResize: true, antialias: true } );
         this.renderer.view.style.position = "absolute";
         this.renderer.view.style.display = "block";
         this.renderer.autoResize = true;
