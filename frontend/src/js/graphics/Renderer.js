@@ -111,7 +111,7 @@ class Renderer {
         if(hoverTile) {
             this.canvasState.hoverGraphic = new PIXI.Graphics();
             hoverGraphic = this.canvasState.getHoverGraphic();
-            hoverGraphic.lineStyle(4, 0xFF3300, 1);
+            hoverGraphic.lineStyle(2, 0xFF3300, 1);
             hoverGraphic.drawRect(hoverTile.x * Globals.cellWidth, hoverTile.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight);
             hoverGraphic.endFill();
             this.stage.addChild(hoverGraphic);
@@ -125,7 +125,7 @@ class Renderer {
         if(selectedTile) {
             this.canvasState.selectedGraphic = new PIXI.Graphics();
             selectedGraphic = this.canvasState.getSelectedGraphic();
-            selectedGraphic.lineStyle(4, 0x33FF00, 1);
+            selectedGraphic.lineStyle(2, 0x33FF00, 1);
             selectedGraphic.drawRect(selectedTile.x * Globals.cellWidth, selectedTile.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight);
             selectedGraphic.endFill();
             // this.unit.moveTo(selectedTile.x * Globals.cellWidth, selectedTile.y * Globals.cellHeight);
