@@ -31,6 +31,7 @@ class Tile extends Entity {
             }
             this.timeout = 0;
         }
+        return true;
     }
 
     parse(data, gameRenderer) {
