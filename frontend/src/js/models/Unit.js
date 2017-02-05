@@ -14,11 +14,16 @@ class Unit extends Entity {
         //current tick in the attack animation
         this.attackAnimationTick = 0;
 
+        this.deathTick = 0;
+        this.deathTicks = 60;
+        this.death = false;
+
         //target coordinates of the attack
         this.targetPosition;
         //the positions this unit was on before the attack animation
         this.originalPosition;
 
+        this.laser;
         //coordinates for a movement
         this.newX = 0 + coordinates.x;
         this.newY = 0 + coordinates.y;
@@ -36,16 +41,19 @@ class Unit extends Entity {
 
     attack(targetX, targetY) {
         this.targetPosition = {x: targetX, y: targetY};
-        this.originalPosition = {x: this.x, y: this.y};
-
     }
 
     //animates the movement of the unit
     animate() {
-        if (this.animateMovement()) {
+        if (this.death == true) {
+            this.deathAnimation();
             return;
-            //the unit has not moved
         }
+
+        // if (this.animateMovement()) {
+        //     return;
+        //     //the unit has not moved
+        // }
         //attack movement
         if (this.targetPosition) {
             this.animateAttack(this.targetPosition.x, this.targetPosition.y)
@@ -55,51 +63,24 @@ class Unit extends Entity {
 
     //TargetCoordinates contains the coordinates of the target unit
     animateAttack(targetX, targetY) {
-        this.attackAnimationTick++;
-        if (this.attackAnimationTick > this.attackAnimationTicks) {
+
+        if (this.attackAnimationTick == this.attackAnimationTicks) {
             this.attackAnimationTick -= this.attackAnimationTicks;
-            //reset the animation, reset x,y to handle rounding errors
-            this.x = this.originalPosition.x;
-            this.y = this.originalPosition.y;
-
-            this.removeSprite();
-            this.drawSprite({x: this.newX, y: this.newY});
-            return;
         }
 
-        let xDiff, yDiff;
-        if (this.attackAnimationTick < this.attackAnimationTicks / 3) {
-            //go towards the targetX
-            xDiff = targetX - this.x;
-            yDiff = targetY - this.y;
-        } else if (this.attackAnimationTick < 2 * this.attackAnimationTicks / 3) {
-            //go back to the original positions
-            //newX and newY contain the original positions of x and y
-            xDiff = this.x - targetX;
-            yDiff = this.y - targetY;
-        } else {
-            //stay still for a moment
-            return;
+
+        if (this.attackAnimationTick == 0) {
+            this.beginLaser(targetX, targetY);
+            console.log("Begin laser");
+        } else if (this.attackAnimationTick == this.attackAnimationTicks / 3) {
+            this.endLaser();
+            console.log("end laser");
         }
-
-        if (xDiff == 0 && yDiff == 0) {
-            //no movement required
-            return false;
-        }
-        //xDiff and yDiff contain the total distance to the target.
-
-        //speed is defined such that in attackAnimationTicks/2 we reach the target
-        let xSpeed = xDiff / (this.attackAnimationTicks / 2);
-        let ySpeed = yDiff / (this.attackAnimationTicks / 2);
-        this.x = this.x + xSpeed;
-        this.y = this.y + ySpeed;
-
-
-        this.removeSprite();
-        this.drawSprite({x: this.x, y: this.y});
+        this.attackAnimationTick++;
     }
 
-    //return true if this unit has moved
+
+//return true if this unit has moved
     animateMovement() {
         if (this.originalPosition.x == this.newX && this.originalPosition.y == this.newY) {
             return false;
@@ -136,16 +117,49 @@ class Unit extends Entity {
         }
     }
 
-    //draws the sprite of this unit on the given coordinates
-    drawSprite(coordinates) {
+//draws the sprite of this unit on the given coordinates
+    drawSprite(coordinates, alpha = 1) {
         this.sprite = new PIXI.Graphics();
-        this.sprite.beginFill(0x66CCFF);
-        this.sprite.drawCircle((coordinates.x + 0.5) * this.gridSize, (coordinates.y + 0.5) * this.gridSize, this.gridSize / 3)
+        this.sprite.beginFill(0x66CCFF,alpha);
+        this.sprite.drawCircle((coordinates.x + 0.5) * this.gridSize, (coordinates.y + 0.5) * this.gridSize, this.gridSize / 3);
         this.sprite.endFill();
         this.stage.addChild(this.sprite);
     }
 
 
+    beginLaser(targetX, targetY) {
+        let coordinates = {x: 5, y: 5};
+        this.laser = new PIXI.Graphics();
+        this.laser.lineStyle(5, 0xFF0000, 1);
+
+        this.laser.moveTo((this.x + 0.5) * this.gridSize, (this.y + 0.5) * this.gridSize);
+        this.laser.lineTo((targetX + 0.5) * this.gridSize, (targetY + 0.5) * this.gridSize);
+        this.stage.addChild(this.laser);
+
+    }
+
+    endLaser() {
+        if (this.laser) {
+            this.laser.destroy();
+            this.stage.removeChild(this.laser);
+        }
+    }
+
+    destroyUnit() {
+        this.death = true;
+    }
+
+    deathAnimation() {
+        if (this.deathTick > this.deathTicks) {
+            //TODO: call remove function
+            return;
+        }
+        this.removeSprite();
+        let alpha = 1 - this.deathTick / this.deathTicks;
+        console.log(alpha);
+        this.drawSprite({x: this.x, y: this.y}, alpha)
+        this.deathTick++;
+    }
 }
 
 module.exports = Unit;
