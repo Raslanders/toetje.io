@@ -4,6 +4,7 @@ const PIXI = require('pixi.js');
 const Stats = require('stats.js');
 const State = require('../data/State');
 const Unit = require('../models/Unit');
+const Building = require('../models/Building');
 const CanvasState = require('./CanvasState');
 const Globals = require('../data/Globals');
 
@@ -12,7 +13,7 @@ class Renderer {
         this.state = new State();
         this.canvasState = new CanvasState();
 
-        this.renderer = PIXI.autoDetectRenderer(0,0, { antialias: true } );
+        this.renderer = PIXI.autoDetectRenderer(0,0, { antialias: true });
         this.renderer.view.style.position = "absolute";
         this.renderer.view.style.display = "block";
         this.renderer.autoResize = true;
@@ -58,6 +59,10 @@ class Renderer {
             this.canvasState.handleMouseMove(mousedata);
         });
 
+        this.building = new Building(this.stage, this.renderer, {x: 50, y: 50});
+        this.building2 = new Building(this.stage, this.renderer, {x: 100, y: 250});
+        this.unit = new Unit(this.stage, this.renderer, {x: 50, y: 250});
+
         this.gameLoop();
     }
 
@@ -65,7 +70,6 @@ class Renderer {
         this.statsPanel.begin();
 
         this.drawState();
-
         this.renderer.render(this.stage);
 
         this.statsPanel.end();

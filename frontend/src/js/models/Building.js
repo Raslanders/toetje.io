@@ -1,5 +1,6 @@
-'use strict'
+'use strict';
 
+const PIXI = require('pixi.js');
 const Entity = require('./Entity');
 
 /*
@@ -12,76 +13,48 @@ const Entity = require('./Entity');
  */
 
 class Building extends Entity {
-    constructor(stage, coordinates) {
-        super(stage, coordinates);
+    constructor(stage, renderer, position) {
+        super(stage, renderer);
         this.gridSize = 50;
-        this.anchor = {pos: 30, dir: true};
-        this.drawSprite(coordinates);
+        this.add(position);
     }
 
     animate() {
-        this.anchor.pos = this.anchor.dir ? this.anchor.pos + 1 : this.anchor.pos - 1;
-
-        if (this.anchor.pos > this.gridSize - 10) {
-            this.anchor.dir = !this.anchor.dir;
-        } else if (this.anchor.pos < 10) {
-            this.anchor.dir = !this.anchor.dir;
-        }
-
-        this.removeSprite();
-        this.drawSprite({x: this.x, y: this.y});
-        return true;
     }
 
-    removeSprite() {
-        if (this.sprite) {
-            this.sprite.destroy();
-            this.stage.removeChild(this.sprite);
+    get displayObject() {
+        if (this._sprite) {
+            return this._sprite;
         }
-    }
 
-    //draws the sprite of this unit on the given coordinates
-    drawSprite(coordinates) {
-        this.sprite = new PIXI.Graphics();
+        const graphics = new PIXI.Graphics();
 
-        let x = coordinates.x * this.gridSize;
-        let y = coordinates.y * this.gridSize;
+        graphics.beginFill(0xfdb462);
 
+        graphics.moveTo(0,0);
+        graphics.moveTo(this.gridSize * 2, 0);
+        graphics.moveTo(0, this.gridSize * 2);
+        graphics.moveTo(this.gridSize * 0.5, 0);
+        graphics.lineTo(0, 0);
+        graphics.lineTo(0, this.gridSize * 0.5);
 
-        this.sprite.beginFill(0x80b1d3);
-        this.sprite.lineStyle(1, 0x80b1d3);
+        graphics.moveTo(this.gridSize * 0.5, 0);
+        graphics.lineTo(this.gridSize, 0);
+        graphics.lineTo(this.gridSize, this.gridSize * 0.5);
 
-        this.sprite.moveTo(x, y + this.anchor.pos);
-        this.sprite.lineTo(x + this.gridSize, y + this.anchor.pos);
+        graphics.moveTo(0, this.gridSize * 0.5);
+        graphics.lineTo(0, this.gridSize);
+        graphics.lineTo(this.gridSize * 0.5, this.gridSize);
 
-        this.sprite.moveTo(x + this.anchor.pos, y);
-        this.sprite.lineTo(x + this.anchor.pos, y + this.gridSize);
+        graphics.moveTo(this.gridSize * 0.5, this.gridSize);
+        graphics.lineTo(this.gridSize, this.gridSize);
+        graphics.lineTo(this.gridSize, this.gridSize * 0.5);
 
-        this.sprite.endFill();
+        graphics.endFill();
 
-
-        this.sprite.beginFill(0xfdb462);
-        this.sprite.lineStyle(0);
-
-        this.sprite.moveTo(x + this.gridSize * 0.5, y);
-        this.sprite.lineTo(x, y);
-        this.sprite.lineTo(x, y + this.gridSize * 0.5);
-
-        this.sprite.moveTo(x + this.gridSize * 0.5, y);
-        this.sprite.lineTo(x + this.gridSize, y);
-        this.sprite.lineTo(x + this.gridSize, y + this.gridSize * 0.5);
-
-        this.sprite.moveTo(x, y + this.gridSize * 0.5);
-        this.sprite.lineTo(x, y + this.gridSize);
-        this.sprite.lineTo(x + this.gridSize * 0.5, y + this.gridSize);
-
-        this.sprite.moveTo(x + this.gridSize * 0.5, y + this.gridSize);
-        this.sprite.lineTo(x + this.gridSize, y + this.gridSize);
-        this.sprite.lineTo(x + this.gridSize, y + this.gridSize * 0.5);
-
-        this.sprite.endFill();
-
-        this.stage.addChild(this.sprite);
+        const texture = this.renderer.generateTexture(graphics);
+        this._sprite = new PIXI.Sprite(texture);
+        return this._sprite;
     }
 }
 

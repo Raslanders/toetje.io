@@ -1,10 +1,11 @@
 const Entity = require("./Entity");
+const PIXI = require('pixi.js');
 
 class Unit extends Entity {
 
     //Coordinates are grid coordinates
-    constructor(stage, coordinates) {
-        super(stage, coordinates);
+    constructor(stage, renderer, position) {
+        super(stage, renderer);
 
         this.gridSize = 50;
         //allows 1 movement in the x direction in 1 movement in the y direction per tick
@@ -19,37 +20,24 @@ class Unit extends Entity {
         //the positions this unit was on before the attack animation
         this.originalPosition;
 
-        //coordinates for a movement
-        this.newX = 0 + coordinates.x;
-        this.newY = 0 + coordinates.y;
-        this.drawSprite(coordinates);
-
-
-    }
-
-    //newX,newY is the new (grid) x and y position this unit should move to
-    move(newX, newY) {
-        this.originalPosition = {x: this.x, y: this.y};
-        this.newX = 0 + newX;
-        this.newY = 0 + newY;
+        this.add(position);
     }
 
     attack(targetX, targetY) {
         this.targetPosition = {x: targetX, y: targetY};
         this.originalPosition = {x: this.x, y: this.y};
-
     }
 
     //animates the movement of the unit
     animate() {
-        if (this.animateMovement()) {
-            return;
-            //the unit has not moved
-        }
-        //attack movement
-        if (this.targetPosition) {
-            this.animateAttack(this.targetPosition.x, this.targetPosition.y)
-        }
+        // if (this.animateMovement()) {
+        //     return;
+        //     //the unit has not moved
+        // }
+        // //attack movement
+        // if (this.targetPosition) {
+        //     this.animateAttack(this.targetPosition.x, this.targetPosition.y)
+        // }
     }
 
 
@@ -125,26 +113,25 @@ class Unit extends Entity {
 
 
         this.removeSprite();
-        this.drawSprite({x: this.x, y: this.y});
+        // this.drawSprite({x: this.x, y: this.y});
         return true;
     }
 
-    removeSprite() {
-        if (this.sprite) {
-            this.sprite.destroy();
-            this.stage.removeChild(this.sprite);
+    get displayObject() {
+        if (this._sprite) {
+            return this._sprite;
         }
-    }
 
-    //draws the sprite of this unit on the given coordinates
-    drawSprite(coordinates) {
-        this.sprite = new PIXI.Graphics();
-        this.sprite.beginFill(0x66CCFF);
-        this.sprite.drawCircle((coordinates.x + 0.5) * this.gridSize, (coordinates.y + 0.5) * this.gridSize, this.gridSize / 3)
-        this.sprite.endFill();
-        this.stage.addChild(this.sprite);
-    }
+        const graphics = new PIXI.Graphics();
 
+        graphics.beginFill(0x66CCFF);
+        graphics.drawCircle(0.5 * this.gridSize, 0.5 * this.gridSize, this.gridSize / 3);
+        graphics.endFill();
+        graphics.antiAlias = true;
+        
+        this._sprite = graphics;
+        return this._sprite;
+    }
 
 }
 
