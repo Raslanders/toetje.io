@@ -21,8 +21,8 @@ class Tile extends Entity {
 
     animate() {
         this.timeout++;
-        if (this.timeout > 2) {
-            let random = Math.random() <= 0.5 ? 0.01 : -0.01;
+        if (this.timeout > 5) {
+            let random = Math.random() <= 0.5 ? 0.005 : -0.005;
             this.displayObject.alpha += random;
             if (this.displayObject.alpha < 0.8) {
                 this.displayObject.alpha = 0.8;
@@ -51,17 +51,19 @@ class Tile extends Entity {
             return this._sprite;
         }
         let tileGraphics = new PIXI.Graphics();
-        tileGraphics.lineStyle(2, 0xCCCCCC, 0.3);
+        tileGraphics.lineStyle(1, 0xCCCCCC, 0.1);
         if(this.type == "lane") {
-            tileGraphics.beginFill(0xFF851B, 0.50);
+            tileGraphics.beginFill(0x333333, 0.8);
         } else if(this.type == "building" && this.owner == 1) {
-            tileGraphics.beginFill(0xFF4136, 0.50);
+            tileGraphics.beginFill(0x66c2a5, 0.8);
         } else if(this.type == "building" && this.owner == 2) {
-            tileGraphics.beginFill(0x0074D9, 0.50);
+            tileGraphics.beginFill(0xfc8d62, 0.8);
         } else if(this.type == "base" && this.owner == 1) {
-            tileGraphics.beginFill(0xFF4136, 0.5);
+            tileGraphics.lineStyle(1, 0x66c2a5, 0.4);
+            tileGraphics.beginFill(0x333333, 0.8);
         } else if(this.type == "base" && this.owner == 2) {
-            tileGraphics.beginFill(0x0074D9, 0.5);
+            tileGraphics.lineStyle(1, 0xfc8d62, 0.4);
+            tileGraphics.beginFill(0x333333, 0.8);
         }
         tileGraphics.drawRect(this.position.x * Globals.cellWidth, this.position.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight)
         tileGraphics.endFill();
