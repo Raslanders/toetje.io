@@ -9,7 +9,7 @@ class Base {
         this.owner = owner;
         this.buildings = buildings || [];
         this._lanes = lanes || [];
-        this.direction = owner.id == 1 ? {x: 0, y: 1} : {x: 0, y: -1};
+        this.direction = owner.id == 1 ? {x: 1, y: 0} : {x: -1, y: 0};
 
         for (let k in this.buildings) {
             this.buildings[k].base = this;
