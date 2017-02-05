@@ -15,7 +15,7 @@ class State {
         this.techtree = new TechTree(document.getElementsByClassName('_tech-tree')[0]);
     }
 
-    createBuilding(x, y, ) {
+    createBuilding(x, y) {
         const technologyId = this.techtree.activeTech;
         this.socket.emit('build', { x, y, technologyId });
     }
