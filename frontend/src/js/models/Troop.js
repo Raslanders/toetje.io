@@ -2,6 +2,18 @@ const Entity = require("./Entity");
 const PIXI = require('pixi.js');
 
 class Troop extends Entity {
+    constructor(data) {
+        super()
+        this.updateFromTick(data);
+    }
+
+    updateFromTick(data) {
+        this.id = data.id;
+        this.name = data.name;
+        this.position = data.position;
+        this.owner = data.owner;
+        this.direction = data.direction;
+    }
 
     //Coordinates are grid coordinates
     render(stage, renderer, position) {

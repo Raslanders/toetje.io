@@ -64,9 +64,8 @@ class Renderer {
         });
 
         this.building = new Building();
-        this.unit = new Unit();
         this.building.render(this.stage, this.renderer, {x: 50, y: 50});
-        this.unit.render(this.stage, this.renderer, {x: 50, y: 250});
+        // this.unit.render(this.stage, this.renderer, {x: 50, y: 250});
 
         this.gameLoop();
     }
@@ -123,12 +122,12 @@ class Renderer {
             selectedGraphic.lineStyle(4, 0x33FF00, 1);
             selectedGraphic.drawRect(selectedTile.x * Globals.cellWidth, selectedTile.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight);
             selectedGraphic.endFill();
-            this.unit.moveTo(selectedTile.x * Globals.cellWidth, selectedTile.y * Globals.cellHeight);
+            // this.unit.moveTo(selectedTile.x * Globals.cellWidth, selectedTile.y * Globals.cellHeight);
             this.stage.addChild(selectedGraphic);
         }
 
         //animate all entities
-        this.unit.animate();
+        // this.unit.animate();
     }
 
     drawTile(tile) {

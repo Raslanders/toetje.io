@@ -2,11 +2,13 @@
 
 const Map = require('./Map');
 const _ = require('lodash');
+const Troop = require('../models/Troop');
 
 class State {
     constructor() {
         this.gameState = 'lobby';
         this.map = new Map();
+        this.troops = {};
         this.socket = null;
     }
 
@@ -14,14 +16,8 @@ class State {
         this.socket.emit('build', { x, y, technologyId });
     }
 
-    // parseMap(map) {
-    //     this.map.
-    //     console.log('Parsing map', map);
-    //     this.tiles = map;
-    // }
-
     parsePlayer(id) {
-        console.log('TODO set active player to', id);
+        console.log('Playing as Player', id);
     }
 
     parseMutation(mutation) {
@@ -29,8 +25,21 @@ class State {
             this.map.updateBuildingAtPosition(b.position, b);
         })
         _.each(mutation.troop, t => {
-            this.map.updateTroopAtPosition(t.position, t);
+            this.updateTroop(t.id, t);
         });
+    }
+
+    // Create or update troop
+    updateTroop(id, troopData) {
+        let troop = this.troops[id];
+
+        if (!troop) {
+            troop = new Troop(troopData);
+            this.troops[id] = troop;
+            return;
+        }
+
+        troop.updateFromTick(troopData);
     }
 
     start() {
