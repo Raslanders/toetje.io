@@ -1,6 +1,9 @@
 const Entity = require("./Entity");
 const PIXI = require('pixi.js');
 const Laser = require('./Laser');
+const Globals = require('../data/Globals');
+
+
 
 class Troop extends Entity {
     constructor(data) {
@@ -18,8 +21,8 @@ class Troop extends Entity {
         if (this.position) {
             //we already had a position, check if we moved
             if (this.position.x != data.position.x || this.position.y != data.position.y) {
-                //we moved, set coordinates for animatino
-                moveTo(data.position.x * this.gridSize, data.position.y * this.gridSize);
+                //we moved, set coordinates for animation
+                moveTo(data.position.x * Globals.cellWidth, data.position.y * Globals.cellHeight);
             }
         }
         //update the tile position
@@ -31,7 +34,7 @@ class Troop extends Entity {
     }
 
     //Coordinates are grid coordinates
-    render(stage, renderer, position) {
+    render(stage, renderer) {
         super.render(stage, renderer);
 
         this.gridSize = 50;
@@ -51,11 +54,12 @@ class Troop extends Entity {
         //the laser entity when we are attacking
         this.laser;
 
-        //target coordinates of the attack
+        //target coordinates of the attack in screen coordinates
         this.targetPosition;
 
-        this.newX = position.x;
-        this.newY = position.y;
+        //Place of the next movement in screen coordinates
+        this.newX = this.position.x * Globals.cellWidth;
+        this.newY = this.position.y * Globals.cellHeight;
 
         this.add(position);
     }
@@ -69,6 +73,7 @@ class Troop extends Entity {
     }
 
     moveTo(newX, newY) {
+        //positions are in screen coordinates
         this.newX = newX;
         this.newY = newY;
     }
@@ -149,10 +154,10 @@ class Troop extends Entity {
         const graphics = new PIXI.Graphics();
 
         graphics.lineStyle(2, 0x66CCFF);
-        graphics.drawCircle(0.5 * this.gridSize, 0.5 * this.gridSize, this.gridSize / 3);
+        graphics.drawElipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3,Globals.cellHeight/3);
         graphics.lineStyle(.5, 0xFFF);
-        graphics.drawCircle(0.5 * this.gridSize, 0.5 * this.gridSize, this.gridSize / 3 + 1);
-        graphics.drawCircle(0.5 * this.gridSize, 0.5 * this.gridSize, this.gridSize / 3 - 1);
+        graphics.drawElipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3+1,Globals.cellHeight/3+1);
+        graphics.drawElipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3-1,Globals.cellHeight/3-1);
         graphics.endFill();
         graphics.antiAlias = true;
 
@@ -163,7 +168,7 @@ class Troop extends Entity {
 
     beginLaser(targetX, targetY) {
         if (!this.laser) {
-            this.laser = new Laser(this.stage, this.renderer, this.x + 0.5 * this.gridSize, this.y + 0.5 * this.gridSize, targetX + 0.5 * this.gridSize, targetY + 0.5 * this.gridSize);
+            this.laser = new Laser(this.stage, this.renderer, this.x + 0.5 * Globals.cellWidth, this.y + 0.5 * Globals.cellHeight, targetX + 0.5 * Globals.cellWidth, targetY + 0.5 * Globals.cellHeight);
         }
     }
 

@@ -2,6 +2,7 @@
 
 const PIXI = require('pixi.js');
 const Entity = require('./Entity');
+const Globals = require('../data/Globals');
 
 /*
  #8dd3c7
@@ -20,10 +21,11 @@ class Building extends Entity {
         this.tile = null;
     }
 
-    render(stage, renderer, position) {
+    render(stage, renderer) {
         super.render(stage, renderer);
         this.gridSize = 50;
-        this.add(position);
+        //render position is in screen coordinates
+        this.add({x:this.position.x*Globals.cellWidth,y:this.position.y*this.cellHeight});
     }
 
     animate() {
@@ -34,6 +36,8 @@ class Building extends Entity {
         this.name = data.name;
         this.owner = data.owner;
         this.technology = data.technology;
+        //position is in tile coordinates
+        this.position = {x: data.position.x,y:data.position.y};
     }
 
     get displayObject() {
@@ -45,21 +49,21 @@ class Building extends Entity {
 
         graphics.beginFill(0xfdb462);
 
-        graphics.moveTo(this.gridSize * 0.5, 0);
+        graphics.moveTo(Globals.cellWidth * 0.5, 0);
         graphics.lineTo(0, 0);
-        graphics.lineTo(0, this.gridSize * 0.5);
+        graphics.lineTo(0, Globals.cellHeight  * 0.5);
 
-        graphics.moveTo(this.gridSize * 0.5, 0);
-        graphics.lineTo(this.gridSize, 0);
-        graphics.lineTo(this.gridSize, this.gridSize * 0.5);
+        graphics.moveTo(Globals.cellWidth  * 0.5, 0);
+        graphics.lineTo(Globals.cellWidth , 0);
+        graphics.lineTo(Globals.cellWidth , Globals.cellHeight * 0.5);
 
-        graphics.moveTo(0, this.gridSize * 0.5);
-        graphics.lineTo(0, this.gridSize);
-        graphics.lineTo(this.gridSize * 0.5, this.gridSize);
+        graphics.moveTo(0, Globals.cellHeight * 0.5);
+        graphics.lineTo(0, Globals.cellHeight);
+        graphics.lineTo(Globals.cellWidth  * 0.5, Globals.cellHeight);
 
-        graphics.moveTo(this.gridSize * 0.5, this.gridSize);
-        graphics.lineTo(this.gridSize, this.gridSize);
-        graphics.lineTo(this.gridSize, this.gridSize * 0.5);
+        graphics.moveTo(Globals.cellWidth  * 0.5, Globals.cellHeight);
+        graphics.lineTo(Globals.cellWidth , Globals.cellHeight);
+        graphics.lineTo(Globals.cellWidth , Globals.cellHeight * 0.5);
 
         graphics.endFill();
 
