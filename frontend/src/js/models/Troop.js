@@ -7,7 +7,7 @@ const Globals = require('../data/Globals');
 
 class Troop extends Entity {
     constructor(data) {
-        super()
+        super();
         this.updateFromTick(data);
     }
 
