@@ -109,10 +109,13 @@ class Thread {
             let player = this.players[i % this.players.length];
             for (let k in this.troops[player.id]) {
                 let troop = this.troops[player.id][k];
-                if (!troop.collides(this.troops)) {
-                    troop.move();
-                    // Make the troop ready for emitting to clients
-                    this.prepareTroopForTick(troop);
+                if (!troop.target) {
+                    //Only move if you have not attacked
+                    if (!troop.collides(this.troops)) {
+                        troop.move();
+                        // Make the troop ready for emitting to clients
+                        this.prepareTroopForTick(troop);
+                    }
                 }
             }
         }
