@@ -23,7 +23,7 @@ class State {
 
     parseMutation(mutation) {
         _.each(mutation.building, b => {
-            this.map.updateBuildingAtPosition(b.position, b);
+            this.map.updateBuildingAtPosition(b.position, b, this.techtree);
         })
         _.each(mutation.troop, t => {
             this.updateTroop(t.id, t);

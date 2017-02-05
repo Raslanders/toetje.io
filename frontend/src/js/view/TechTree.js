@@ -16,8 +16,8 @@ class TechTree {
             return;
         }
 
-        this.techtree = _.keyBy(techtree, 'id');
-        this.activeTech = _.keys(this.techtree)[0];
+        this.techtree = _.keyBy(techtree, t => parseInt(t.id));
+        this.activeTech = parseInt(_.keys(this.techtree)[0]);
 
         // append buildings
         _.each(this.techtree, tech => {
@@ -37,7 +37,16 @@ class TechTree {
     }
 
     getSpriteUrlForTechId(id) {
-        debugger;
+        const tech = this.techtree[id];
+        let slug = tech.slug;
+
+        // The base tech has '' as slug
+        // And that asset has no underscore
+        if (slug !== '') {
+            slug = '_' + slug;
+        }
+
+        return `static/building${slug}.png`;
     }
 
     clickTech(tech, div) {

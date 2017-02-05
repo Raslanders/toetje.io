@@ -15,9 +15,9 @@ const Globals = require('../data/Globals');
 
 class Building extends Entity {
     // Instantiate building from bootstrap map data
-    constructor(data) {
+    constructor(data, techTree) {
         super();
-        this.updateFromTick(data);
+        this.updateFromTick(data, techTree);
     }
 
     render(stage, renderer) {
@@ -28,10 +28,15 @@ class Building extends Entity {
     animate() {
     }
 
-    updateFromTick(data) {
+    updateFromTick(data, techTree) {
         this.name = data.name;
         this.owner = data.owner;
         this.technology = data.technology;
+
+        // Only upon the initial construction a techTree is given
+        if (techTree) {
+            this.spriteUrl = techTree.getSpriteUrlForTechId(data.technology);
+        }
         //position is in tile coordinates
         this.position = {x: data.position.x, y: data.position.y};
     }
@@ -41,7 +46,7 @@ class Building extends Entity {
             return this.sprite;
         }
 
-        const sprite = PIXI.Sprite.fromImage('static/building_dps.png');
+        const sprite = PIXI.Sprite.fromImage(this.spriteUrl);
 
         // Hardcode the scaling for now
         const scale = Globals.cellWidth / Globals.spriteSize
