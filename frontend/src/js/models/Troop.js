@@ -96,7 +96,7 @@ class Troop extends Entity {
     //TargetCoordinates contains the coordinates of the target unit
     animateAttack(position) {
         if (!this.laser && position) {
-            this.beginLaser(position.x * 50, position.y * 50);
+            this.beginLaser(position.x * Globals.gridWidth, position.y * Globals.gridHeight);
         } else if (this.laser && !position) {
             this.endLaser();
         }
