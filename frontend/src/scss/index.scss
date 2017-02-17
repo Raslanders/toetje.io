@@ -37,6 +37,10 @@ body {
     justify-content: space-around;
 }
 
+.pixi-view {
+    height: 100%;
+}
+
 .hidden {
     display: none;
 }
@@ -61,5 +65,10 @@ body {
     flex: 3;
 }
 
+.fill {
+    width: 100%
+}
+
+@import 'progressMeter';
 @import 'spinner';
 @import 'sidebar';
