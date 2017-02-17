@@ -14,7 +14,7 @@ class Laser extends Entity {
         this.alpha = 1;
     }
 
-    render(stage, renderer){
+    render(stage, renderer) {
         super.render(stage, renderer);
 
         this.add({x: this.originX, y: this.originY});
@@ -47,12 +47,13 @@ class Laser extends Entity {
 
         }
 
-        let angle = Math.atan2(this.targetY - this.originY,this.targetX - this.originX);
+        let angle = Math.atan2(this.targetY - this.originY, this.targetX - this.originX);
 
-        let exitX =  Math.cos(angle)*Globals.gridWidth;
-        let exitY =  Math.sin(angle)*Globals.gridHeight;
+        let startX = (Math.cos(angle)) * Globals.cellWidth / 2;
+        let startY = (Math.sin(angle)) * Globals.cellHeight / 2;
 
-        graphics.moveTo(exitX, exitY);
+
+        graphics.moveTo(startX, startY);
         graphics.lineTo(this.targetX - this.originX, this.targetY - this.originY);
 
         if (this.owner == 1) {
@@ -62,11 +63,20 @@ class Laser extends Entity {
             graphics.lineStyle(1, 0x7Fdbff);
         }
 
-        graphics.moveTo(3+exitX, exitY);
+        //3 pixels offset
+        let offSetX = Math.cos(angle + 4*(2*Math.PI)/360) * Globals.cellWidth / 2;
+        let offSetY = Math.sin(angle + 4*(2*Math.PI)/360) * Globals.cellHeight / 2;
+
+
+        graphics.moveTo(offSetX, offSetY);
         graphics.lineTo(this.targetX - this.originX, this.targetY - this.originY);
-        graphics.moveTo(-3+exitX, exitY);
-        graphics.lineTo(this.targetX - this.originX , this.targetY - this.originY);
-        // graphics.antiAlias = true;
+
+        offSetX = Math.cos(angle - 4*(2*Math.PI)/360) * Globals.cellWidth / 2;
+        offSetY = Math.sin(angle - 4*(2*Math.PI)/360) * Globals.cellHeight / 2;
+
+        graphics.moveTo(offSetX, offSetY);
+        graphics.lineTo(this.targetX - this.originX, this.targetY - this.originY);
+        graphics.antiAlias = true;
 
         this._sprite = graphics;
         return this._sprite;

@@ -5,6 +5,7 @@
 
 const _ = require('lodash');
 const Troop = require('../models/Troop');
+const Globals = require('./Globals')
 
 class Thread {
     constructor(game) {
@@ -45,6 +46,9 @@ class Thread {
             troop: [],
             building: [],
             resources: [],
+            meta: {
+                waveProgress: this.waveCounter / Globals.waveTicks
+            },
         };
     }
 
@@ -155,7 +159,7 @@ class Thread {
     updateResources() {
         for (let i = this.token; i < this.players.length + this.token; i++) {
             let player = this.players[i % this.players.length];
-            player.resource += Math.pow(2, Math.floor(this.waveCounter / 10));
+            player.resource += Math.pow(2, Math.floor(this.waveCounter / Globals.waveTicks));
             this.mutation.resources.push(player.view);
         }
     }
@@ -165,7 +169,7 @@ class Thread {
      */
     spawnTroops() {
         this.waveCounter++;
-        if (this.waveCounter % 11 == 10) {
+        if (this.waveCounter >= Globals.waveTicks) {
             // Spawn the wave
             for (let i = this.token; i < this.players.length + this.token; i++) {
                 let player = this.players[i % this.players.length];
@@ -180,6 +184,7 @@ class Thread {
                     }
                 }
             }
+            this.waveCounter = 0;
         }
     }
 

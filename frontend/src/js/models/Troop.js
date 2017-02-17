@@ -50,7 +50,7 @@ class Troop extends Entity {
         super.render(stage, renderer);
 
         //allows 1 movement in the x direction in 1 movement in the y direction per tick
-        this.movePerTick = 5;
+        this.movePerTick = 1;
 
         //current deathAnimation tick
         this.deathAnimationTick = 0;
@@ -96,7 +96,7 @@ class Troop extends Entity {
     //TargetCoordinates contains the coordinates of the target unit
     animateAttack(position) {
         if (!this.laser && position) {
-            this.beginLaser(position.x * Globals.gridWidth, position.y * Globals.gridHeight);
+            this.beginLaser(position.x * Globals.cellWidth, position.y * Globals.cellHeight);
         } else if (this.laser && !position) {
             this.endLaser();
         }
@@ -172,8 +172,8 @@ class Troop extends Entity {
             this.laser = new Laser(
                 this.x + 0.5 * Globals.cellWidth,
                 this.y + 0.5 * Globals.cellHeight,
-                targetX + 0.5 * Globals.cellWidth,
-                targetY + 0.5 * Globals.cellHeight,
+                targetX+0.5*Globals.cellWidth,
+                targetY+0.5*Globals.cellHeight,
                 this.owner
             );
             this.gameRenderer.addToQueue(this.laser, true);
