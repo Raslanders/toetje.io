@@ -19,6 +19,7 @@ class State {
         this.techtree = new TechTree(document.getElementsByClassName('_tech-tree')[0]);
         this.resources = new Resource(document.getElementsByClassName('_resources')[0]);
         this.waveProgress = new WaveProgress(document.getElementsByClassName('_waveProgress')[0]);
+        this.lobby = document.getElementsByClassName('_lobby')[0];
     }
 
     createBuilding(x, y) {
@@ -73,13 +74,14 @@ class State {
     start() {
         console.log('Game started');
         this.gameState = 'started';
-        document.getElementsByClassName('_lobby')[0].className = 'hidden';
+        this.lobby.className += " hidden";
     }
 
     stop() {
-
         console.log('Game stopped');
         this.gameState = 'stopped';
+
+        this.lobby.className = this.lobby.className.replace(/(?:^|\s)hidden(?!\S)/g , '')
     }
 }
 
