@@ -51,7 +51,7 @@ body {
 }
 
 .pixi-view {
-    height: 100% - (3 * $progressMeterHeight);
+    height: 100% - 2%;
     margin: 0px 20px;
     canvas {
         border: 1px solid white;
