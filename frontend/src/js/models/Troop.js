@@ -50,7 +50,7 @@ class Troop extends Entity {
         super.render(stage, renderer);
 
         //allows 1 movement in the x direction in 1 movement in the y direction per tick
-        this.movePerTick = 5;
+        this.movePerTick = 1;
 
         //current deathAnimation tick
         this.deathAnimationTick = 0;
