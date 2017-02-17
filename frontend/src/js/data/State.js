@@ -73,9 +73,11 @@ class State {
     start() {
         console.log('Game started');
         this.gameState = 'started';
+        document.getElementsByClassName('_lobby')[0].className = 'hidden';
     }
 
     stop() {
+
         console.log('Game stopped');
         this.gameState = 'stopped';
     }
