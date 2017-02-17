@@ -15,8 +15,14 @@ class Tile extends Entity {
     }
 
     render(stage, renderer) {
+        console.log('Tile render');
         super.render(stage, renderer);
-        this.add({x: this.position.x * Globals.cellWidth, y: this.position.y * Globals.cellHeight});
+        const x = this.position.x * Globals.cellWidth;
+        const y = this.position.y * Globals.cellHeight;
+        this.add({
+            x: x - y,
+            y: (x + y) / 2.
+        });
     }
 
     animate() {
@@ -65,7 +71,17 @@ class Tile extends Entity {
             tileGraphics.lineStyle(1, 0xfc8d62, 0.4);
             tileGraphics.beginFill(0x333333, 0.8);
         }
-        tileGraphics.drawRect(this.position.x * Globals.cellWidth, this.position.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight)
+
+        const cw = Globals.cellWidth;
+        const ch = Globals.cellHeight;
+        const leftBottom = new PIXI.Point(0, 0);
+        const rightBottom = new PIXI.Point(cw, ch / 2);
+        const rightUp = new PIXI.Point(cw - ch, (cw + ch) / 2);
+        const leftUp = new PIXI.Point(-ch, ch / 2);
+        tileGraphics.drawPolygon(leftBottom, rightBottom, rightUp, leftUp);
+
+
+        // tileGraphics.drawRect(0, 0, Globals.cellWidth, Globals.cellHeight)
         tileGraphics.endFill();
 
         const texture = this.renderer.generateTexture(tileGraphics);
