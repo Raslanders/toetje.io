@@ -3,7 +3,6 @@ const socket = require('socket.io-client')('localhost:3000');
 const Renderer = require('./graphics/Renderer');
 
 let game = new Renderer(document.getElementsByClassName("pixi-view")[0]);
-console.log('asdkfljsaidfojasiofj');
 socket.on('ready', () => {
     socket.emit('ack');
 });

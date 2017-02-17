@@ -15,13 +15,10 @@ class Tile extends Entity {
     }
 
     render(stage, renderer) {
-        console.log('Tile render');
         super.render(stage, renderer);
-        const x = this.position.x * Globals.cellWidth;
-        const y = this.position.y * Globals.cellHeight;
         this.add({
-            x: x - y,
-            y: (x + y) / 2.
+            x: this.position.x * Globals.cellWidth,
+            y: this.position.y * Globals.cellHeight,
         });
     }
 
@@ -80,8 +77,6 @@ class Tile extends Entity {
         const leftUp = new PIXI.Point(-ch, ch / 2);
         tileGraphics.drawPolygon(leftBottom, rightBottom, rightUp, leftUp);
 
-
-        // tileGraphics.drawRect(0, 0, Globals.cellWidth, Globals.cellHeight)
         tileGraphics.endFill();
 
         const texture = this.renderer.generateTexture(tileGraphics);
