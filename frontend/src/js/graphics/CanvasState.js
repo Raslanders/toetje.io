@@ -93,22 +93,17 @@ class CanvasState {
         // Coordinates viewport
         let coordVp = this.getMouseWithoutOffset(mousecoordinates);
 
+        // Reverse iso
+        const origX = (coordVp.x / 2) + coordVp.y;
+        const origY = coordVp.y - (coordVp.x / 2);
+
         // Rounded to nearest tile
-        const isoX = (Globals.cellWidth / -2) + Math.floor(coordVp.x / Globals.cellWidth) * Globals.cellWidth;
-        const isoY = Math.floor(coordVp.y / Globals.cellHeight) * Globals.cellHeight;
+        const coordinates = {};
+        coordinates.x = Math.floor(origX / Globals.cellWidth);
+        coordinates.y = Math.floor(origY / Globals.cellHeight);
 
-        // First reverse isometric
-        const viewX = isoX / 2 + isoY;
-        const viewY = isoY - (isoX / 2);
+        console.log('hovering over', coordinates);
 
-        // Then translate from viewport pixels to tile location
-        const tileX = viewX / Globals.cellWidth;
-        const tileY = viewY / Globals.cellHeight;
-
-        console.log('getGridCoordinates', tileX, tileY, viewX, viewY, isoX, isoY); 
-        let coordinates = {};
-        coordinates.x = Math.floor(coordVp.x / Globals.cellWidth);
-        coordinates.y = Math.floor(coordVp.y / Globals.cellHeight   );
         return coordinates;
     }
 
