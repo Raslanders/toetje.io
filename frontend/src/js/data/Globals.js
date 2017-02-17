@@ -5,8 +5,8 @@ class Globals {
         if(!instance) {
             instance = this;
         }
-        this.cellWidth = 30;
-        this.cellHeight = 30;
+        this.cellWidth = 50;
+        this.cellHeight = 50;
         this.spriteSize = 256;
         this.gridWidth = 35;
         this.gridHeight = 15;
