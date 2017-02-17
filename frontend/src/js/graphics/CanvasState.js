@@ -90,10 +90,25 @@ class CanvasState {
     }
 
     getGridCoordinates(mousecoordinates) {
-        let noOffsetCoordinates = this.getMouseWithoutOffset(mousecoordinates);
+        // Coordinates viewport
+        let coordVp = this.getMouseWithoutOffset(mousecoordinates);
+
+        // Rounded to nearest tile
+        const isoX = (Globals.cellWidth / -2) + Math.floor(coordVp.x / Globals.cellWidth) * Globals.cellWidth;
+        const isoY = Math.floor(coordVp.y / Globals.cellHeight) * Globals.cellHeight;
+
+        // First reverse isometric
+        const viewX = isoX / 2 + isoY;
+        const viewY = isoY - (isoX / 2);
+
+        // Then translate from viewport pixels to tile location
+        const tileX = viewX / Globals.cellWidth;
+        const tileY = viewY / Globals.cellHeight;
+
+        console.log('getGridCoordinates', tileX, tileY, viewX, viewY, isoX, isoY); 
         let coordinates = {};
-        coordinates.x = Math.floor(noOffsetCoordinates.x / Globals.cellWidth);
-        coordinates.y = Math.floor(noOffsetCoordinates.y / Globals.cellHeight   );
+        coordinates.x = Math.floor(coordVp.x / Globals.cellWidth);
+        coordinates.y = Math.floor(coordVp.y / Globals.cellHeight   );
         return coordinates;
     }
 
