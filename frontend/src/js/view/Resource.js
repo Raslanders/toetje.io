@@ -7,7 +7,6 @@ class Resource {
     }
 
     render(resource) {
-        console.log(resource);
         if(resource) {
             this.resource = resource;
         }

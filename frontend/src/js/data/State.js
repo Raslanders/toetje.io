@@ -5,6 +5,7 @@ const _ = require('lodash');
 const TechTree = require('../view/TechTree');
 const Troop = require('../models/Troop');
 const Resource = require('../view/Resource');
+const WaveProgress = require('../view/WaveProgress');
 
 class State {
     constructor(renderer) {
@@ -17,6 +18,7 @@ class State {
         this.troops = {};
         this.techtree = new TechTree(document.getElementsByClassName('_tech-tree')[0]);
         this.resources = new Resource(document.getElementsByClassName('_resources')[0]);
+        this.waveProgress = new WaveProgress(document.getElementsByClassName('_waveProgress')[0]);
     }
 
     createBuilding(x, y) {
@@ -36,6 +38,11 @@ class State {
             if(r.id == this.playerId)
                 this.updateResource(r.resource)
         })
+        this.parseMeta(mutation.meta);
+    }
+
+    parseMeta(meta) {
+        this.updateWaveProgress(meta.waveProgress);
     }
 
     // Create or update troop
@@ -57,6 +64,10 @@ class State {
 
     updateResource(resource) {
         this.resources.render(resource);
+    }
+
+    updateWaveProgress(progress) {
+        this.waveProgress.render(progress)
     }
 
     start() {

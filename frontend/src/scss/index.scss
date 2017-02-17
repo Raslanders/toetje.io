@@ -61,5 +61,10 @@ body {
     flex: 3;
 }
 
+.fill {
+    width: 100%
+}
+
+@import 'progressMeter';
 @import 'spinner';
 @import 'sidebar';
