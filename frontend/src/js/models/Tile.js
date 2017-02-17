@@ -65,7 +65,7 @@ class Tile extends Entity {
             tileGraphics.lineStyle(1, 0xfc8d62, 0.4);
             tileGraphics.beginFill(0x333333, 0.8);
         }
-        tileGraphics.drawRect(this.position.x * Globals.cellWidth, this.position.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight)
+        tileGraphics.drawRect(0, 0, Globals.cellWidth, Globals.cellHeight)
         tileGraphics.endFill();
 
         const texture = this.renderer.generateTexture(tileGraphics);

@@ -1,5 +1,5 @@
 .meter { 
-  height: 20px;  /* Can be anything */
+  height: $progressMeterHeight;
   position: relative;
   background: #555;
   margin: 10px 40px;
@@ -27,7 +27,7 @@
        -moz-border-radius-bottomleft: 20px;
               border-top-left-radius: 20px;
            border-bottom-left-radius: 20px;
-  background-color: rgb(43,194,83);
+  background-color: $primary-color;
   background-image: -webkit-gradient(
     linear,
     left bottom,
