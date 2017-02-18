@@ -5,6 +5,10 @@ body, html {
     height: 100%
 }
 
+h1, h2, h3, a, p, i, b, div {
+    font-family: 'Cormac',
+}
+
 h3 {
     color: $primary-color;
 }
@@ -58,6 +62,7 @@ body {
 
 .pixi-view {
     height: 100%;
+    width: 100%;
 }
 
 .game-header {
@@ -95,6 +100,7 @@ body {
     width: 100%
 }
 
+@import 'typography';
 @import 'progressMeter';
 @import 'spinner';
 @import 'sidebar';
