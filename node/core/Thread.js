@@ -39,7 +39,7 @@ class Thread {
         this.checkLoss();
         this.game.emit('tick', this.mutation);
         this.updateToken();
-
+        //this.cleanupTroops();
         if (!this.stopped) {
             setTimeout(this.run.bind(this), 1000);
         }
@@ -77,23 +77,21 @@ class Thread {
             for (let k in this.troops[player.id]) {
                 //the troop to determine the targets for
                 let troop = this.troops[player.id][k];
-                //the list of possible targets for this troop
-                let targets = troop.inRange(this.troops);
+                if(!troop.isDead) {
+                    let targets = troop.inRange(this.troops);
 
-                troop.attack(targets[0]);
-                if (targets[0] && targets[0].isDead) {
-                    deadTroops.push(troop.id);
-                    troop.target = null;
+                    troop.attack(targets[0]);
+                    if (targets[0] && targets[0].isDead && !_.includes(deadTroops, targets[0])) {
+                        deadTroops.push(targets[0]);
+                        targets[0].targets = null;
+                        troop.targets = null;
+                    }
+                    else if (targets[0] && targets[0].isDead) {
+                        troop.targets = null;
+                    }
+                    // Make the troop ready for emitting to clients
+                    this.prepareTroopForTick(troop);
                 }
-                // Make the troop ready for emitting to clients
-                this.prepareTroopForTick(troop);
-            }
-        }
-        // Remove all dead troops
-        for (let troop of deadTroops) {
-            for (let i = this.token; i < this.players.length + this.token; i++) {
-                let player = this.players[i % this.players.length];
-                _.remove(this.troops[player.id], p => p.id === troop.id);
             }
         }
     }
@@ -220,6 +218,17 @@ class Thread {
         }
     }
 
+
+    /*
+     * Clean up dead troops
+     */
+    cleanupTroops() {
+        // Remove all dead troops
+        for( let i = this.token; i < this.players.length + this.token; i++) {
+            let player = this.players[i % this.players.length];
+            _.remove(this.troops[player.id], t => t.isDead);
+        }
+    }
 
     /**
      * @description Updates the token
