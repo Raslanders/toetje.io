@@ -1,0 +1,32 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp watch",
+    "build": "gulp build"
+  },
+  "author": "Ruud Andriessen",
+  "license": "ISC",
+  "dependencies": {
+    "browserify": "^13.1.1",
+    "lodash": "4.17.4",
+    "pixi-display": "^1.1.1",
+    "pixi.js": "^4.3.4",
+    "socket.io-client": "1.7.2",
+    "stats.js": "^0.17.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-inject": "^4.1.0",
+    "gulp-nunjucks": "^2.3.0",
+    "gulp-sass": "^3.0.0",
+    "gulp-sass-bulk-import": "^1.0.1",
+    "gulp-sourcemaps": "^1.9.1",
+    "gulp-util": "^3.0.7",
+    "vinyl-source-stream": "1.1.0"
+  }
+}

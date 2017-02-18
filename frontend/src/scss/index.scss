@@ -1,0 +1,106 @@
+@import 'variables';
+
+body, html {
+    margin: 0;
+    height: 100%
+}
+
+h1, h2, h3, a, p, i, b, div {
+    font-family: 'Cormac',
+}
+
+h3 {
+    color: $primary-color;
+}
+
+.primary{
+    color: $primary-color;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: black;
+}
+
+.app {
+    height: 100%;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.flex-box {
+    display: -webkit-flex;
+    display: flex;
+}
+
+.flex-column {
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-center {
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.lobby {
+    text-align: center;
+    color: $primary-color;
+}
+
+.flex-wrap {
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.pixi-view {
+    height: 100%;
+    width: 100%;
+}
+
+.game-header {
+    margin: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+.initial {
+    -webkit-flex: initial;
+    flex: initial;
+    width: 200px;
+    min-width: 100px;
+}
+
+.flex-1 {
+    flex: 1;
+}
+.flex-2 {
+    flex: 2;
+}
+.flex-3 {
+    flex: 3;
+}
+.flex-4 {
+    flex: 4;
+}
+.flex-5 {
+    flex: 5;
+}
+
+.fill {
+    width: 100%
+}
+
+@import 'typography';
+@import 'progressMeter';
+@import 'spinner';
+@import 'sidebar';

@@ -1,0 +1,70 @@
+[
+	{
+		"id": 1,
+		"name": "Basic",
+		"slug": "base",
+		"price": 10,
+		"description": "Spawns a basic melee unit",
+		"required": null,
+		"stats": {
+			"name": "Melee",
+			"health": 50,
+			"armor": 0,
+			"damage": 12,
+			"tpa": 4,
+			"range": 1,
+			"ability": []
+		}
+	},
+	{
+		"id": 2,
+		"name": "Tank",
+		"slug": "tank",
+		"price": 50,
+		"description": "Pure tank unit",
+		"required": 1,
+		"stats": {
+			"name": "Tank unit",
+			"health": 640,
+			"armor": 3,
+			"damage": 12,
+			"tpa": 4,
+			"range": 1,
+			"ability": []
+		}
+	},
+	{
+		"id": 3,
+		"name": "Dps",
+		"slug": "dps",
+		"price": 50,
+		"description": "Melee dps unit",
+		"required": 1,
+		"stats": {
+			"name": "Dps unit",
+			"health": 240,
+			"armor": 1,
+			"damage": 32,
+			"tpa": 4,
+			"range": 2,
+			"ability": []
+		}
+	},
+	{
+		"id": 4,
+		"name": "Bruiser",
+		"slug": "bruiser",
+		"price": 50,
+		"description": "Tank/dps unit",
+		"required": 1,
+		"stats": {
+			"name": "Bruiser",
+			"health": 400,
+			"armor": 2,
+			"damage": 16,
+			"tpa": 4,
+			"range": 1,
+			"ability": []
+		}
+	}
+]

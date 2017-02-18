@@ -1,0 +1,52 @@
+.sidebar {
+    width: 201px;
+    position: absolute;
+    right: 0;
+}
+
+.menu-item {
+    width: 100%;
+    height: 120px;
+    position: relative;
+
+    > .avatar {
+        height: 100%;
+        background-size: 100px;
+        background-position: 10px;
+        background-repeat: no-repeat;        
+    }
+
+    &:hover {
+        background: linear-gradient(90deg, transparent, rgba($primary-color, 0.5));
+    }
+
+    &.active {
+        background: linear-gradient(90deg, transparent, $primary-color);
+    }
+
+    .name {
+        position: absolute;
+        right: 20px;
+        bottom: 50px;
+    }
+}
+
+.building-base > .avatar {
+    background-image: url('static/building_base.png');
+}
+.building-bruiser > .avatar {
+    background-image: url('static/building_bruiser.png');
+}
+.building-dps > .avatar {
+    background-image: url('static/building_dps.png');
+}
+.building-tank > .avatar {
+    background-image: url('static/building_tank.png');
+}
+
+._resources {
+    color: white;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+

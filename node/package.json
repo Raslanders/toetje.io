@@ -1,0 +1,16 @@
+{
+  "name": "toetje-node",
+  "license": "MIT",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "dependencies": {
+    "express": "4.14.1",
+    "socket.io": "1.7.2",
+    "lodash": "4.17.4"
+  },
+  "devDependencies": {
+    "nodemon": "1.11.0"
+  }
+}
