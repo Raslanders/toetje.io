@@ -5,6 +5,10 @@ body, html {
     height: 100%
 }
 
+h1, h2, h3, a, p, i, b, div {
+    font-family: 'Cormac',
+}
+
 h3 {
     color: $primary-color;
 }
@@ -32,6 +36,12 @@ body {
     display: flex;
 }
 
+.flex-column {
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+}
+
 .flex-center {
     justify-content: center;
     flex-direction: column;
@@ -51,12 +61,8 @@ body {
 }
 
 .pixi-view {
-    height: 90%;
-    margin: 0px 20px;
-    canvas {
-        border: 1px solid $primary-color;
-        border-radius: 8px;
-    }
+    height: 100%;
+    width: 100%;
 }
 
 .game-header {
@@ -94,6 +100,7 @@ body {
     width: 100%
 }
 
+@import 'typography';
 @import 'progressMeter';
 @import 'spinner';
 @import 'sidebar';

@@ -11,7 +11,7 @@ class Thread {
     constructor(game) {
         this.game = game;
         this.token = 0;
-        this.waveCounter = 0;
+        this.tickCount = 0;
         this.stopped = false;
         this.mutation = {};
         this.ids = {};
@@ -33,7 +33,7 @@ class Thread {
         this.updateToken();
         //this.cleanupTroops();
         if (!this.stopped) {
-            setTimeout(this.run.bind(this), 1000);
+            setTimeout(this.run.bind(this), Globals.timePerTick);
         }
     }
 
@@ -42,12 +42,14 @@ class Thread {
     }
 
     prepareTick() {
+        const ticksIntoWave = this.tickCount % Globals.ticksPerWave;
+        const ticksUntilWave = Globals.ticksPerWave - ticksIntoWave - 1;
         this.mutation = {
             troop: [],
             building: [],
             resources: [],
             meta: {
-                waveProgress: this.waveCounter / Globals.waveTicks
+                timeUntilWave: ticksUntilWave  * Globals.timePerTick / 1000, 
             },
         };
     }
@@ -158,7 +160,7 @@ class Thread {
     updateResources() {
         for (let i = this.token; i < this.players.length + this.token; i++) {
             let player = this.players[i % this.players.length];
-            player.resource += Math.pow(2, Math.floor(this.waveCounter / Globals.waveTicks));
+            player.resource += Math.pow(2, Math.floor(this.tickCount / Globals.ticksPerWave));
             player.resource = 1000;
             this.mutation.resources.push(player.view);
         }
@@ -168,8 +170,8 @@ class Thread {
      * Spawns troops for each player, starting at the player with the token
      */
     spawnTroops() {
-        this.waveCounter++;
-        if (this.waveCounter >= Globals.waveTicks) {
+        this.tickCount++;
+        if (this.tickCount >= Globals.ticksPerWave) {
             // Spawn the wave
             for (let i = this.token; i < this.players.length + this.token; i++) {
                 let player = this.players[i % this.players.length];
@@ -184,7 +186,7 @@ class Thread {
                     }
                 }
             }
-            this.waveCounter = 0;
+            this.tickCount = 0;
         }
     }
 
@@ -218,17 +220,6 @@ class Thread {
         return player.id + "-" + this.ids[player.id];
     }
 
-    // Getters and setters
-    get game() {
-        return this._game
-    }
-
-    set game(game) {
-        if (game) {
-            this._game = game;
-        }
-    }
-
     get token() {
         return this._token;
     }
@@ -236,15 +227,6 @@ class Thread {
     set token(token) {
         this._token = (token) % this.players.length;
     }
-
-    get waveCounter() {
-        return this._waveCounter;
-    }
-
-    set waveCounter(waveCounter) {
-        this._waveCounter = waveCounter;
-    }
-
     get players() {
         return this.game.players;
     }

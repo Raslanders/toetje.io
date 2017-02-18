@@ -27,8 +27,12 @@ class TechTree {
                 this.clickTech(tech, div);
             }
 
+            let avatarDiv = document.createElement('div');
+            avatarDiv.setAttribute('class', 'avatar');
+            div.appendChild(avatarDiv);
+
             let nameDiv = document.createElement('div');
-            nameDiv.setAttribute('class', 'name');
+            nameDiv.setAttribute('class', 'name text-white');
             nameDiv.innerHTML = tech.name;
             div.appendChild(nameDiv);
 
