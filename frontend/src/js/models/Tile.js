@@ -17,10 +17,9 @@ class Tile extends Entity {
 
     render(stage, groups, renderer) {
         super.render(stage, groups, renderer);
-        let offset = 32;
         this.add({
-            x: this.gridPosition.x * Globals.cellWidth + offset,
-            y: this.gridPosition.y * Globals.cellHeight + offset
+            x: this.gridPosition.x * Globals.cellWidth,
+            y: this.gridPosition.y * Globals.cellHeight
         });
     }
 
