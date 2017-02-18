@@ -152,22 +152,24 @@ class Renderer {
             hoverGraphic = this.canvasState.getHoverGraphic();
             hoverGraphic.lineStyle(2, 0xFF3300, 1);
 
-            let pos = this.translate({x: hoverTile.x * Globals.cellWidth, y: hoverTile.y * Globals.cellHeight});
+            let pos = this.translate({x: (hoverTile.x + 1) * Globals.cellWidth, y: hoverTile.y * Globals.cellHeight});
             hoverGraphic.moveTo(pos.x, pos.y);
+
+            pos = this.translate({x: (hoverTile.x + 2) * Globals.cellWidth, y: hoverTile.y * Globals.cellHeight});
+            hoverGraphic.lineTo(pos.x, pos.y);
+
+            pos = this.translate({x: (hoverTile.x + 2) * Globals.cellWidth, y: (hoverTile.y + 1) * Globals.cellHeight});
+            hoverGraphic.lineTo(pos.x, pos.y);
+
+            pos = this.translate({x: (hoverTile.x + 1) * Globals.cellWidth, y: (hoverTile.y + 1) * Globals.cellHeight});
+            hoverGraphic.lineTo(pos.x, pos.y);
 
             pos = this.translate({x: (hoverTile.x + 1) * Globals.cellWidth, y: hoverTile.y * Globals.cellHeight});
             hoverGraphic.lineTo(pos.x, pos.y);
 
-            pos = this.translate({x: (hoverTile.x + 1) * Globals.cellWidth, y: (hoverTile.y - 1) * Globals.cellHeight});
-            hoverGraphic.lineTo(pos.x, pos.y);
-
-            pos = this.translate({x: hoverTile.x * Globals.cellWidth, y: (hoverTile.y - 1) * Globals.cellHeight});
-            hoverGraphic.lineTo(pos.x, pos.y);
-
-            pos = this.translate({x: hoverTile.x * Globals.cellWidth, y: hoverTile.y * Globals.cellHeight});
-            hoverGraphic.lineTo(pos.x, pos.y);
-
             hoverGraphic.endFill();
+            hoverGraphic.y -= 6;
+            hoverGraphic.x += 3;
             hoverGraphic.displayGroup = this.groups.UI;
             this.stage.addChild(hoverGraphic);
         }
@@ -182,23 +184,25 @@ class Renderer {
             selectedGraphic = this.canvasState.getSelectedGraphic();
             selectedGraphic.lineStyle(2, 0x33FF00, 1);
             
-            let pos = this.translate({x: selectedTile.x * Globals.cellWidth, y: selectedTile.y * Globals.cellHeight});
+            let pos = this.translate({x: (selectedTile.x + 1)* Globals.cellWidth, y: selectedTile.y * Globals.cellHeight});
             selectedGraphic.moveTo(pos.x, pos.y);
+
+            pos = this.translate({x: (selectedTile.x + 2) * Globals.cellWidth, y: selectedTile.y * Globals.cellHeight});
+            selectedGraphic.lineTo(pos.x, pos.y);
+
+            pos = this.translate({x: (selectedTile.x + 2) * Globals.cellWidth, y: (selectedTile.y + 1) * Globals.cellHeight});
+            selectedGraphic.lineTo(pos.x, pos.y);
+
+            pos = this.translate({x: (selectedTile.x + 1) * Globals.cellWidth, y: (selectedTile.y + 1) * Globals.cellHeight});
+            selectedGraphic.lineTo(pos.x, pos.y);
 
             pos = this.translate({x: (selectedTile.x + 1) * Globals.cellWidth, y: selectedTile.y * Globals.cellHeight});
             selectedGraphic.lineTo(pos.x, pos.y);
 
-            pos = this.translate({x: (selectedTile.x + 1) * Globals.cellWidth, y: (selectedTile.y - 1) * Globals.cellHeight});
-            selectedGraphic.lineTo(pos.x, pos.y);
-
-            pos = this.translate({x: selectedTile.x * Globals.cellWidth, y: (selectedTile.y - 1) * Globals.cellHeight});
-            selectedGraphic.lineTo(pos.x, pos.y);
-
-            pos = this.translate({x: selectedTile.x * Globals.cellWidth, y: selectedTile.y * Globals.cellHeight});
-            selectedGraphic.lineTo(pos.x, pos.y);
-
             selectedGraphic.endFill();
-            hoverGraphic.displayGroup = this.groups.UI;
+            selectedGraphic.y -= 6;
+            selectedGraphic.x += 3;
+            selectedGraphic.displayGroup = this.groups.UI;
             this.stage.addChild(selectedGraphic);
         }
     }
