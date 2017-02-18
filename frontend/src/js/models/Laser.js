@@ -6,18 +6,24 @@ class Laser extends Entity {
     constructor(originX, originY, targetX, targetY, owner) {
         super();
 
-        this.originX = originX;
-        this.originY = originY;
-        this.targetX = targetX;
-        this.targetY = targetY;
         this.owner = owner;
         this.alpha = 1;
+
+        this.oldPos = {x: (originX + 0.5) * Globals.cellWidth, y: (originY + 0.5) * Globals.cellHeight};
+        const origin = this.screenToIso({x: originX * Globals.cellWidth, y: originY * Globals.cellHeight});
+        const target = this.screenToIso({x: targetX * Globals.cellWidth, y: targetY * Globals.cellHeight});
+        this.originX = origin.x;
+        this.originY = origin.y;
+        this.targetX = target.x;
+        this.targetY = target.y;
+        
+        this.entityType = "Weapon";
     }
 
     render(stage, groups, renderer) {
         super.render(stage, groups, renderer);
 
-        this.add({x: this.originX, y: this.originY});
+        this.add(this.oldPos);
     }
 
     destroy() {

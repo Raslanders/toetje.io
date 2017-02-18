@@ -96,7 +96,7 @@ class Troop extends Entity {
     //TargetCoordinates contains the coordinates of the target unit
     animateAttack(position) {
         if (!this.laser && position) {
-            this.beginLaser(position.x * Globals.cellWidth, position.y * Globals.cellHeight);
+            this.beginLaser(position);
         } else if (this.laser && !position) {
             this.endLaser();
         }
@@ -144,13 +144,13 @@ class Troop extends Entity {
         this._sprite = displayObject;
     }
 
-    beginLaser(targetX, targetY) {
+    beginLaser(target) {
         if (!this.laser) {
             this.laser = new Laser(
-                this.x + 0.5 * Globals.cellWidth,
-                this.y + 0.5 * Globals.cellHeight,
-                targetX+0.5*Globals.cellWidth,
-                targetY+0.5*Globals.cellHeight,
+                this.gridPosition.x,
+                this.gridPosition.y,
+                target.x,
+                target.y,
                 this.owner
             );
             this.gameRenderer.addToQueue(this.laser, true);

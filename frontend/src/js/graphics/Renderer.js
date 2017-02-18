@@ -71,6 +71,12 @@ class Renderer {
             sprite.zOrder = sprite.x - sprite.y * Globals.gridWidth;
         });
 
+        // Create weapon group
+        this.groups.Weapon = new PIXI.DisplayGroup(3, function (sprite) {
+            // front goes first
+            sprite.zOrder = sprite.x - sprite.y * Globals.gridWidth;
+        });
+
         this.groups.UI = new PIXI.DisplayGroup(5);
     }
 
