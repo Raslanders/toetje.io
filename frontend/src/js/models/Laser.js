@@ -14,8 +14,8 @@ class Laser extends Entity {
         this.alpha = 1;
     }
 
-    render(stage, renderer) {
-        super.render(stage, renderer);
+    render(stage, groups, renderer) {
+        super.render(stage, groups, renderer);
 
         this.add({x: this.originX, y: this.originY});
     }

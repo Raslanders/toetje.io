@@ -20,8 +20,8 @@ class Building extends Entity {
         this.updateFromTick(data, techTree);
     }
 
-    render(stage, renderer) {
-        super.render(stage, renderer);
+    render(stage, groups, renderer) {
+        super.render(stage, groups, renderer);
         this.add({x: this.tile.x, y: this.tile.y});
     }
 

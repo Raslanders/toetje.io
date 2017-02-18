@@ -12,14 +12,15 @@ class Tile extends Entity {
         this.building = null;
         this.troop = null;
         this.timeout = 0;
+        this.entityType = "Tile";
     }
 
-    render(stage, renderer) {
-        super.render(stage, renderer);
+    render(stage, groups, renderer) {
+        super.render(stage, groups, renderer);
         let offset = this.type != "lane" && this.type != "building" && this.type != "base" ? 32 : 0; 
         this.add({
             x: this.position.x * Globals.cellWidth + offset,
-            y: this.position.y * Globals.cellHeight + offset,
+            y: this.position.y * Globals.cellHeight + offset
         });
     }
 

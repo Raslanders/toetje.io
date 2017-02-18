@@ -46,8 +46,8 @@ class Troop extends Entity {
     }
 
     //Coordinates are grid coordinates
-    render(stage, renderer) {
-        super.render(stage, renderer);
+    render(stage, groups, renderer) {
+        super.render(stage, groups, renderer);
 
         //allows 1 movement in the x direction in 1 movement in the y direction per tick
         this.movePerTick = 1;

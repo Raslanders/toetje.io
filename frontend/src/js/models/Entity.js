@@ -5,13 +5,15 @@ const PIXI = require('pixi.js');
 class Entity {
     constructor() {
         this.isRendered = false;
+        this.entityType = "Abstract";
     }
 
-    render(stage, renderer) {
+    render(stage, groups, renderer) {
         if (this.isRendered) {
             this.destroy();
         }
         this.stage = stage;
+        this.group = groups[this.entityType];
         this.renderer = renderer;
         this.isRendered = true;
     }
@@ -37,6 +39,7 @@ class Entity {
     add(position) {
         this.x = position.x - position.y;
         this.y = (position.x + position.y) / 2;
+        this.displayObject.displayGroup = this.group;
         this.stage.addChild(this.displayObject);
     }
 

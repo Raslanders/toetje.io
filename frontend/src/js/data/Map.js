@@ -7,9 +7,9 @@ class Map {
         this.gameRenderer = gameRenderer
         //Initalize tiles empty
         this.tiles = [];
-        for(let x = Globals.gridWidth; x > 0; x--) {
+        for(let x = 0; x < Globals.gridWidth; x++) {
             let row = [];
-            for(let y = Globals.gridHeight; y > 0; y--) {
+            for(let y = 0; y < Globals.gridHeight; y++) {
                 let tile = new Tile({x, y}, null);
                 row.push(tile);
                 this.gameRenderer.addToQueue(tile, false)

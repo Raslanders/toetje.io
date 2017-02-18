@@ -1,6 +1,7 @@
 'use strict';
 
-const PIXI = require('pixi.js');
+const PIXI = require('pixi.js'); 
+require('pixi-display');
 const Stats = require('stats.js');
 const State = require('../data/State');
 const Troop = require('../models/Troop');
@@ -13,12 +14,13 @@ class Renderer {
         this.queue = [];
         this.animated = [];
 
-        this.renderer = PIXI.autoDetectRenderer(0,0, { autoResize: true, antialias: true } );
-        this.renderer.view.style.position = "absolute";
-        this.renderer.view.style.display = "block";
+        this.app = new PIXI.Application(0,0, { autoResize: true, antialias: true } );
+        this.renderer = this.app.renderer;
+        this.app.view.style.position = "absolute";
+        this.app.view.style.display = "block";
         this.renderer.autoResize = true;
         this.renderer.resize(container.offsetWidth, container.offsetHeight);
-        container.appendChild(this.renderer.view);
+        container.appendChild(this.app.view);
 
         window.onresize = event => {
             this.renderer.resize(container.offsetWidth, container.offsetHeight);
@@ -33,8 +35,8 @@ class Renderer {
         this.state = new State(this);
         this.canvasState = new CanvasState();
 
-        //Create new PIXI container in interactive mode
-        this.stage = new PIXI.Container(0xFFFFFF, true);
+        this.stage = this.app.stage;
+        this.stage.displayList = new PIXI.DisplayList();
 
         //add mousedown function for dragging and clicking
         this.renderer.plugins.interaction.on('mousedown', mousedata => {
@@ -49,7 +51,19 @@ class Renderer {
             this.canvasState.handleMouseMove(mousedata);
         });
 
+
+        this.createGroups();
         this.gameLoop();
+    }
+
+    createGroups() {
+        this.groups = {};
+
+        // Create tile group
+        this.groups.Tile = new PIXI.DisplayGroup(0, function (sprite) {
+            // tiles go first
+            sprite.zOrder = sprite.x - sprite.y * Globals.gridWidth;
+        });
     }
 
     gameLoop() {
@@ -100,7 +114,7 @@ class Renderer {
     drawQueue() {
         while (this.queue.length > 0) {
             let entity = this.queue.pop();
-            entity.render(this.stage, this.renderer);
+            entity.render(this.stage, this.groups, this.renderer);
         }
     }
 

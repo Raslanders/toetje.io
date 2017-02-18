@@ -92,7 +92,7 @@ class CanvasState {
     getGridCoordinates(mousecoordinates) {
         // Coordinates viewport
         let coordVp = this.getMouseWithoutOffset(mousecoordinates);
-
+        
         // Reverse iso
         const origX = (coordVp.x / 2) + coordVp.y;
         const origY = coordVp.y - (coordVp.x / 2);
