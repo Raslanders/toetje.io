@@ -40,11 +40,6 @@ class TechTree {
         const tech = this.techtree[id];
         let slug = tech.slug;
 
-        // The base tech has '' as slug
-        // And that asset has no underscore
-        if (slug !== '') {
-            slug = '_' + slug;
-        }
 
         return `static/building${slug}.png`;
     }

@@ -2,7 +2,7 @@
 	{
 		"id": 1,
 		"name": "Basic",
-		"slug": "",
+		"slug": "base",
 		"price": 10,
 		"description": "Spawns a basic melee unit",
 		"required": null,
