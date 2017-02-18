@@ -99,10 +99,8 @@ class CanvasState {
 
         // Rounded to nearest tile
         const coordinates = {};
-        coordinates.x = Math.floor(origX / Globals.cellWidth);
-        coordinates.y = Math.floor(origY / Globals.cellHeight);
-
-        console.log('hovering over', coordinates);
+        coordinates.x = Math.round(origX / Globals.cellWidth) - 1;
+        coordinates.y = Math.round(origY / Globals.cellHeight);
 
         return coordinates;
     }

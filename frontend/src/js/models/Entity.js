@@ -36,8 +36,7 @@ class Entity {
 
     add(position) {
         this.x = position.x - position.y;
-        this.y = (position.x + position.y)  /2;
-        console.log('adding entity', this.position.x, this.position.y, this.x, this.y);
+        this.y = (position.x + position.y) / 2;
         this.stage.addChild(this.displayObject);
     }
 

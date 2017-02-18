@@ -113,6 +113,14 @@ class Renderer {
         }
     }
 
+    translate(position) {
+        position.x += Globals.cellWidth / 2;
+        position.y += Globals.cellHeight / 2;
+        let x = position.x - position.y;
+        let y = (position.x + position.y) / 2;
+        return {x: x, y: y}
+    }
+
     drawState() {
         this.canvasState.handleCamera(this.stage);
 
@@ -130,7 +138,22 @@ class Renderer {
             this.canvasState.hoverGraphic = new PIXI.Graphics();
             hoverGraphic = this.canvasState.getHoverGraphic();
             hoverGraphic.lineStyle(2, 0xFF3300, 1);
-            hoverGraphic.drawRect(hoverTile.x * Globals.cellWidth, hoverTile.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight);
+
+            let pos = this.translate({x: hoverTile.x * Globals.cellWidth, y: hoverTile.y * Globals.cellHeight});
+            hoverGraphic.moveTo(pos.x, pos.y);
+
+            pos = this.translate({x: (hoverTile.x + 1) * Globals.cellWidth, y: hoverTile.y * Globals.cellHeight});
+            hoverGraphic.lineTo(pos.x, pos.y);
+
+            pos = this.translate({x: (hoverTile.x + 1) * Globals.cellWidth, y: (hoverTile.y - 1) * Globals.cellHeight});
+            hoverGraphic.lineTo(pos.x, pos.y);
+
+            pos = this.translate({x: hoverTile.x * Globals.cellWidth, y: (hoverTile.y - 1) * Globals.cellHeight});
+            hoverGraphic.lineTo(pos.x, pos.y);
+
+            pos = this.translate({x: hoverTile.x * Globals.cellWidth, y: hoverTile.y * Globals.cellHeight});
+            hoverGraphic.lineTo(pos.x, pos.y);
+
             hoverGraphic.endFill();
             this.stage.addChild(hoverGraphic);
         }
@@ -146,7 +169,6 @@ class Renderer {
             selectedGraphic.lineStyle(2, 0x33FF00, 1);
             selectedGraphic.drawRect(selectedTile.x * Globals.cellWidth, selectedTile.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight);
             selectedGraphic.endFill();
-            // this.unit.moveTo(selectedTile.x * Globals.cellWidth, selectedTile.y * Globals.cellHeight);
             this.stage.addChild(selectedGraphic);
         }
     }
