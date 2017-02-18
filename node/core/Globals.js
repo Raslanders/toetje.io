@@ -5,7 +5,10 @@ class Globals {
         if(!instance) {
             instance = this;
         }
-        this.waveTicks = 10;
+        // Milliseconds per tick
+        this.timePerTick = 1000;
+        // Ticks until a wave spawns
+        this.ticksPerWave = 10;
 
         return instance;
     }
