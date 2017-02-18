@@ -50,7 +50,7 @@ class Troop extends Entity {
         super.render(stage, renderer);
 
         //allows 1 movement in the x direction in 1 movement in the y direction per tick
-        this.movePerTick = 5;
+        this.movePerTick = 1;
 
         //current deathAnimation tick
         this.deathAnimationTick = 0;
@@ -96,7 +96,7 @@ class Troop extends Entity {
     //TargetCoordinates contains the coordinates of the target unit
     animateAttack(position) {
         if (!this.laser && position) {
-            this.beginLaser(position.x * Globals.gridWidth, position.y * Globals.gridHeight);
+            this.beginLaser(position.x * Globals.cellWidth, position.y * Globals.cellHeight);
         } else if (this.laser && !position) {
             this.endLaser();
         }
@@ -172,8 +172,8 @@ class Troop extends Entity {
             this.laser = new Laser(
                 this.x + 0.5 * Globals.cellWidth,
                 this.y + 0.5 * Globals.cellHeight,
-                targetX + 0.5 * Globals.cellWidth,
-                targetY + 0.5 * Globals.cellHeight,
+                targetX+0.5*Globals.cellWidth,
+                targetY+0.5*Globals.cellHeight,
                 this.owner
             );
             this.gameRenderer.addToQueue(this.laser, true);
@@ -190,10 +190,34 @@ class Troop extends Entity {
     deathAnimation() {
         if(this.deathAnimationTick > this.deathAnimationTicks) {
             this.destroy();
-            this.gameRenderer.stage.removeChild(this.explosion);
+            this.gameRenderer.stage.removeChild(this.deathGraphic);
             this.dead = true;
             return;
         }
+        if(this.deathAnimationTick == 0) {
+            this.deathGraphic = new PIXI.Graphics();
+            for (let i = 0; i < 10; i++) {
+                this.deathGraphic.beginFill(0xfc8d62, 0.4);
+                let width = Globals.cellWidth * Math.random();
+                let height = Globals.cellHeight * Math.random();
+                this.deathGraphic.drawRect(this.x - (Math.random() - 0.5) * Globals.cellWidth, this.y - (Math.random() - 0.5) * Globals.cellHeight, width, height);
+                this.deathGraphic.endFill();
+            }
+            this.stage.addChild(this.deathGraphic);
+        }
+        if(this.deathAnimationTick > 0) {
+            this.deathGraphic.clear();
+            for (let i = 0; i < 10; i++) {
+                this.deathGraphic.beginFill(0xfc8d62, 0.4);
+                let width = Globals.cellWidth * Math.random();
+                let height = Globals.cellHeight * Math.random();
+                this.deathGraphic.drawRect(this.x - (Math.random() - 0.5) * Globals.cellWidth, this.y - (Math.random() - 0.5) * Globals.cellHeight, width, height);
+                this.deathGraphic.endFill();
+            }
+        }
+
+
+        /*
         if(this.deathAnimationTick == 0) {
             this.deathAnimationTick++;
             this.explosion = new PIXI.extras.AnimatedSprite(this.gameRenderer.explosionTextures);
@@ -206,7 +230,7 @@ class Troop extends Entity {
             this.explosion.gotoAndPlay(Math.random() * 27);
             this.gameRenderer.stage.addChild(this.explosion);
         }
-
+           */
         this.deathAnimationTick++;
     }
 

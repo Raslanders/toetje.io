@@ -1,4 +1,3 @@
-//var socket = require('socket.io-client')('localhost:3000');
 const socket = require('socket.io-client')('localhost:3000');
 const Renderer = require('./graphics/Renderer');
 
@@ -14,7 +13,7 @@ socket.on('start', (data) => {
     // Parse mapdata
     game.state.map.parse(data.map);
 
-    game.state.updateTechTree(data.techTree);;
+    game.state.updateTechTree(data.techTree);
 
     // Parse playerID to somehow set active base
     game.state.playerId = data.playerId;
@@ -24,6 +23,7 @@ socket.on('start', (data) => {
 socket.on('tick', (data) => {
     game.state.parseMutation(data);
 });
+
 
 socket.on('join', msg => {
     console.log(msg);

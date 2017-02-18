@@ -36,11 +36,6 @@ class Renderer {
         //Create new PIXI container in interactive mode
         this.stage = new PIXI.Container(0x66FF99, true);
 
-        //add a statistics panel
-        this.statsPanel = new Stats();
-        this.statsPanel.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-        document.body.appendChild( this.statsPanel.dom );
-
         //add mousedown function for dragging and clicking
         this.renderer.plugins.interaction.on('mousedown', mousedata => {
             this.canvasState.handleMouseDown(mousedata);
@@ -58,16 +53,12 @@ class Renderer {
     }
 
     gameLoop() {
-        this.statsPanel.begin();
-
         this.drawState();
         this.drawQueue();
         this.updateAnimations();
 
         this.handleInput();
         this.renderer.render(this.stage);
-
-        this.statsPanel.end();
         requestAnimationFrame(this.gameLoop.bind(this));
     }
 
