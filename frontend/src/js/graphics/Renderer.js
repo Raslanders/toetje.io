@@ -158,7 +158,22 @@ class Renderer {
             this.canvasState.selectedGraphic = new PIXI.Graphics();
             selectedGraphic = this.canvasState.getSelectedGraphic();
             selectedGraphic.lineStyle(2, 0x33FF00, 1);
-            selectedGraphic.drawRect(selectedTile.x * Globals.cellWidth, selectedTile.y * Globals.cellHeight, Globals.cellWidth, Globals.cellHeight);
+            
+            let pos = this.translate({x: selectedTile.x * Globals.cellWidth, y: selectedTile.y * Globals.cellHeight});
+            selectedGraphic.moveTo(pos.x, pos.y);
+
+            pos = this.translate({x: (selectedTile.x + 1) * Globals.cellWidth, y: selectedTile.y * Globals.cellHeight});
+            selectedGraphic.lineTo(pos.x, pos.y);
+
+            pos = this.translate({x: (selectedTile.x + 1) * Globals.cellWidth, y: (selectedTile.y - 1) * Globals.cellHeight});
+            selectedGraphic.lineTo(pos.x, pos.y);
+
+            pos = this.translate({x: selectedTile.x * Globals.cellWidth, y: (selectedTile.y - 1) * Globals.cellHeight});
+            selectedGraphic.lineTo(pos.x, pos.y);
+
+            pos = this.translate({x: selectedTile.x * Globals.cellWidth, y: selectedTile.y * Globals.cellHeight});
+            selectedGraphic.lineTo(pos.x, pos.y);
+
             selectedGraphic.endFill();
             this.stage.addChild(selectedGraphic);
         }
