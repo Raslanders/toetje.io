@@ -14,7 +14,7 @@ class Renderer {
         this.queue = [];
         this.animated = [];
 
-        this.app = new PIXI.Application(0,0, { autoResize: true, antialias: true } );
+        this.app = new PIXI.Application(0,0, { resolution: window.devicePixelRatio || 1, autoResize: true, antialias: true } );
         this.renderer = this.app.renderer;
         this.app.view.style.position = "absolute";
         this.app.view.style.display = "block";
