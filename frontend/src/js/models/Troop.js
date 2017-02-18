@@ -7,13 +7,11 @@ const Globals = require('../data/Globals');
 class Troop extends Entity {
     constructor(data, gameRenderer) {
         super();
-        this.position = {x:data.position.x,y:data.position.y};
+        this.gridPosition = {x:data.position.x,y:data.position.y};
         this.updateFromTick(data);
         this.gameRenderer = gameRenderer;
         this.dead = false;
-
-        this.x = this.position.x * Globals.cellWidth;
-        this.y = this.position.y * Globals.cellHeight;
+        this.entityType = "Troop";
     }
 
     updateFromTick(data) {
@@ -22,18 +20,18 @@ class Troop extends Entity {
         //name of the unit
         this.name = data.name;
 
-        //position is in tile coordinates
-        if (this.position) {
-            //we already had a position, check if we moved
+        //gridPosition is in tile coordinates
+        if (this.gridPosition) {
+            //we already had a grid position, check if we moved
             if (this.x !== data.position.x || this.y !== data.position.y) {
-                //we moved, set coordinates for animation
-                this.moveTo(data.position.x * Globals.cellWidth, data.position.y * Globals.cellHeight);
+                // we moved, set coordinates for animation
+                this.moveTo({x: data.position.x * Globals.cellWidth, y: data.position.y * Globals.cellHeight});
             }
         }
         this.health = data.health;
 
         //update the tile position
-        this.position = data.position;
+        this.gridPosition = data.position;
         //owner id of the unit
         this.owner = data.owner;
         //direction this unit is moving in
@@ -49,25 +47,24 @@ class Troop extends Entity {
     render(stage, groups, renderer) {
         super.render(stage, groups, renderer);
 
-        //allows 1 movement in the x direction in 1 movement in the y direction per tick
+        // allows 1 movement in the x direction in 1 movement in the y direction per tick
         this.movePerTick = 1;
 
-        //current deathAnimation tick
+        // current deathAnimation tick
         this.deathAnimationTick = 0;
-        //death animation time
+        // death animation time
         this.deathAnimationTicks = 60;
 
-        //Place of the next movement in screen coordinates
-        this.newX = this.position.x * Globals.cellWidth;
-        this.newY = this.position.y * Globals.cellHeight;
+        // Place of the next movement in regular x,y coordinates
+        const pos = {x: this.gridPosition.x * Globals.cellWidth, y: this.gridPosition.y * Globals.cellHeight};
+        this.newPosition = this.screenToIso(pos);
 
-        this.add({x: this.newX, y: this.newY});
+        this.add(pos);
     }
 
-    moveTo(newX, newY) {
-        //positions are in screen coordinates
-        this.newX = newX;
-        this.newY = newY;
+    moveTo(position) {
+        // positions are in screen coordinates
+        this.newPosition = this.screenToIso(position);
     }
 
     animate() {
@@ -85,7 +82,7 @@ class Troop extends Entity {
         this.animateAttack(this.targetPosition);
 
         // move
-        if (this.x !== this.newX || this.y !== this.newY) {
+        if (this.x !== this.newPosition.x || this.y !== this.newPosition.y) {
             //show animation movement
             this.animateMovement();
         }
@@ -104,11 +101,11 @@ class Troop extends Entity {
 
     //return true if this unit has moved
     animateMovement() {
-        if (this.x === this.newX && this.y === this.newY) {
+        if (this.x === this.newPosition.x && this.y === this.newPosition.y) {
             return false;
         }
-        let xDiff = this.newX - this.x;
-        let yDiff = this.newY - this.y;
+        let xDiff = this.newPosition.x - this.x;
+        let yDiff = this.newPosition.y - this.y;
 
         if (xDiff == 0 && yDiff == 0) {
             return false;

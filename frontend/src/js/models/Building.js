@@ -24,8 +24,8 @@ class Building extends Entity {
     render(stage, groups, renderer) {
         super.render(stage, groups, renderer);
         this.add({
-            x: this.position.x * Globals.cellWidth,
-            y: this.position.y * Globals.cellHeight
+            x: this.gridPosition.x * Globals.cellWidth,
+            y: this.gridPosition.y * Globals.cellHeight
         });
     }
 
@@ -42,7 +42,7 @@ class Building extends Entity {
             this.spriteUrl = techTree.getSpriteUrlForTechId(data.technology);
         }
         //position is in tile coordinates
-        this.position = {x: data.position.x, y: data.position.y};
+        this.gridPosition = {x: data.position.x, y: data.position.y};
     }
 
     get displayObject() {

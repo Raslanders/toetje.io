@@ -4,9 +4,9 @@ const Entity = require('./Entity');
 const Globals = require('../data/Globals');
 
 class Tile extends Entity {
-    constructor(position, type) {
+    constructor(gridPosition, type) {
         super();
-        this.position = position;
+        this.gridPosition = gridPosition;
         this.type = type;
         this.owner = null;
         this.building = null;
@@ -19,8 +19,8 @@ class Tile extends Entity {
         super.render(stage, groups, renderer);
         let offset = this.type != "lane" && this.type != "building" && this.type != "base" ? 32 : 0; 
         this.add({
-            x: this.position.x * Globals.cellWidth + offset,
-            y: this.position.y * Globals.cellHeight + offset
+            x: this.gridPosition.x * Globals.cellWidth + offset,
+            y: this.gridPosition.y * Globals.cellHeight + offset
         });
     }
 

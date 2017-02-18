@@ -31,14 +31,14 @@ class Entity {
         }
     }
 
-    move(x, y) {
-        this.x = x;
-        this.y = y;
+    screenToIso(position) {
+        return {x: position.x - position.y, y: (position.x + position.y)/2}
     }
 
     add(position) {
-        this.x = position.x - position.y;
-        this.y = (position.x + position.y) / 2;
+        const pos = this.screenToIso(position);
+        this.x = pos.x;
+        this.y = pos.y;
         this.displayObject.displayGroup = this.group;
         this.stage.addChild(this.displayObject);
     }
