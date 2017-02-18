@@ -16,9 +16,10 @@ class Tile extends Entity {
 
     render(stage, renderer) {
         super.render(stage, renderer);
+        let offset = this.type != "lane" && this.type != "building" && this.type != "base" ? 32 : 0; 
         this.add({
-            x: this.position.x * Globals.cellWidth,
-            y: this.position.y * Globals.cellHeight,
+            x: this.position.x * Globals.cellWidth + offset,
+            y: this.position.y * Globals.cellHeight + offset,
         });
     }
 
@@ -34,7 +35,7 @@ class Tile extends Entity {
         //     }
         //     this.timeout = 0;
         // }
-        return true;
+        // return true;
     }
 
     parse(data, gameRenderer) {
@@ -74,23 +75,6 @@ class Tile extends Entity {
             const sprite = PIXI.Sprite.fromImage("static/tile-template.png");
             this._sprite = sprite;
         }
-        //  else if(this.type == "building" && this.owner == 1) {
-        //     tileGraphics.beginFill(0x66c2a5, 0.8);
-        // } else if(this.type == "building" && this.owner == 2) {
-        //     tileGraphics.beginFill(0xfc8d62, 0.8);
-        // } else if(this.type == "base" && this.owner == 1) {
-        //     tileGraphics.lineStyle(1, 0x66c2a5, 0.8);
-        //     tileGraphics.beginFill(0x333333, 0.8);
-        // } else if(this.type == "base" && this.owner == 2) {
-        //     tileGraphics.lineStyle(1, 0xfc8d62, 0.8);
-        //     tileGraphics.beginFill(0x333333, 0.8);
-        // }
-
-
-
-        // Sprite magic
-        // const sprite = PIXI.Sprite.fromImage("static/tile-template.png");
-
 
         return this._sprite;
     }
