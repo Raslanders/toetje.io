@@ -17,7 +17,7 @@ class Tile extends Entity {
 
     render(stage, groups, renderer) {
         super.render(stage, groups, renderer);
-        let offset = this.type != "lane" && this.type != "building" && this.type != "base" ? 32 : 0; 
+        let offset = 32;
         this.add({
             x: this.gridPosition.x * Globals.cellWidth + offset,
             y: this.gridPosition.y * Globals.cellHeight + offset
@@ -55,29 +55,16 @@ class Tile extends Entity {
         if (this._sprite) {
             return this._sprite;
         }
-        let tileGraphics = new PIXI.Graphics();
-        tileGraphics.lineStyle(1, 0xCCCCCC, 0.1);
+        let sprite = {};
         if(this.type != "lane" && this.type != "building" && this.type != "base") {
-            tileGraphics.lineStyle(1, 0xCCCCCC, 0.2);
-            tileGraphics.beginFill(0x333333, 0.8);
-            const cw = Globals.cellWidth;
-            const ch = Globals.cellHeight;
-            const leftBottom = new PIXI.Point(0, 0);
-            const rightBottom = new PIXI.Point(cw, ch / 2);
-            const rightUp = new PIXI.Point(cw - ch, (cw + ch) / 2);
-            const leftUp = new PIXI.Point(-ch, ch / 2);
-            tileGraphics.drawPolygon(leftBottom, rightBottom, rightUp, leftUp, leftBottom);
-            tileGraphics.endFill();
-
-            const texture = this.renderer.generateTexture(tileGraphics);
-            this._sprite = new PIXI.Sprite(texture);
+            sprite = PIXI.Sprite.fromImage("static/tile_base.png");
         }
         else {
-            const sprite = PIXI.Sprite.fromImage("static/tile_base.png");
-            sprite.scale.x = 0.25;
-            sprite.scale.y = 0.25;
-            this._sprite = sprite;
+            sprite = PIXI.Sprite.fromImage("static/tile_lane.png");
         }
+        sprite.scale.x = 0.25;
+        sprite.scale.y = 0.25;
+        this._sprite = sprite;
 
         return this._sprite;
     }

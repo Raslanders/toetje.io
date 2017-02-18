@@ -3,7 +3,6 @@ const PIXI = require('pixi.js');
 const Laser = require('./Laser');
 const Globals = require('../data/Globals');
 
-
 class Troop extends Entity {
     constructor(data, gameRenderer) {
         super();
