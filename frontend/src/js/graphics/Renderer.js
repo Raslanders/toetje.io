@@ -34,7 +34,7 @@ class Renderer {
         this.canvasState = new CanvasState();
 
         //Create new PIXI container in interactive mode
-        this.stage = new PIXI.Container(0x66FF99, true);
+        this.stage = new PIXI.Container(0xFFFFFF, true);
 
         //add mousedown function for dragging and clicking
         this.renderer.plugins.interaction.on('mousedown', mousedata => {
