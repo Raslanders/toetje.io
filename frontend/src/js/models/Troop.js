@@ -197,7 +197,9 @@ class Troop extends Entity {
         if(this.deathAnimationTick == 0) {
             this.deathGraphic = new PIXI.Graphics();
             for (let i = 0; i < 10; i++) {
-                this.deathGraphic.beginFill(0xfc8d62, 0.4);
+                let randomHex = 100*(Math.random()-0.5) * 16 * 16 + 100*(Math.random()-0.5) * 16 + 100*(Math.random()-0.5);
+                let c = 0xfc8d62 - randomHex;
+                this.deathGraphic.beginFill(c, 0.4);
                 let width = Globals.cellWidth * Math.random();
                 let height = Globals.cellHeight * Math.random();
                 this.deathGraphic.drawRect(this.x - (Math.random() - 0.5) * Globals.cellWidth, this.y - (Math.random() - 0.5) * Globals.cellHeight, width, height);
@@ -208,7 +210,9 @@ class Troop extends Entity {
         if(this.deathAnimationTick > 0) {
             this.deathGraphic.clear();
             for (let i = 0; i < 10; i++) {
-                this.deathGraphic.beginFill(0xfc8d62, 0.4);
+                let randomHex = 100*(Math.random()-0.5) * 16 * 16 + 100*(Math.random()-0.5) * 16 + 100*(Math.random()-0.5);
+                let c = 0xfc8d62 - randomHex;
+                this.deathGraphic.beginFill(c, 0.4);
                 let width = Globals.cellWidth * Math.random();
                 let height = Globals.cellHeight * Math.random();
                 this.deathGraphic.drawRect(this.x - (Math.random() - 0.5) * Globals.cellWidth, this.y - (Math.random() - 0.5) * Globals.cellHeight, width, height);
