@@ -18,11 +18,15 @@ class Building extends Entity {
     constructor(data, techTree) {
         super();
         this.updateFromTick(data, techTree);
+        this.entityType = "Building";
     }
 
     render(stage, groups, renderer) {
         super.render(stage, groups, renderer);
-        this.add({x: this.tile.x, y: this.tile.y});
+        this.add({
+            x: this.position.x * Globals.cellWidth,
+            y: this.position.y * Globals.cellHeight
+        });
     }
 
     animate() {
@@ -42,19 +46,16 @@ class Building extends Entity {
     }
 
     get displayObject() {
-        if (this.sprite) {
-            return this.sprite;
+        if (this._sprite) {
+            return this._sprite;
         }
 
         const sprite = PIXI.Sprite.fromImage(this.spriteUrl);
+        sprite.scale.x = 0.25;
+        sprite.scale.y = 0.25;
 
-        // Hardcode the scaling for now
-        const scale = Globals.cellWidth / Globals.spriteSize
-        sprite.scale.x = scale;
-        sprite.scale.y = scale;
-
-        this.sprite = sprite;
-        return sprite;
+        this._sprite = sprite;
+        return this._sprite;
     }
 
     set displayObject(displayObject) {

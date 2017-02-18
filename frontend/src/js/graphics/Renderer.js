@@ -64,6 +64,14 @@ class Renderer {
             // tiles go first
             sprite.zOrder = sprite.x - sprite.y * Globals.gridWidth;
         });
+
+        // Create building group
+        this.groups.Building = new PIXI.DisplayGroup(1, function (sprite) {
+            // front goes first
+            sprite.zOrder = 10000000+sprite.x - sprite.y * Globals.gridWidth;
+        });
+
+        this.groups.UI = new PIXI.DisplayGroup(5);
     }
 
     gameLoop() {
@@ -160,6 +168,7 @@ class Renderer {
             hoverGraphic.lineTo(pos.x, pos.y);
 
             hoverGraphic.endFill();
+            hoverGraphic.displayGroup = this.groups.UI;
             this.stage.addChild(hoverGraphic);
         }
 
@@ -189,6 +198,7 @@ class Renderer {
             selectedGraphic.lineTo(pos.x, pos.y);
 
             selectedGraphic.endFill();
+            hoverGraphic.displayGroup = this.groups.UI;
             this.stage.addChild(selectedGraphic);
         }
     }

@@ -160,6 +160,7 @@ class Thread {
         for (let i = this.token; i < this.players.length + this.token; i++) {
             let player = this.players[i % this.players.length];
             player.resource += Math.pow(2, Math.floor(this.waveCounter / Globals.waveTicks));
+            player.resource = 1000;
             this.mutation.resources.push(player.view);
         }
     }

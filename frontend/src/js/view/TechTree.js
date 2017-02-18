@@ -41,7 +41,7 @@ class TechTree {
         let slug = tech.slug;
 
 
-        return `static/building${slug}.png`;
+        return `static/building_${slug}.png`;
     }
 
     clickTech(tech, div) {
