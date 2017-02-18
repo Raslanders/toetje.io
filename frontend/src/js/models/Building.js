@@ -42,6 +42,16 @@ class Building extends Entity {
         }
 
         const sprite = PIXI.Sprite.fromImage(this.spriteUrl);
+        let filter = new PIXI.filters.ColorMatrixFilter();
+        let matrix = filter.matrix;
+        if (this.owner == 1) {
+            matrix[6] = 0;
+            matrix[12] = 0;
+        } else {
+            matrix[0] = 0;
+            matrix[6] = 0;
+        }
+        sprite.filters = [filter]
         sprite.scale.x = 0.25;
         sprite.scale.y = 0.25;
 

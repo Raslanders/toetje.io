@@ -6,8 +6,8 @@ const Globals = require('../data/Globals');
 class Troop extends Entity {
     constructor(data, gameRenderer) {
         super();
-        this.gridPosition = {x:data.position.x,y:data.position.y};
         this.updateFromTick(data);
+        this.gridPosition = {x:data.position.x,y:data.position.y};
         this.gameRenderer = gameRenderer;
         this.dead = false;
         this.entityType = "Troop";
@@ -37,6 +37,7 @@ class Troop extends Entity {
         this.gridPosition = data.position;
         //owner id of the unit
         this.owner = data.owner;
+        
         //direction this unit is moving in
         this.direction = data.direction;
 
@@ -136,6 +137,16 @@ class Troop extends Entity {
         sprite.scale.x = 0.25;
         sprite.scale.y = 0.25;
 
+        let filter = new PIXI.filters.ColorMatrixFilter();
+        let matrix = filter.matrix;
+        if (this.owner == 1) {
+            matrix[6] = 0;
+            matrix[12] = 0;
+        } else {
+            matrix[0] = 0;
+            matrix[6] = 0;
+        }
+        sprite.filters = [filter];
         this._sprite = sprite;
         return this._sprite;
     }
@@ -165,6 +176,9 @@ class Troop extends Entity {
     }
 
     deathAnimation() {
+        this.destroy();
+        this.dead = true;
+        return;
         if(this.deathAnimationTick > this.deathAnimationTicks) {
             this.destroy();
             this.gameRenderer.stage.removeChild(this.deathGraphic);
