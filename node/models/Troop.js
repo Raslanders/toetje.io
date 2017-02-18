@@ -10,7 +10,7 @@ class Troop {
         this.unit = unit;
         this.owner = owner;
         this.position = position;
-        this.health = unit.stats.health;
+        this.health = this.stats.health;
         this.direction = direction;
     }
 
@@ -34,10 +34,18 @@ class Troop {
         for (let p in troops) {
             let playerTroops = troops[p];
             for (let k in playerTroops) {
+                //possible target
                 let troop = playerTroops[k];
+                // if (this.id == "1-1") {
+                //     console.log("Possible target. Attacking from:" + this.id + " to " + troop.id);
+                //     // console.log("target position");
+                //     // console.log(position);
+                // }
                 if (troop.owner.id !== this.owner.id && !troop.isDead) {
                     let position = troop.position;
+
                     if (this.targetInRange(position)) {
+                        console.log("target in range!");
                         targets.push(troop);
                     }
                 }
@@ -100,9 +108,23 @@ class Troop {
             for (let k in playerTroops) {
                 let troop = playerTroops[k];
                 if (troop.id !== this.id && !troop.isDead) {
+                    //troop is a different troop that is not dead
+
+                    //possible collision between this and troop
                     // console.log("Check for collision: ", [this.id, troop.id]);
                     let position = troop.position;
-                    if (this.positionInRange(position, troop.owner.id === this.owner.id)) {
+                    console.log(troop);
+                    console.log(this);
+                    let sameOwner = troop.owner.id === this.owner.id;
+
+
+                    if (sameOwner && !troop.unit.stats.hasFriendlyCollision) {
+                        //if the unit can not collide with friendly units, and the current unit is friendly, there is no collision
+                        return false;
+                    }
+
+                    //a unit blocks if it is an enemy unit
+                    if (this.positionInRange(position, !sameOwner)) {
                         return true;
                     }
                 }
@@ -114,36 +136,42 @@ class Troop {
     /**
      * Checks if an x and y position is in range if we were to move
      * @param position
+     * @param unitBlocks: If true, we also stop if 1 below/above on y, otherwise we only stop if we are on top of it
      * @returns {boolean}
      */
-    positionInRange(position, sameOwner) {
+    positionInRange(position, unitBlocks) {
         let nx = this.position.x + this.direction.x;
         let ny = this.position.y + this.direction.y;
+
+        console.log("Check position in range");
+        console.log(position);
+        console.log(this.position);
+
         if (this.direction.x > 0) {
             // we are moving to the right
             if (position.x >= nx && position.x <= nx) {
-                if (position.y === ny || (!sameOwner && (position.y === ny + 1 || position.y === ny - 1))) {
+                if (position.y === ny || (unitBlocks && (position.y === ny + 1 || position.y === ny - 1))) {
                     return true;
                 }
             }
         } else if (this.direction.x < 0) {
             // we are moving to the left
             if (position.x >= nx && position.x <= nx) {
-                if (position.y === ny || (!sameOwner && (position.y === ny + 1 || position.y === ny - 1))) {
+                if (position.y === ny || (unitBlocks && (position.y === ny + 1 || position.y === ny - 1))) {
                     return true;
                 }
             }
         } else if (this.direction.y > 0) {
             // we are moving to the bottom
             if (position.y >= ny && position.y <= ny) {
-                if (position.x === nx || (!sameOwner && (position.x === nx + 1 || position.x === nx - 1))) {
+                if (position.x === nx || (unitBlocks && (position.x === nx + 1 || position.x === nx - 1))) {
                     return true;
                 }
             }
         } else if (this.direction.y < 0) {
             // we are moving to the top
             if (position.y >= ny && position.y <= ny) {
-                if (position.x === nx || (!sameOwner && (position.x === nx + 1 || position.x === nx - 1))) {
+                if (position.x === nx || (unitBlocks && (position.x === nx + 1 || position.x === nx - 1))) {
                     return true;
                 }
             }

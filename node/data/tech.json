@@ -13,6 +13,8 @@
 			"damage": 12,
 			"tpa": 4,
 			"range": 1,
+			"hasFriendlyCollision": true,
+			"canMove": true,
 			"ability": []
 		}
 	},
@@ -30,6 +32,8 @@
 			"damage": 12,
 			"tpa": 4,
 			"range": 1,
+			"hasFriendlyCollision": true,
+			"canMove": true,
 			"ability": []
 		}
 	},
@@ -47,6 +51,8 @@
 			"damage": 32,
 			"tpa": 4,
 			"range": 2,
+			"hasFriendlyCollision": true,
+			"canMove": true,
 			"ability": []
 		}
 	},
@@ -64,6 +70,27 @@
 			"damage": 16,
 			"tpa": 4,
 			"range": 1,
+			"hasFriendlyCollision": true,
+			"canMove": true,
+			"ability": []
+		}
+	},
+	{
+		"id": 5,
+		"name": "Turret",
+		"slug": "turret",
+		"price": 99999999999999,
+		"description": "Base turret",
+		"required": null,
+		"stats": {
+			"name": "Turret",
+			"health": 1200,
+			"armor": 4,
+			"damage": 1,
+			"tpa": 4,
+			"range": 2,
+			"hasFriendlyCollision": false,
+			"canMove": false,
 			"ability": []
 		}
 	}

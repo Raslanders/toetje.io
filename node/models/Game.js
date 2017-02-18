@@ -22,10 +22,12 @@ class Game {
 
         this.buildings = {};
         this.troops = {};
+        this.turrets = {};
         for (let k in this.players) {
             let player = this.players[k];
             this.buildings[player.id] = [];
             this.troops[player.id] = [];
+            this.turrets[player.id] = [];
         }
     }
 
@@ -38,6 +40,20 @@ class Game {
         for (let player of this.players) {
             player.resource = 0;
         }
+
+        //id=4 is the turret technology
+        this.turrets = this.map.generateTurrets(this.players, this.technologies[5].unit);
+        for (let player of this.players) {
+            {
+                for (let turret of this.turrets[player.id]) {
+                    this.troops[player.id].push(turret);
+                    //increase ids in threads
+                    //TODO: refactor to spawn building with instant spawn
+                    console.log("Turret assigned to player with id: " + player.id)
+                }
+            }
+        }
+
         console.log('Game start');
         // Send bootstrap data to client
         this.bootstrap();

@@ -5,6 +5,8 @@
 
 const _ = require('lodash');
 const Troop = require('../models/Troop');
+const Turret = require('../models/Turret');
+
 const Globals = require('./Globals')
 
 class Thread {
@@ -13,6 +15,11 @@ class Thread {
         this.token = 0;
         this.waveCounter = 0;
         this.stopped = false;
+        this.alivePlayers = [];
+        for (let p of this.players) {
+            this.alivePlayers.push(p);
+        }
+
         this.mutation = {};
         this.ids = {};
     }
@@ -29,6 +36,7 @@ class Thread {
         this.updateTroops();
         this.spawnTroops();
 
+        this.checkLoss();
         this.game.emit('tick', this.mutation);
         this.updateToken();
 
@@ -67,7 +75,9 @@ class Thread {
         for (let i = this.token; i < this.players.length + this.token; i++) {
             let player = this.players[i % this.players.length];
             for (let k in this.troops[player.id]) {
+                //the troop to determine the targets for
                 let troop = this.troops[player.id][k];
+                //the list of possible targets for this troop
                 let targets = troop.inRange(this.troops);
 
                 troop.attack(targets[0]);
@@ -103,7 +113,7 @@ class Thread {
 
             let building = this.game.map.cells[x][y].building;
 
-            if(building && building.technology && building.technology.id == technologyId) {
+            if (building && building.technology && building.technology.id == technologyId) {
                 console.log('Player ' + playerId + ' tried to build technology ' + technologyId);
                 continue;
             }
@@ -111,8 +121,8 @@ class Thread {
             if (building && playerId === building.owner.id) {
                 //console.log(this.technologies[technologyId].price);
                 //console.log(this.game.players[playerId]);
-                if(this.game.players[playerId-1].resource > this.technologies[technologyId].price) {
-                    this.game.players[playerId-1].resource -= this.technologies[technologyId].price;
+                if (this.game.players[playerId - 1].resource > this.technologies[technologyId].price) {
+                    this.game.players[playerId - 1].resource -= this.technologies[technologyId].price;
                     building.upgradeTo(this.technologies[technologyId]);
                 } else {
                     console.error("Player " + playerId + " does not have enough resources");
@@ -189,6 +199,29 @@ class Thread {
     }
 
     /**
+     * For each player, checks if they still have non-dead turrets. If they do not, they have lost
+     */
+    checkLoss() {
+        for (let player of this.alivePlayers) {
+
+            let playerLost = true;
+            //if we can't find a live turret.
+            for (let turret of this.turrets[player.id]) {
+                if (!turret.isDead) {
+                    playerLost = false;
+                    break;
+                }
+            }
+
+            if (playerLost) {
+                this.alivePlayers.remove(player);
+                console.log("player:" + player + "has lost");
+            }
+        }
+    }
+
+
+    /**
      * @description Updates the token
      */
     updateToken() {
@@ -244,6 +277,10 @@ class Thread {
 
     get troops() {
         return this.game.troops;
+    }
+
+    get turrets() {
+        return this.game.turrets;
     }
 
     get technologies() {
