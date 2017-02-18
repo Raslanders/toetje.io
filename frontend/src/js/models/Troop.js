@@ -140,11 +140,11 @@ class Troop extends Entity {
         let filter = new PIXI.filters.ColorMatrixFilter();
         let matrix = filter.matrix;
         if (this.owner == 1) {
-            matrix[6] = 0;
-            matrix[12] = 0;
+            matrix[6] = 0.3;
+            matrix[12] = 0.3;
         } else {
-            matrix[0] = 0;
-            matrix[6] = 0;
+            matrix[0] = 0.3;
+            matrix[6] = 0.3;
         }
         sprite.filters = [filter];
         this._sprite = sprite;
