@@ -72,7 +72,7 @@ class Tile extends Entity {
             this._sprite = new PIXI.Sprite(texture);
         }
         else {
-            const sprite = PIXI.Sprite.fromImage("static/tile-template.png");
+            const sprite = PIXI.Sprite.fromImage("static/tile_base.png");
             this._sprite = sprite;
         }
 
