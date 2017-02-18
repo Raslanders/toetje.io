@@ -74,6 +74,8 @@ class Tile extends Entity {
         }
         else {
             const sprite = PIXI.Sprite.fromImage("static/tile_base.png");
+            sprite.scale.x = 0.25;
+            sprite.scale.y = 0.25;
             this._sprite = sprite;
         }
 
