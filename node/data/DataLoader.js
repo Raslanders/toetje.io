@@ -17,7 +17,7 @@ function data() {
     for (let k in tech) {
         let t = tech[k];
         let unit = new Unit(t.stats);
-        techs[t.id] = new Technology(t.id, t.name, t.description, t.price, t.required, unit);
+        techs[t.id] = new Technology(t.id, t.name, t.description, t.price, t.required, unit, t.slug);
         units[t.id] = unit;
     }
     return {units: units, technologies: techs};

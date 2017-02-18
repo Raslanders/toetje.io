@@ -19,6 +19,10 @@ class Troop extends Entity {
         //name of the unit
         this.name = data.name;
 
+        if (data.slug) {
+            this.spriteUrl = `static/unit_${data.slug}.png`;
+        }
+
         //gridPosition is in tile coordinates
         if (this.gridPosition) {
             //we already had a grid position, check if we moved
@@ -109,17 +113,11 @@ class Troop extends Entity {
         if (xDiff == 0 && yDiff == 0) {
             return false;
         }
-        //figure out the new coordinates with a manhattan distance of at most movePerTick
-        if (xDiff > 0) {
-            this.x = this.x + Math.min(xDiff, this.movePerTick);
-        } else {
-            this.x = this.x - Math.min(-xDiff, this.movePerTick);
-        }
-        if (yDiff > 0) {
-            this.y = this.y + Math.min(yDiff, this.movePerTick);
-        } else {
-            this.y = this.y - Math.min(-yDiff, this.movePerTick);
-        }
+        let movement = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+        let movementDelta = Math.min(movement, this.movePerTick);
+
+        this.x += movementDelta/movement * xDiff;
+        this.y += movementDelta/movement * yDiff;
 
         return true;
     }
@@ -133,29 +131,12 @@ class Troop extends Entity {
         if (this._sprite) {
             return this._sprite;
         }
-        // Graphics
-        const graphics = new PIXI.Graphics();
-        if (this.owner == 1) {
-            graphics.lineStyle(2, 0xFF4136);
-        }
-        if (this.owner == 2) {
-            graphics.lineStyle(2, 0x66CCFF);
-        }
-        if (this.owner == 4) {
-            graphics.lineStyle(2, 0xFFDC00);
-        }
-        if (this.owner == 3) {
-            graphics.lineStyle(2, 0x2ECC40);
-        }
 
-        graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3, Globals.cellHeight / 3);
-        graphics.lineStyle(0.5, 0xFFF);
-        graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3 + 1, Globals.cellHeight / 3 + 1);
-        graphics.drawEllipse(0.5 * Globals.cellWidth, 0.5 * Globals.cellHeight, Globals.cellWidth / 3 - 1, Globals.cellHeight / 3 - 1);
-        graphics.endFill();
-        graphics.antiAlias = true;
+        const sprite = PIXI.Sprite.fromImage(this.spriteUrl);
+        sprite.scale.x = 0.25;
+        sprite.scale.y = 0.25;
 
-        this._sprite = graphics;
+        this._sprite = sprite;
         return this._sprite;
     }
 

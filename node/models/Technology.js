@@ -4,12 +4,13 @@
 'use strict'
 
 class Technology {
-    constructor(id, name, description, price, prerequisites, unit) {
+    constructor(id, name, description, price, prerequisites, unit, slug) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.prerequisites = prerequisites;
+        this.slug = slug;
         this.unit = unit;
     }
 

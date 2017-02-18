@@ -4,15 +4,6 @@ const PIXI = require('pixi.js');
 const Entity = require('./Entity');
 const Globals = require('../data/Globals');
 
-/*
- #8dd3c7
- #ffffb3
- #bebada
- #fb8072
- #80b1d3
- #fdb462
- */
-
 class Building extends Entity {
     // Instantiate building from bootstrap map data
     constructor(data, techTree) {

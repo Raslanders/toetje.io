@@ -39,8 +39,6 @@ class TechTree {
     getSpriteUrlForTechId(id) {
         const tech = this.techtree[id];
         let slug = tech.slug;
-
-
         return `static/building_${slug}.png`;
     }
 

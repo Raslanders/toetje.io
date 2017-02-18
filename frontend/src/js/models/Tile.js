@@ -23,20 +23,7 @@ class Tile extends Entity {
         });
     }
 
-    animate() {
-        // this.timeout++;
-        // if (this.timeout > 5) {
-        //     let random = Math.random() <= 0.5 ? 0.005 : -0.005;
-        //     this.displayObject.alpha += random;
-        //     if (this.displayObject.alpha < 0.8) {
-        //         this.displayObject.alpha = 0.8;
-        //     } else if (this.displayObject.alpha > 1) {
-        //         this.displayObject.alpha = 1;
-        //     }
-        //     this.timeout = 0;
-        // }
-        // return true;
-    }
+    animate() {}
 
     parse(data, gameRenderer) {
         this.type = data.type;

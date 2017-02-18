@@ -5,10 +5,11 @@
 
 
 class Troop {
-    constructor(id, unit, owner, position, direction) {
+    constructor(id, unit, owner, position, direction, slug) {
         this.id = id;
         this.unit = unit;
         this.owner = owner;
+        this.slug = slug;
         this.position = position;
         this.health = unit.stats.health;
         this.direction = direction;
@@ -169,6 +170,7 @@ class Troop {
             position: this.position,
             owner: this.owner.id,
             unit: this.unit.id,
+            slug: this.slug,
             name: this.unit.name,
             direction: this.direction,
             health: this.health,
